@@ -1,0 +1,35 @@
+﻿<Application
+    x:Class="TimeCafeWinUI3.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:helpers="using:TimeCafeWinUI3.Helpers"
+    xmlns:local="using:TimeCafeWinUI3">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="/Styles/FontSizes.xaml" />
+                <ResourceDictionary Source="/Styles/Thickness.xaml" />
+                <ResourceDictionary Source="/Styles/TextBlock.xaml" />
+                <ResourceDictionary Source="/Styles/Controls/CopyButton.xaml" />
+                <ResourceDictionary Source="/Styles/Controls/ButtonRadio.xaml" />
+                <ResourceDictionary Source="/Styles/AdaptiveGridView_ItemContainerStyle.xaml" />
+                <ResourceDictionary Source="Styles/ThemeColor.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <helpers:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+            <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <helpers:BooleanNegationConverter x:Key="BooleanNegationConverter" />
+            <helpers:TooltipConverter x:Key="TooltipConverter" />
+            <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <helpers:StatusColorConverter x:Key="StatusColorConverter" />
+            <!--<helpers:StatusTextConverter x:Key="StatusTextConverter" />-->
+            <helpers:FullNameConverters x:Key="FullNameConverters" />
+            <helpers:FullNameInitialsConverters x:Key="FullNameInitialsConverters" />
+            <helpers:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
+            <helpers:GenderConverters x:Key="GenderConverters" />
+            <helpers:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter" />
+            <FontFamily x:Key="VAGRoundCyrillic">/Assets/Fonts/vagroundcyrillic.ttf#VAG Round Cyrillic</FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="TimeCafeWinUI3.Views.UserGridDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:behaviors="using:TimeCafeWinUI3.Behaviors"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:customControls="using:TimeCafeWinUI3.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:TimeCafeWinUI3.Helpers"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:TimeCafeWinUI3.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:TimeCafeWinUI3.Models"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:vm="using:TimeCafeWinUI3.ViewModels"
+    mc:Ignorable="d">
+
+    <Grid x:Name="ContentArea">
+        <ScrollViewer IsTabStop="True">
+            <StackPanel x:Name="contentPanel">
+                <RelativePanel>
+                    <Grid
+                        x:Name="itemHero"
+                        Width="200"
+                        Height="200"
+                        Margin="{StaticResource SmallRightMargin}"
+                        Padding="{StaticResource XSmallLeftTopRightBottomMargin}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignTopWithPanel="True">
+                        <FontIcon
+                            x:Name="itemHero1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            animations:Connected.Key="listItem"
+                            FontSize="70"
+                            Glyph="&#xE716;"
+                            Style="{Binding StatusId, Converter={StaticResource StatusColorConverter}}" />
+                    </Grid>
+
+                    <TextBlock
+                        x:Name="title"
+                        Margin="{StaticResource XXSmallTopMargin}"
+                        RelativePanel.AlignTopWithPanel="True"
+                        RelativePanel.RightOf="itemHero"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Item, Converter={StaticResource FullNameConverters}}" />
+
+                    <StackPanel x:Name="propertiesGroup1" RelativePanel.Below="itemHero">
+                        <StackPanel x:Name="statusGroup" Margin="{StaticResource SmallTopMargin}">
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Статус" />
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item, Converter={StaticResource StatusTextConverter}}" />
+                        </StackPanel>
+
+                        <StackPanel x:Name="birthDateGroup" Margin="{StaticResource SmallTopMargin}">
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Дата рождения" />
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.BirthDate, Mode=OneWay}" />
+                        </StackPanel>
+
+                        <StackPanel x:Name="scudCardGroup" Margin="{StaticResource SmallTopMargin}">
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Номер карты SCUD" />
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.AccessCardNumber, Mode=OneWay}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel x:Name="propertiesGroup2" RelativePanel.Below="propertiesGroup1">
+                        <StackPanel x:Name="phoneGroup" Margin="{StaticResource SmallTopMargin}">
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Телефон" />
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.PhoneNumber, Mode=OneWay}" />
+                        </StackPanel>
+
+                        <StackPanel x:Name="emailGroup" Margin="{StaticResource SmallTopMargin}">
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Email" />
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.Email, Mode=OneWay}" />
+                        </StackPanel>
+
+                        <StackPanel x:Name="genderGroup" Margin="{StaticResource SmallTopMargin}">
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Пол" />
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.GenderId, Converter={StaticResource GenderConverters}}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                </RelativePanel>
+
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="Дополнительная информация" />
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Item.ClientAdditionalInfos}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="{StaticResource SmallTopMargin}">
+                                <TextBlock
+                                    Margin="{StaticResource SmallTopMargin}"
+                                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                                    Text="Заметка" />
+                                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding InfoText}" />
+                                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="{Binding CreatedAt, Converter={StaticResource DateTimeFormatConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="Заметка 1" />
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis hendrerit nulla, vel molestie libero. In nec ultricies magna, ultricies molestie ipsum." />
+
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="Заметка 2" />
+                <TextBlock
+                    Margin="{StaticResource MediumBottomMargin}"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis hendrerit nulla, vel molestie libero. In nec ultricies magna, ultricies molestie ipsum." />
+            </StackPanel>
+        </ScrollViewer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="propertiesGroup1.(RelativePanel.RightOf)" Value="itemHero" />
+                        <Setter Target="propertiesGroup1.(RelativePanel.Below)" Value="title" />
+                        <Setter Target="propertiesGroup2.(RelativePanel.RightOf)" Value="propertiesGroup1" />
+                        <Setter Target="propertiesGroup2.(RelativePanel.Below)" Value="title" />
+                        <Setter Target="propertiesGroup1.Width" Value="200" />
+                        <Setter Target="propertiesGroup2.Width" Value="200" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>
