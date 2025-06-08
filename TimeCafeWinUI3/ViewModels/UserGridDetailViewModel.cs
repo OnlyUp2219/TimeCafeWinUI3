@@ -14,7 +14,11 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
 
     public async void OnNavigatedTo(object parameter)
     {
-        if (parameter is string phoneNumber)
+        if (parameter is Client client)
+        {
+            Item = client;
+        }
+        else if (parameter is string phoneNumber)
         {
             var clients = await _clientService.GetAllClientsAsync();
             Item = clients.FirstOrDefault(c => c.PhoneNumber == phoneNumber);

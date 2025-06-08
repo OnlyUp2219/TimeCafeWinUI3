@@ -1,8 +1,9 @@
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Xaml.Interactivity;
-using TimeCafeWinUI3.Contracts.Services;
 using System.Linq;
+using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.Views;
 
@@ -32,6 +33,7 @@ public sealed partial class UserGridPage : Page
             Interaction.GetBehaviors(gridViewItem).Clear();
             Interaction.GetBehaviors(gridViewItem).Add(new SelectedPointerOverBehavior());
         }
+
     }
 
     private async void OnPageChanged(object sender, int pageNumber)

@@ -34,7 +34,7 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
         if (clickedItem != null)
         {
             _navigationService.SetListDataItemForNextConnectedAnimation(clickedItem);
-            _navigationService.NavigateTo(typeof(UserGridDetailViewModel).FullName!, clickedItem.PhoneNumber);
+            _navigationService.NavigateTo(typeof(UserGridDetailViewModel).FullName!, clickedItem);
         }
     }
 
