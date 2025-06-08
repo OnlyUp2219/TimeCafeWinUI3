@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -7,6 +8,17 @@ using System.Runtime.CompilerServices;
 
 namespace TimeCafeWinUI3.Controls
 {
+    public static class ControlExtensions
+    {
+        public static T FindParent<T>(this DependencyObject child) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(child);
+            if (parent == null) return null;
+            if (parent is T typedParent) return typedParent;
+            return FindParent<T>(parent);
+        }
+    }
+
     public sealed partial class PaginationControl : UserControl, INotifyPropertyChanged
     {
         #region Dependency Properties
@@ -263,11 +275,16 @@ namespace TimeCafeWinUI3.Controls
         {
             if (TargetControl != null)
             {
-                _currentListKey = $"{TargetControl.GetType().Name}_{TargetControl.Name}";
+                var page = TargetControl.FindParent<Page>();
+                var pageType = page?.GetType().Name ?? "Unknown";
+                var controlType = TargetControl.GetType().Name;
+                _currentListKey = $"{pageType}_{controlType}";
             }
             else if (ItemsSource != null)
             {
-                _currentListKey = ItemsSource.GetType().Name;
+                var page = this.FindParent<Page>();
+                var pageType = page?.GetType().Name ?? "Unknown";
+                _currentListKey = $"{pageType}_{ItemsSource.GetType().Name}";
             }
             else
             {

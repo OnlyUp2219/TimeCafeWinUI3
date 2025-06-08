@@ -226,6 +226,7 @@ public class Tariff
 public class TariffViewModel
 {
     public ObservableCollection<Tariff> Tariffs { get; set; }
+    public int TotalItems { get; private set; }
 
     public TariffViewModel()
     {
@@ -234,6 +235,7 @@ public class TariffViewModel
 
         // Генерируем тарифы синхронно
         GenerateTariffs(50); // Уменьшим количество для тестирования
+        TotalItems = Tariffs.Count;
     }
 
     private void GenerateTariffs(int count)

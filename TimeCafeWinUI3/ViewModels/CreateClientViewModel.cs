@@ -3,14 +3,14 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using TimeCafeWinUI3.Contracts.Services;
-
+using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.ViewModels;
 
 public partial class CreateClientViewModel : ObservableRecipient, INavigationAware
 {
     private bool _isGridViewSelected = true;
-    private int _currentPage = 1;
+    private static int _currentPage = 1;
     private const int PageSize = 16;
 
     [ObservableProperty] private int totalItems;
@@ -73,6 +73,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty] private string errorMessage;
     [ObservableProperty] private ObservableCollection<Gender> genders = new();
     [ObservableProperty] private ObservableCollection<ClientStatus> clientStatuses = new();
+    [ObservableProperty] private int? statusId;
 
     private readonly IClientService _clientService;
     private readonly INavigationService _navigationService;
@@ -104,16 +105,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             Genders.Clear();
             ClientStatuses.Clear();
 
-            // Загружаем первую страницу
-            var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
-            TotalItems = total;
-            
-            foreach (var client in items)
-            {
-                Source.Add(client);
-            }
-
-            // Загружаем справочники
+            // Загружаем справочники последовательно
             var genders = await _clientService.GetGendersAsync();
             foreach (var gender in genders)
             {
@@ -124,6 +116,15 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             foreach (var status in statuses)
             {
                 ClientStatuses.Add(status);
+            }
+
+            // Загружаем первую страницу клиентов
+            var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
+            TotalItems = total;
+            
+            foreach (var client in items)
+            {
+                Source.Add(client);
             }
         }
         finally
@@ -138,7 +139,6 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
         Genders.Clear();
         ClientStatuses.Clear();
         TotalItems = 0;
-        _currentPage = 1;
         
         FirstName = string.Empty;
         LastName = string.Empty;
@@ -194,6 +194,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             BirthDate = BirthDate,
             PhoneNumber = PhoneNumber,
             AccessCardNumber = AccessCardNumber,
+            StatusId = (int)ClientStatusType.Draft,
             CreatedAt = DateTime.Now
         };
 

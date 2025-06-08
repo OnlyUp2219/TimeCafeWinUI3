@@ -10,7 +10,7 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
 {
     private readonly INavigationService _navigationService;
     private readonly IClientService _clientService;
-    private int _currentPage = 1;
+    private static int _currentPage = 1;
     private const int PageSize = 16;
 
     [ObservableProperty] 

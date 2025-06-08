@@ -244,7 +244,8 @@
             ItemsSource="{x:Bind FakeViewModel.Tariffs}"
             PageChanged="OnPageChanged"
             PageSize="16"
-            TargetControl="{x:Bind AdaptiveGrid}" />
+            TargetControl="{x:Bind AdaptiveGrid}"
+            TotalItems="{x:Bind FakeViewModel.TotalItems, Mode=OneWay}" />
 
         <controls:AdaptiveGridView
             x:Name="AdaptiveGrid"
@@ -464,7 +465,8 @@
             ItemsSource="{x:Bind FakeViewModel.Tariffs}"
             PageChanged="OnPageChanged"
             PageSize="16"
-            TargetControl="{x:Bind AdaptiveGrid}" />
+            TargetControl="{x:Bind AdaptiveGrid}"
+            TotalItems="{x:Bind FakeViewModel.TotalItems, Mode=OneWay}" />
     </Grid>
 
 </Page>

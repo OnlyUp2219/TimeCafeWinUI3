@@ -77,10 +77,10 @@ public sealed partial class CreateClientPage : Page
         }
     }
 
-    private void OnPageChanged(object sender, int pageNumber)
+    private async void OnPageChanged(object sender, int pageNumber)
     {
         if (ViewModel?.Source == null) return;
-        ViewModel.SetCurrentPage(pageNumber);
+        await ViewModel.SetCurrentPage(pageNumber);
     }
 
 }
