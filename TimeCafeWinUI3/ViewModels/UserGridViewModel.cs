@@ -1,18 +1,31 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using TimeCafeWinUI3.Contracts.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using TimeCafeWinUI3.Core.Contracts.Services;
 
 namespace TimeCafeWinUI3.ViewModels;
 
 public partial class UserGridViewModel : ObservableRecipient, INavigationAware
 {
     private readonly INavigationService _navigationService;
-    public ObservableCollection<Client> Source { get; } = new();
+    private readonly IClientService _clientService;
+    private int _currentPage = 1;
+    private const int PageSize = 16;
 
-    public UserGridViewModel(INavigationService navigationService)
+    [ObservableProperty] 
+    private ObservableCollection<Client> source = new();
+
+    [ObservableProperty]
+    private int totalItems;
+
+    [ObservableProperty]
+    private bool isLoading;
+
+    public UserGridViewModel(INavigationService navigationService, IClientService clientService)
     {
         _navigationService = navigationService;
-
+        _clientService = clientService;
     }
 
     [RelayCommand]
@@ -27,9 +40,64 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
 
     public async void OnNavigatedTo(object parameter)
     {
+        await LoadDataAsync();
     }
 
     public void OnNavigatedFrom()
     {
+        ClearData();
+    }
+
+    private async Task LoadDataAsync()
+    {
+        try
+        {
+            IsLoading = true;
+            Source.Clear();
+
+            var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
+            TotalItems = total;
+            
+            foreach (var client in items)
+            {
+                Source.Add(client);
+            }
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private void ClearData()
+    {
+        Source.Clear();
+        TotalItems = 0;
+        _currentPage = 1;
+    }
+
+    public async Task SetCurrentPage(int pageNumber)
+    {
+        if (_currentPage != pageNumber)
+        {
+            try
+            {
+                IsLoading = true;
+                _currentPage = pageNumber;
+                Source.Clear();
+
+                var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
+                TotalItems = total;
+
+                foreach (var client in items)
+                {
+                    Source.Add(client);
+                }
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
     }
 }

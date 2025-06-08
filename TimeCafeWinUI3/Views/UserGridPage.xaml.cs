@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Xaml.Interactivity;
 using TimeCafeWinUI3.Contracts.Services;
+using System.Linq;
 
 namespace TimeCafeWinUI3.Views;
 
@@ -14,6 +15,7 @@ public sealed partial class UserGridPage : Page
     public UserGridPage()
     {
         ViewModel = App.GetService<UserGridViewModel>();
+        DataContext = ViewModel;
         InitializeComponent();
     }
 
@@ -27,21 +29,14 @@ public sealed partial class UserGridPage : Page
     {
         if (args.ItemContainer is GridViewItem gridViewItem)
         {
-
             Interaction.GetBehaviors(gridViewItem).Clear();
             Interaction.GetBehaviors(gridViewItem).Add(new SelectedPointerOverBehavior());
         }
     }
 
-    private void OnPageChanged(object sender, int pageNumber)
+    private async void OnPageChanged(object sender, int pageNumber)
     {
         if (ViewModel?.Source == null) return;
-
-        var pageSize = PaginationControl.PageSize;
-        var startIndex = (pageNumber - 1) * pageSize;
-        var pageItems = ViewModel.Source.Skip(startIndex).Take(pageSize).ToList();
-
-        // Обновляем ItemsSource AdaptiveGridView
-        AdaptiveGrid.ItemsSource = pageItems;
+        await ViewModel.SetCurrentPage(pageNumber);
     }
 }

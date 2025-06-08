@@ -52,7 +52,7 @@
                     <StackPanel x:Name="propertiesGroup1" RelativePanel.Below="itemHero">
                         <StackPanel x:Name="statusGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Статус" />
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item, Converter={StaticResource StatusTextConverter}}" />
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.Status.StatusName}" />
                         </StackPanel>
 
                         <StackPanel x:Name="birthDateGroup" Margin="{StaticResource SmallTopMargin}">
@@ -103,21 +103,6 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Style="{ThemeResource SubtitleTextBlockStyle}"
-                    Text="Заметка 1" />
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis hendrerit nulla, vel molestie libero. In nec ultricies magna, ultricies molestie ipsum." />
-
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Style="{ThemeResource SubtitleTextBlockStyle}"
-                    Text="Заметка 2" />
-                <TextBlock
-                    Margin="{StaticResource MediumBottomMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}"
-                    Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis hendrerit nulla, vel molestie libero. In nec ultricies magna, ultricies molestie ipsum." />
             </StackPanel>
         </ScrollViewer>
 

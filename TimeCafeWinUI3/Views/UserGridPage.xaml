@@ -36,7 +36,7 @@
             ItemClickCommand="{x:Bind ViewModel.AnimItemClickCommand}"
             ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle}"
             ItemHeight="160"
-            ItemsSource="{x:Bind ViewModel.Source, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}"
             SelectionMode="None"
             StretchContentForSingleRow="True">
             <controls:AdaptiveGridView.ItemTemplate>
@@ -78,7 +78,7 @@
                                 TextWrapping="NoWrap" />
                             <TextBlock
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding Converter={StaticResource StatusTextConverter}}"
+                                Text="{Binding Status.StatusName}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
                         </StackPanel>
@@ -95,6 +95,14 @@
             ItemsSource="{x:Bind ViewModel.Source}"
             PageChanged="OnPageChanged"
             PageSize="16"
-            TargetControl="{x:Bind AdaptiveGrid}" />
+            TargetControl="{x:Bind AdaptiveGrid}"
+            TotalItems="{x:Bind ViewModel.TotalItems, Mode=OneWay}" />
+
+        <ProgressRing
+            Grid.Row="0"
+            Width="50"
+            Height="50"
+            IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </Page>
