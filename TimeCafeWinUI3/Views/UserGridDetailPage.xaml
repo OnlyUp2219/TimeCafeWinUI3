@@ -21,6 +21,7 @@
         <ScrollViewer IsTabStop="True">
             <StackPanel x:Name="contentPanel">
                 <RelativePanel>
+
                     <Grid
                         x:Name="itemHero"
                         Width="200"
@@ -32,14 +33,15 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignTopWithPanel="True">
                         <FontIcon
-                            x:Name="itemHero1"
+                            x:Name="detailedImage"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            animations:Connected.Key="listItem"
-                            FontSize="70"
+                            FontSize="96"
                             Glyph="&#xE716;"
-                            Style="{Binding StatusId, Converter={StaticResource StatusColorConverter}}" />
+                            Style="{Binding Item.StatusId, Converter={StaticResource StatusColorConverter}}" />
                     </Grid>
+
+
 
                     <TextBlock
                         x:Name="title"
@@ -103,6 +105,11 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Нет информации"
+                    Visibility="{x:Bind ViewModel.HasAdditionalInfo, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}" />
             </StackPanel>
         </ScrollViewer>
 

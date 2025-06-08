@@ -28,12 +28,10 @@
             x:Name="AdaptiveGrid"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
-            animations:Connected.ListItemElementName="ItemThumbnail"
-            animations:Connected.ListItemKey="listItem"
-            ContainerContentChanging="AdaptiveGridView_ContainerContentChanging"
+            Loaded="AdaptiveGrid_Loaded"
             DesiredWidth="200"
             IsItemClickEnabled="True"
-            ItemClickCommand="{x:Bind ViewModel.AnimItemClickCommand}"
+            ItemClick="AdaptiveGrid_ItemClick"
             ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle}"
             ItemHeight="160"
             ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}"
@@ -52,9 +50,11 @@
 
                         <Grid Grid.Row="0" Style="{Binding StatusId, Converter={StaticResource StatusColorConverter}, ConverterParameter=Background}">
                             <FontIcon
-                                x:Name="ItemThumbnail"
-                                animations:Connected.Key="listItem"
+                                x:Name="connectedElement"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 Glyph="&#xE716;"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
                                 Style="{Binding StatusId, Converter={StaticResource StatusColorConverter}}" />
                         </Grid>
 

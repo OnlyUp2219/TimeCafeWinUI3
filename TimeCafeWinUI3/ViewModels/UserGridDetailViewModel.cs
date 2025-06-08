@@ -1,4 +1,8 @@
-﻿namespace TimeCafeWinUI3.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using TimeCafeWinUI3.Core.Models;
+using System.Linq;
+
+namespace TimeCafeWinUI3.ViewModels;
 
 public partial class UserGridDetailViewModel : ObservableRecipient, INavigationAware
 {
@@ -6,6 +10,8 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
 
     [ObservableProperty]
     private Client? item;
+
+    public bool HasAdditionalInfo => Item?.ClientAdditionalInfos?.Any() ?? false;
 
     public UserGridDetailViewModel(IClientService clientService)
     {

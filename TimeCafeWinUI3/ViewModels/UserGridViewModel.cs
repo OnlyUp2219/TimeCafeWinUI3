@@ -22,6 +22,8 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     private bool isLoading;
 
+    public int CurrentPage => _currentPage;
+
     public UserGridViewModel(INavigationService navigationService, IClientService clientService)
     {
         _navigationService = navigationService;
@@ -40,12 +42,16 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
 
     public async void OnNavigatedTo(object parameter)
     {
-        await LoadDataAsync();
+        // TODO : Аккуратно, правил GPT
+        if (Source.Count == 0)
+        {
+            await LoadDataAsync();
+        }
     }
 
     public void OnNavigatedFrom()
     {
-        ClearData();
+        // TODO : Аккуратно, правил GPT
     }
 
     private async Task LoadDataAsync()
@@ -67,13 +73,6 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
         {
             IsLoading = false;
         }
-    }
-
-    private void ClearData()
-    {
-        Source.Clear();
-        TotalItems = 0;
-        _currentPage = 1;
     }
 
     public async Task SetCurrentPage(int pageNumber)
