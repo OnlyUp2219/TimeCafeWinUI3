@@ -22,7 +22,18 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty]
     private bool isLoading;
 
-    public int CurrentPage => _currentPage;
+    public int CurrentPage
+    {
+        get => _currentPage;
+        set
+        {
+            if (_currentPage != value)
+            {
+                _currentPage = value;
+                OnPropertyChanged();
+            }
+        }
+    }
 
     public UserGridViewModel(INavigationService navigationService, IClientService clientService)
     {
@@ -61,9 +72,9 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
             IsLoading = true;
             Source.Clear();
 
-            var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
+            var (items, total) = await _clientService.GetClientsPageAsync(CurrentPage, PageSize);
             TotalItems = total;
-            
+
             foreach (var client in items)
             {
                 Source.Add(client);
@@ -77,15 +88,16 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
 
     public async Task SetCurrentPage(int pageNumber)
     {
-        if (_currentPage != pageNumber)
+        if (pageNumber < 1) pageNumber = 1;
+        if (CurrentPage != pageNumber)
         {
             try
             {
                 IsLoading = true;
-                _currentPage = pageNumber;
+                CurrentPage = pageNumber;
                 Source.Clear();
 
-                var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
+                var (items, total) = await _clientService.GetClientsPageAsync(CurrentPage, PageSize);
                 TotalItems = total;
 
                 foreach (var client in items)

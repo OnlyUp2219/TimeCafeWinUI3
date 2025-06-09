@@ -8,10 +8,46 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <!--  Content body  -->
-        <TextBlock Text="Это ваш номер телефона?" TextWrapping="Wrap" />
-        <TextBlock Text="+375297143237" TextWrapping="Wrap" />
-    </StackPanel>
+    <Grid Padding="20">
+        <StackPanel Spacing="16">
+            <TextBlock
+                Style="{StaticResource TitleLargeTextBlockStyle}"
+                Text="Подтверждение номера телефона"
+                TextWrapping="Wrap" />
+
+            <TextBlock
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Text="Это ваш номер телефона?"
+                TextWrapping="Wrap" />
+
+            <TextBlock
+                x:Name="PhoneNumberText"
+                x:FieldModifier="public"
+                Style="{StaticResource BodyTextBlockStyle}"
+                Text="+375297143237"
+                TextWrapping="Wrap" />
+
+            <TextBox
+                x:Name="VerificationCodeInput"
+                HorizontalAlignment="Stretch"
+                x:FieldModifier="public"
+                MaxLength="6"
+                PlaceholderText="Введите код подтверждения (12345)" />
+
+            <TextBlock
+                x:Name="ErrorText"
+                x:FieldModifier="public"
+                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                TextWrapping="Wrap"
+                Visibility="Collapsed" />
+
+            <TextBlock
+                x:Name="CodeInfoText"
+                x:FieldModifier="public"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="Код подтверждения будет отправлен на указанный номер телефона (временное решение - имитация SMS)"
+                TextWrapping="Wrap" />
+        </StackPanel>
+    </Grid>
 
 </Page>

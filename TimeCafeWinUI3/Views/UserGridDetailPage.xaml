@@ -124,8 +124,8 @@
                         <Setter Target="propertiesGroup1.(RelativePanel.Below)" Value="title" />
                         <Setter Target="propertiesGroup2.(RelativePanel.RightOf)" Value="propertiesGroup1" />
                         <Setter Target="propertiesGroup2.(RelativePanel.Below)" Value="title" />
-                        <Setter Target="propertiesGroup1.Width" Value="200" />
-                        <Setter Target="propertiesGroup2.Width" Value="200" />
+                        <Setter Target="propertiesGroup1.Width" Value="300" />
+                        <Setter Target="propertiesGroup2.Width" Value="300" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

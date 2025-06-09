@@ -19,8 +19,7 @@ public sealed partial class UserGridDetailPage : Page
         ViewModel = App.GetService<UserGridDetailViewModel>();
         DataContext = ViewModel;
         InitializeComponent();
-        
-        this.NavigationCacheMode = NavigationCacheMode.Enabled;
+   
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)

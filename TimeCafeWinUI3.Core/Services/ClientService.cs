@@ -7,18 +7,13 @@ namespace TimeCafeWinUI3.Core.Services;
 
 public class ClientService : IClientService
 {
-    private readonly TimeCafeContext _context;
     private readonly Dictionary<string, string> _phoneConfirmationCodes = new();
     private readonly Dictionary<int, bool> _confirmedPhones = new();
 
-    public ClientService(TimeCafeContext context)
-    {
-        _context = context;
-    }
-
     public async Task<IEnumerable<Client>> GetAllClientsAsync()
     {
-        return await _context.Clients
+        using var context = new TimeCafeContext();
+        return await context.Clients
             .Include(c => c.Status)
             .Include(c => c.Gender)
             .Include(c => c.ClientAdditionalInfos)
@@ -28,7 +23,8 @@ public class ClientService : IClientService
 
     public async Task<(IEnumerable<Client> Items, int TotalCount)> GetClientsPageAsync(int pageNumber, int pageSize)
     {
-        var query = _context.Clients
+        using var context = new TimeCafeContext();
+        var query = context.Clients
             .Include(c => c.Status)
             .Include(c => c.Gender)
             .Include(c => c.ClientAdditionalInfos)
@@ -45,7 +41,8 @@ public class ClientService : IClientService
 
     public async Task<Client> GetClientByIdAsync(int clientId)
     {
-        return await _context.Clients
+        using var context = new TimeCafeContext();
+        return await context.Clients
             .Include(c => c.Status)
             .Include(c => c.Gender)
             .Include(c => c.ClientAdditionalInfos)
@@ -54,33 +51,35 @@ public class ClientService : IClientService
 
     public async Task<Client> CreateClientAsync(Client client)
     {
+        using var context = new TimeCafeContext();
         client.CreatedAt = DateTime.Now;
-        client.StatusId = (int)ClientStatusType.Draft;
 
-        _context.Clients.Add(client);
-        await _context.SaveChangesAsync();
+        context.Clients.Add(client);
+        await context.SaveChangesAsync();
         return client;
     }
 
     public async Task<Client> UpdateClientAsync(Client client)
     {
-        var existingClient = await _context.Clients.FindAsync(client.ClientId);
+        using var context = new TimeCafeContext();
+        var existingClient = await context.Clients.FindAsync(client.ClientId);
         if (existingClient == null)
             throw new KeyNotFoundException($"Клиент с ID {client.ClientId} не найден");
 
-        _context.Entry(existingClient).CurrentValues.SetValues(client);
-        await _context.SaveChangesAsync();
+        context.Entry(existingClient).CurrentValues.SetValues(client);
+        await context.SaveChangesAsync();
         return client;
     }
 
     public async Task<bool> DeleteClientAsync(int clientId)
     {
-        var client = await _context.Clients.FindAsync(clientId);
+        using var context = new TimeCafeContext();
+        var client = await context.Clients.FindAsync(clientId);
         if (client == null)
             return false;
 
-        _context.Clients.Remove(client);
-        await _context.SaveChangesAsync();
+        context.Clients.Remove(client);
+        await context.SaveChangesAsync();
         return true;
     }
 
@@ -89,23 +88,22 @@ public class ClientService : IClientService
         if (string.IsNullOrWhiteSpace(phoneNumber))
             return false;
 
-        var phoneRegex = new Regex(@"^\+375 \(\d{2}\) \d{3} \d{4}$");
-        if (!phoneRegex.IsMatch(phoneNumber))
+        using var context = new TimeCafeContext();
+        if (await context.Clients.AnyAsync(c => c.PhoneNumber == phoneNumber))
             return false;
 
-        return !await _context.Clients.AnyAsync(c => c.PhoneNumber == phoneNumber);
+        var phoneRegex = new Regex(@"^\+375 \(\d{2}\) \d{3} \d{4}$");
+        return phoneRegex.IsMatch(phoneNumber);
     }
 
     public async Task<bool> ValidateEmailAsync(string email)
     {
-        if (string.IsNullOrWhiteSpace(email))
-            return true;
-
         var atCount = email.Count(c => c == '@');
         if (atCount != 1)
             return false;
 
-        return !await _context.Clients.AnyAsync(c => c.Email == email);
+        using var context = new TimeCafeContext();
+        return !await context.Clients.AnyAsync(c => c.Email == email);
     }
 
     public async Task<bool> ValidateAccessCardNumberAsync(string accessCardNumber)
@@ -116,17 +114,20 @@ public class ClientService : IClientService
         if (accessCardNumber.Length != 20)
             return false;
 
-        return !await _context.Clients.AnyAsync(c => c.AccessCardNumber == accessCardNumber);
+        using var context = new TimeCafeContext();
+        return !await context.Clients.AnyAsync(c => c.AccessCardNumber == accessCardNumber);
     }
 
     public async Task<IEnumerable<ClientStatus>> GetClientStatusesAsync()
     {
-        return await _context.ClientStatuses.ToListAsync();
+        using var context = new TimeCafeContext();
+        return await context.ClientStatuses.ToListAsync();
     }
 
     public async Task<IEnumerable<Gender>> GetGendersAsync()
     {
-        return await _context.Genders.ToListAsync();
+        using var context = new TimeCafeContext();
+        return await context.Genders.ToListAsync();
     }
 
     public async Task<bool> SendPhoneConfirmationCodeAsync(string phoneNumber)
@@ -147,7 +148,8 @@ public class ClientService : IClientService
         if (storedCode != code)
             return false;
 
-        var client = await _context.Clients.FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber);
+        using var context = new TimeCafeContext();
+        var client = await context.Clients.FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber);
         if (client != null)
         {
             _confirmedPhones[client.ClientId] = true;
@@ -163,7 +165,8 @@ public class ClientService : IClientService
         if (_confirmedPhones.TryGetValue(clientId, out var confirmed))
             return confirmed;
 
-        var client = await _context.Clients.FindAsync(clientId);
+        using var context = new TimeCafeContext();
+        var client = await context.Clients.FindAsync(clientId);
         if (client == null)
             return false;
 
@@ -174,22 +177,24 @@ public class ClientService : IClientService
 
     public async Task<bool> UpdateClientStatusAsync(int clientId, int statusId)
     {
-        var client = await _context.Clients.FindAsync(clientId);
+        using var context = new TimeCafeContext();
+        var client = await context.Clients.FindAsync(clientId);
         if (client == null)
             return false;
 
         client.StatusId = statusId;
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         return true;
     }
 
     public async Task<string> GenerateAccessCardNumberAsync()
     {
+        using var context = new TimeCafeContext();
         var random = new Random();
         var cardNumber = new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 20)
             .Select(s => s[random.Next(s.Length)]).ToArray());
 
-        while (await _context.Clients.AnyAsync(c => c.AccessCardNumber == cardNumber))
+        while (await context.Clients.AnyAsync(c => c.AccessCardNumber == cardNumber))
         {
             cardNumber = new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 20)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
