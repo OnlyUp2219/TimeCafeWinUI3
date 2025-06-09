@@ -49,29 +49,10 @@ public sealed partial class CreateClientPage : Page
         Console.WriteLine($"MediaSource: {TooltipItems[0].MediaSource}");
     }
 
-    private async void Button_Click(object sender, RoutedEventArgs e)
-    {
-        ContentDialog dialog = new ContentDialog();
-
-        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-        dialog.XamlRoot = this.XamlRoot;
-        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-        dialog.RequestedTheme = App.GetService<IThemeSelectorService>().Theme;
-        dialog.Title = "Вопрос";
-        dialog.PrimaryButtonText = "Да";
-        dialog.SecondaryButtonText = "Нет";
-        dialog.CloseButtonText = "Отмена";
-        dialog.DefaultButton = ContentDialogButton.Primary;
-        dialog.Content = new PhoneVerificationConfirm();
-
-        var result = await dialog.ShowAsync();
-    }
-
     private void MyAdaptiveGridView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
     {
         if (args.ItemContainer is GridViewItem gridViewItem)
         {
-            System.Diagnostics.Debug.WriteLine("ContainerContentChanging called for GridViewItem");
             Interaction.GetBehaviors(gridViewItem).Clear();
             Interaction.GetBehaviors(gridViewItem).Add(new SelectedPointerOverBehavior());
         }
@@ -82,7 +63,6 @@ public sealed partial class CreateClientPage : Page
         if (ViewModel?.Source == null) return;
         await ViewModel.SetCurrentPage(pageNumber);
     }
-
 }
 
 

@@ -1,9 +1,11 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI.Controls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using TimeCafeWinUI3.Contracts.Services;
 using TimeCafeWinUI3.Core.Models;
+using System.Text;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -27,12 +29,10 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(ActiveView));
 
-                // Синхронизируем выделение при переключении представлений
                 if (AdaptiveGrid != null && ListView != null)
                 {
                     if (_isGridViewSelected)
                     {
-                        // Переключаемся на GridView, копируем выделение из ListView
                         var selectedItems = ListView.SelectedItems.ToList();
                         AdaptiveGrid.SelectedItems.Clear();
                         foreach (var item in selectedItems)
@@ -42,7 +42,6 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                     }
                     else
                     {
-                        // Переключаемся на ListView, копируем выделение из GridView
                         var selectedItems = AdaptiveGrid.SelectedItems.ToList();
                         ListView.SelectedItems.Clear();
                         foreach (var item in selectedItems)
@@ -105,7 +104,6 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             Genders.Clear();
             ClientStatuses.Clear();
 
-            // Загружаем справочники последовательно
             var genders = await _clientService.GetGendersAsync();
             foreach (var gender in genders)
             {
@@ -118,10 +116,9 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 ClientStatuses.Add(status);
             }
 
-            // Загружаем первую страницу клиентов
             var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
             TotalItems = total;
-            
+
             foreach (var client in items)
             {
                 Source.Add(client);
@@ -139,7 +136,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
         Genders.Clear();
         ClientStatuses.Clear();
         TotalItems = 0;
-        
+
         FirstName = string.Empty;
         LastName = string.Empty;
         MiddleName = string.Empty;
@@ -152,71 +149,131 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
         ErrorMessage = string.Empty;
     }
 
-    [RelayCommand]
-    private async Task CreateClientAsync()
+    public async Task<string> ValidateAsync()
     {
+        var sb = new StringBuilder();
+
         if (string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName))
-        {
-            ErrorMessage = "Имя и фамилия обязательны для заполнения";
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(PhoneNumber))
-        {
-            ErrorMessage = "Номер телефона обязателен для заполнения";
-            return;
-        }
-
-        var isValidPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
-        if (!isValidPhone)
-        {
-            ErrorMessage = "Неверный формат номера телефона или номер уже существует";
-            return;
-        }
+            sb.AppendLine("Имя и фамилия обязательны для заполнения");
 
         if (!string.IsNullOrWhiteSpace(Email))
         {
-            var isValidEmail = await _clientService.ValidateEmailAsync(Email);
-            if (!isValidEmail)
-            {
-                ErrorMessage = "Неверный формат email или email уже существует";
-                return;
-            }
+            var validMail = await _clientService.ValidateEmailAsync(Email);
+            if (!validMail)
+                sb.AppendLine("Неверный формат email");
         }
 
-        var client = new Client
+        var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
+        if (!validPhone)
+            sb.AppendLine("Номер телефона не валиден");
+
+
+        return sb.ToString();
+    }
+
+    [RelayCommand]
+    private async Task CreateClientAsync()
+    {
+        var validationResult = await ValidateAsync();
+        if (!string.IsNullOrEmpty(validationResult))
         {
-            FirstName = FirstName,
-            LastName = LastName,
-            MiddleName = MiddleName,
-            GenderId = GenderId,
-            Email = Email,
-            BirthDate = BirthDate,
-            PhoneNumber = PhoneNumber,
-            AccessCardNumber = AccessCardNumber,
-            StatusId = (int)ClientStatusType.Draft,
-            CreatedAt = DateTime.Now
+            ErrorMessage = validationResult;
+            return;
+        }
+
+        var phoneVerification = new PhoneVerificationConfirm();
+        phoneVerification.SetPhoneNumber(PhoneNumber);
+
+        var dialog = new ContentDialog
+        {
+            XamlRoot = App.MainWindow.Content.XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
+            Title = "Подтверждение телефона",
+            PrimaryButtonText = "Подтвердить",
+            SecondaryButtonText = "Пропустить",
+            CloseButtonText = "Отмена",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = phoneVerification
         };
 
-        if (!string.IsNullOrWhiteSpace(AdditionalInfo))
-        {
-            client.ClientAdditionalInfos.Add(new ClientAdditionalInfo
-            {
-                InfoText = AdditionalInfo,
-                CreatedAt = DateTime.Now
-            });
-        }
+        var result = await dialog.ShowAsync();
 
-        try
+        if (result == ContentDialogResult.Primary)
         {
-            await _clientService.CreateClientAsync(client);
-            await LoadDataAsync(); // Перезагружаем первую страницу
-            ClearData();
-            ErrorMessage = string.Empty;
+            var code = phoneVerification.VerificationCodeInput.Text;
+            if (code == "12345") 
+            {
+                await CreateClientAsync(true); 
+            }
+            else
+            {
+                var errorDialog = new ContentDialog
+                {
+                    XamlRoot = App.MainWindow.Content.XamlRoot,
+                    Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+                    Title = "Ошибка",
+                    Content = "Неверный код подтверждения",
+                    CloseButtonText = "OK"
+                };
+                await errorDialog.ShowAsync();
+            }
         }
-        catch (Exception ex)
+        else if (result == ContentDialogResult.Secondary)
         {
-            ErrorMessage = $"Ошибка при создании клиента: {ex.Message}";
+            await CreateClientAsync(false); 
+        }
+    }
+
+    public async Task CreateClientAsync(bool isActive)
+    {
+        if (await ValidateAsync() == string.Empty)
+        {
+            var client = new Client
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                MiddleName = MiddleName,
+                GenderId = GenderId,
+                Email = Email,
+                BirthDate = BirthDate,
+                PhoneNumber = PhoneNumber,
+                AccessCardNumber = AccessCardNumber,
+                StatusId = (int)ClientStatusType.Draft,
+                CreatedAt = DateTime.Now
+            };
+
+            if (isActive)
+            {
+                client.AccessCardNumber = await _clientService.GenerateAccessCardNumberAsync();
+                client.StatusId = (int)ClientStatusType.Active;
+            }
+
+            if (!string.IsNullOrWhiteSpace(AdditionalInfo))
+            {
+                client.ClientAdditionalInfos.Add(new ClientAdditionalInfo
+                {
+                    InfoText = AdditionalInfo,
+                    CreatedAt = DateTime.Now
+                });
+            }
+
+            try
+            {
+
+                await _clientService.CreateClientAsync(client);
+                ClearData();
+                await LoadDataAsync();
+                ErrorMessage = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка при создании клиента: {ex.Message}";
+            }
+        }
+        else
+        {
+            ErrorMessage = await ValidateAsync();
         }
     }
 

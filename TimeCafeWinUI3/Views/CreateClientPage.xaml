@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:TimeCafeWinUI3.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:converters="using:TimeCafeWinUI3.Converters"
     xmlns:customControls="using:TimeCafeWinUI3.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:TimeCafeWinUI3.Helpers"
@@ -15,7 +16,6 @@
     xmlns:pagination="using:TimeCafeWinUI3.Controls"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:TimeCafeWinUI3.ViewModels"
-    xmlns:converters="using:TimeCafeWinUI3.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -277,8 +277,8 @@
 
                 <Button
                     HorizontalAlignment="Right"
-                    Command="{Binding CreateClientCommand}"
-                    Content="Создать"
+                    Command="{x:Bind ViewModel.CreateClientCommand}"
+                    Content="Создать клиента"
                     Style="{StaticResource AccentButtonStyle}" />
 
                 <Button
