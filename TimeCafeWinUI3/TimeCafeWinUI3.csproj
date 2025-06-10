@@ -117,4 +117,8 @@
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Views\UserGridContentDialogs\" />
+  </ItemGroup>
 </Project>

@@ -28,13 +28,13 @@
             x:Name="AdaptiveGrid"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
-            Loaded="AdaptiveGrid_Loaded"
             DesiredWidth="200"
             IsItemClickEnabled="True"
             ItemClick="AdaptiveGrid_ItemClick"
             ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle}"
             ItemHeight="160"
             ItemsSource="{x:Bind ViewModel.Source, Mode=TwoWay}"
+            Loaded="AdaptiveGrid_Loaded"
             SelectionMode="None"
             StretchContentForSingleRow="True">
             <controls:AdaptiveGridView.ItemTemplate>
@@ -51,10 +51,10 @@
                         <Grid Grid.Row="0" Style="{Binding StatusId, Converter={StaticResource StatusColorConverter}, ConverterParameter=Background}">
                             <FontIcon
                                 x:Name="connectedElement"
-                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                Glyph="&#xE716;"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                Glyph="&#xE716;"
                                 Style="{Binding StatusId, Converter={StaticResource StatusColorConverter}}" />
                         </Grid>
 

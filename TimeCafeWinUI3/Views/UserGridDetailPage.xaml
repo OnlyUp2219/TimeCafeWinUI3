@@ -113,11 +113,26 @@
                     </StackPanel>
                 </RelativePanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <Button Background="{ThemeResource SystemFillColorCriticalBrush}" Content="Удалить" />
+                <StackPanel
+                    Margin="0,16,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <StackPanel.Resources>
+                        <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+                            <Setter Property="Transitions">
+                                <Setter.Value>
+                                    <TransitionCollection>
+                                        <AddDeleteThemeTransition />
+                                    </TransitionCollection>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+                        </Style>
+                    </StackPanel.Resources>
 
-                    <Button Content="Изменить" />
-                    <Button Content="Отказ от услуг" />
+                    <Button Background="{ThemeResource SystemFillColorCriticalBrush}" Content="Удалить" />
+                    <Button Click="EditButton_Click" Content="Изменить" />
+                    <Button Click="RefuseButton_Click" Content="Отказ от услуг" />
                 </StackPanel>
 
             </StackPanel>

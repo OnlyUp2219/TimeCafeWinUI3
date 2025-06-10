@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="TimeCafeWinUI3.Views.EditClientContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="12">
+        <TextBox
+            x:Name="FirstNameTextBox"
+            Header="Имя *"
+            PlaceholderText="Введите имя" />
+
+        <TextBox
+            x:Name="LastNameTextBox"
+            Header="Фамилия"
+            PlaceholderText="Введите фамилию" />
+
+        <TextBox
+            x:Name="MiddleNameTextBox"
+            Header="Отчество"
+            PlaceholderText="Введите отчество" />
+
+        <TextBox
+            x:Name="EmailTextBox"
+            Header="Email"
+            PlaceholderText="Введите email" />
+
+        <TextBox
+            x:Name="PhoneNumberTextBox"
+            Header="Номер телефона"
+            PlaceholderText="Введите номер телефона" />
+
+        <DatePicker x:Name="BirthDatePicker" Header="Дата рождения" />
+
+        <ComboBox
+            x:Name="GenderComboBox"
+            Header="Пол"
+            PlaceholderText="Выберите пол" />
+    </StackPanel>
+</Page> 

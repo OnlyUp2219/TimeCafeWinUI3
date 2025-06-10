@@ -84,6 +84,10 @@ public partial class App : Application
             services.AddTransient<TariffManagePage>();
             services.AddTransient<TariffManageViewModel>();
 
+            // Register ContentDialogs
+            services.AddTransient<EditClientContentDialog>();
+            services.AddTransient<RefuseServiceContentDialog>();
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
