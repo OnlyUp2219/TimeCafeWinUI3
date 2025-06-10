@@ -17,7 +17,14 @@
     </Page.KeyboardAccelerators>
 
     <Grid>
-        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.BackgroundTransition>
+            <BrushTransition />
+        </Grid.BackgroundTransition>
+
+        <Rectangle
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Opacity="0.25">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Offset="0" Color="#000000" />
@@ -30,7 +37,8 @@
         <Rectangle
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Fill="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}" />
+            Fill="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+            Opacity="0.65" />
 
         <Grid
             x:Name="AppTitleBar"
@@ -60,6 +68,7 @@
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
             IsSettingsVisible="True"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}">
+
             <NavigationView.MenuItems>
                 <!-- Background="{StaticResource AcrylicBackgroundFillColorDefaultBrush}"
                 TODO: Update item titles by updating <x:Uid>.Content entries in Strings/en-us/Resources.resw.
@@ -110,8 +119,8 @@
             </i:Interaction.Behaviors>
             <ScrollViewer>
 
-                <Grid Margin="{StaticResource NavigationViewPageContentMargin}">
-                    <Frame x:Name="NavigationFrame" />
+                <Grid>
+                    <Frame x:Name="NavigationFrame" Margin="{StaticResource NavigationViewPageContentMargin}" />
                 </Grid>
 
             </ScrollViewer>

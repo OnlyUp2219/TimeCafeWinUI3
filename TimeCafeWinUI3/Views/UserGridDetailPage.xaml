@@ -18,9 +18,13 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
+        <Grid.BackgroundTransition>
+            <BrushTransition />
+        </Grid.BackgroundTransition>
+
         <ScrollViewer IsTabStop="True">
-            <StackPanel x:Name="contentPanel">
-                <RelativePanel>
+            <StackPanel x:Name="contentPanel" Margin="0,0,0,16">
+                <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                     <Grid
                         x:Name="itemHero"
@@ -41,17 +45,14 @@
                             Style="{Binding Item.StatusId, Converter={StaticResource StatusColorConverter}}" />
                     </Grid>
 
-
-
                     <TextBlock
                         x:Name="title"
                         Margin="{StaticResource XXSmallTopMargin}"
                         RelativePanel.AlignTopWithPanel="True"
-                        RelativePanel.RightOf="itemHero"
                         Style="{ThemeResource TitleTextBlockStyle}"
                         Text="{x:Bind ViewModel.Item, Converter={StaticResource FullNameConverters}}" />
 
-                    <StackPanel x:Name="propertiesGroup1" RelativePanel.Below="itemHero">
+                    <StackPanel x:Name="propertiesGroup1">
                         <StackPanel x:Name="statusGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Статус" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.Status.StatusName}" />
@@ -68,7 +69,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel x:Name="propertiesGroup2" RelativePanel.Below="propertiesGroup1">
+                    <StackPanel x:Name="propertiesGroup2">
                         <StackPanel x:Name="phoneGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Телефон" />
                             <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.PhoneNumber, Mode=OneWay}" />
@@ -81,35 +82,44 @@
 
                         <StackPanel x:Name="genderGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Пол" />
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.GenderId, Converter={StaticResource GenderConverters}}" />
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.Gender.GenderName}" />
                         </StackPanel>
                     </StackPanel>
 
+                    <StackPanel x:Name="propertiesGroup3">
+                        <TextBlock
+                            Margin="{StaticResource SmallTopMargin}"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                            Text="Дополнительная информация" />
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.Item.ClientAdditionalInfos}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="{StaticResource SmallTopMargin}">
+                                        <TextBlock
+                                            Margin="{StaticResource SmallTopMargin}"
+                                            Style="{ThemeResource SubtitleTextBlockStyle}"
+                                            Text="Заметка" />
+                                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding InfoText}" />
+                                        <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="{Binding CreatedAt, Converter={StaticResource DateTimeFormatConverter}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock
+                            Margin="{StaticResource SmallTopMargin}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="Нет информации"
+                            Visibility="{x:Bind ViewModel.HasAdditionalInfo, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}" />
+                    </StackPanel>
                 </RelativePanel>
 
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Style="{ThemeResource SubtitleTextBlockStyle}"
-                    Text="Дополнительная информация" />
-                <ItemsControl ItemsSource="{x:Bind ViewModel.Item.ClientAdditionalInfos}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="{StaticResource SmallTopMargin}">
-                                <TextBlock
-                                    Margin="{StaticResource SmallTopMargin}"
-                                    Style="{ThemeResource SubtitleTextBlockStyle}"
-                                    Text="Заметка" />
-                                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding InfoText}" />
-                                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="{Binding CreatedAt, Converter={StaticResource DateTimeFormatConverter}}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}"
-                    Text="Нет информации"
-                    Visibility="{x:Bind ViewModel.HasAdditionalInfo, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Inverse}" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Background="{ThemeResource SystemFillColorCriticalBrush}" Content="Удалить" />
+
+                    <Button Content="Изменить" />
+                    <Button Content="Отказ от услуг" />
+                </StackPanel>
+
             </StackPanel>
         </ScrollViewer>
 
@@ -120,12 +130,35 @@
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+
+                        <Setter Target="title.(RelativePanel.RightOf)" Value="itemHero" />
                         <Setter Target="propertiesGroup1.(RelativePanel.RightOf)" Value="itemHero" />
                         <Setter Target="propertiesGroup1.(RelativePanel.Below)" Value="title" />
                         <Setter Target="propertiesGroup2.(RelativePanel.RightOf)" Value="propertiesGroup1" />
                         <Setter Target="propertiesGroup2.(RelativePanel.Below)" Value="title" />
+
+                        <Setter Target="propertiesGroup3.(RelativePanel.Below)" Value="propertiesGroup2" />
                         <Setter Target="propertiesGroup1.Width" Value="300" />
                         <Setter Target="propertiesGroup2.Width" Value="300" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="title.(RelativePanel.Below)" Value="itemHero" />
+                        <Setter Target="title.(RelativePanel.AlignBottomWithPanel)" Value="False" />
+                        <Setter Target="title.(RelativePanel.AlignTopWithPanel)" Value="False" />
+
+                        <Setter Target="propertiesGroup1.(RelativePanel.Below)" Value="title" />
+                        <Setter Target="propertiesGroup2.(RelativePanel.Below)" Value="propertiesGroup1" />
+                        <Setter Target="propertiesGroup3.(RelativePanel.Below)" Value="propertiesGroup2" />
+
+                        <Setter Target="propertiesGroup1.Width" Value="300" />
+                        <Setter Target="propertiesGroup2.Width" Value="300" />
+
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
