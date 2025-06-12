@@ -97,9 +97,6 @@ public sealed partial class TariffManagePage : Page
             }
         }
     }
-
-    private bool _isProcessingSizeChanged = false;
-
     private void TariffBorder_Loaded(object sender, RoutedEventArgs e)
     {
         var border = (Border)sender;

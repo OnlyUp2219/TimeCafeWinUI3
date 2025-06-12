@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -61,8 +63,9 @@ public partial class App : Application
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
-            services.AddSingleton<IClientService, ClientService>();
-            services.AddDbContext<TimeCafeContext>();
+            services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IClientAdditionalInfoService, ClientAdditionalInfoService>();
+            services.AddDbContext<TimeCafeContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();
@@ -99,12 +102,16 @@ public partial class App : Application
 
         Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = "ru-RU";
 
-        // Retrieve the main window and extend its content into the title bar for custom styling.
         Window window = App.MainWindow;
         window.ExtendsContentIntoTitleBar = true;
 
-        // Set the preferred height option for the title bar
         window.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+
+        using (var scope = Host.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<TimeCafeContext>();
+            db.Database.EnsureCreated();
+        }
     }
 
     private async void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)

@@ -1,0 +1,176 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TimeCafeWinUI3.Core.Models;
+using TimeCafeWinUI3.Core.Services;
+
+namespace TimeCafeWinUI3.Tests.MSTest.Services;
+
+[TestClass]
+public class ClientServiceTests
+{
+    private TimeCafeContext _context;
+    private ClientService _service;
+
+    [TestInitialize]
+    public void Initialize()
+    {
+        var options = new DbContextOptionsBuilder<TimeCafeContext>()
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .Options;
+
+        _context = new TimeCafeContext(options);
+        _service = new ClientService(_context);
+
+        // Добавляем необходимые справочные данные
+        _context.ClientStatuses.AddRange(
+            new ClientStatus { StatusId = (int)ClientStatusType.Draft, StatusName = "Черновик" },
+            new ClientStatus { StatusId = (int)ClientStatusType.Active, StatusName = "Активный" }
+        );
+        _context.Genders.AddRange(
+            new Gender { GenderId = 1, GenderName = "Женский" },
+            new Gender { GenderId = 2, GenderName = "Мужской" }
+        );
+        _context.SaveChanges();
+    }
+
+    [TestCleanup]
+    public void Cleanup()
+    {
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
+    }
+
+    [TestMethod]
+    public async Task CreateClient_ShouldCreateNewClient()
+    {
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Draft
+        };
+
+        var result = await _service.CreateClientAsync(client);
+
+        Assert.IsNotNull(result);
+        Assert.AreNotEqual(0, result.ClientId);
+        Assert.AreEqual("Test", result.FirstName);
+        Assert.AreEqual("User", result.LastName);
+        Assert.AreNotEqual(default, result.CreatedAt);
+    }
+
+    [TestMethod]
+    public async Task UpdateClient_ShouldUpdateExistingClient()
+    {
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Draft
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        client.FirstName = "Updated";
+        var result = await _service.UpdateClientAsync(client);
+
+        Assert.IsNotNull(result);
+        Assert.AreEqual("Updated", result.FirstName);
+    }
+
+    [TestMethod]
+    public async Task DeleteClient_ShouldDeleteClient()
+    {
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Draft
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        var result = await _service.DeleteClientAsync(client.ClientId);
+
+        Assert.IsTrue(result);
+        Assert.IsNull(await _context.Clients.FindAsync(client.ClientId));
+    }
+
+    [TestMethod]
+    public async Task GetClientById_ShouldReturnCorrectClient()
+    {
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Draft
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        var result = await _service.GetClientByIdAsync(client.ClientId);
+
+        Assert.IsNotNull(result);
+        Assert.AreEqual(client.ClientId, result.ClientId);
+        Assert.AreEqual("Test", result.FirstName);
+        Assert.AreEqual("User", result.LastName);
+    }
+
+    [TestMethod]
+    public async Task ValidatePhoneNumber_ShouldValidateCorrectFormat()
+    {
+        var validPhone = "+375 (29) 123 4567";
+        var invalidPhone = "1234567890";
+
+        var validResult = await _service.ValidatePhoneNumberAsync(validPhone);
+        var invalidResult = await _service.ValidatePhoneNumberAsync(invalidPhone);
+
+        Assert.IsTrue(validResult);
+        Assert.IsFalse(invalidResult);
+    }
+
+    [TestMethod]
+    public async Task ValidateEmail_ShouldValidateCorrectFormat()
+    {
+        var validEmail = "test@example.com";
+        var invalidEmail = "invalid-email";
+
+        var validResult = await _service.ValidateEmailAsync(validEmail);
+        var invalidResult = await _service.ValidateEmailAsync(invalidEmail);
+
+        Assert.IsTrue(validResult);
+        Assert.IsFalse(invalidResult);
+    }
+
+    [TestMethod]
+    public async Task ValidateAccessCardNumber_ShouldValidateCorrectFormat()
+    {
+        var validCard = "ABCD1234EFGH5678IJKL";
+        var invalidCard = "123";
+
+        var validResult = await _service.ValidateAccessCardNumberAsync(validCard);
+        var invalidResult = await _service.ValidateAccessCardNumberAsync(invalidCard);
+
+        Assert.IsTrue(validResult);
+        Assert.IsFalse(invalidResult);
+    }
+
+    [TestMethod]
+    public async Task GenerateAccessCardNumber_ShouldGenerateUniqueNumber()
+    {
+        var cardNumber1 = await _service.GenerateAccessCardNumberAsync();
+        var cardNumber2 = await _service.GenerateAccessCardNumberAsync();
+
+        Assert.AreEqual(20, cardNumber1.Length);
+        Assert.AreEqual(20, cardNumber2.Length);
+        Assert.AreNotEqual(cardNumber1, cardNumber2);
+    }
+} 

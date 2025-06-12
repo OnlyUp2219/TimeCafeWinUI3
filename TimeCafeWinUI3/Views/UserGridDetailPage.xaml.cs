@@ -15,9 +15,6 @@ public sealed partial class UserGridDetailPage : Page
         get;
     }
 
-    private EditClientContentDialog _editDialog;
-    private RefuseServiceContentDialog _refuseDialog;
-
     public UserGridDetailPage()
     {
         ViewModel = App.GetService<UserGridDetailViewModel>();
