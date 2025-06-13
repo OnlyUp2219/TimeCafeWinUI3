@@ -179,6 +179,44 @@ public class ClientService : IClientService
         return true;
     }
 
+    public async Task<bool> SetClientActiveAsync(int clientId)
+    {
+        var client = await _context.Clients.FindAsync(clientId);
+        if (client == null)
+            return false;
+
+        client.StatusId = (int)ClientStatusType.Active;
+        if (string.IsNullOrEmpty(client.AccessCardNumber))
+        {
+            client.AccessCardNumber = await GenerateAccessCardNumberAsync();
+        }
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> SetClientDraftAsync(int clientId)
+    {
+        var client = await _context.Clients.FindAsync(clientId);
+        if (client == null)
+            return false;
+
+        client.StatusId = (int)ClientStatusType.Draft;
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> SetClientRejectedAsync(int clientId, string reason)
+    {
+        var client = await _context.Clients.FindAsync(clientId);
+        if (client == null)
+            return false;
+
+        client.StatusId = (int)ClientStatusType.Rejected;
+        client.RefusalReason = reason;
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
     public async Task<string> GenerateAccessCardNumberAsync()
     {
         var random = new Random();
