@@ -23,7 +23,7 @@ public sealed partial class UserGridPage : Page
         DataContext = ViewModel;
         InitializeComponent();
         
-        this.NavigationCacheMode = NavigationCacheMode.Enabled;
+        //this.NavigationCacheMode = NavigationCacheMode.Enabled;
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)

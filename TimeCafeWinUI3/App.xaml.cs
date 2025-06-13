@@ -80,10 +80,6 @@ public partial class App : Application
             services.AddTransient<UserGridDetailViewModel>();
             services.AddTransient<UserGridPage>();
             services.AddTransient<UserGridViewModel>();
-            services.AddTransient<CollectionViewModel>();
-            services.AddTransient<CollectionPage>();
-            services.AddTransient<DetailedInfoViewModel>();
-            services.AddTransient<DetailedInfoPage>();
             services.AddTransient<TariffManagePage>();
             services.AddTransient<TariffManageViewModel>();
             services.AddTransient<EditClientContentDialogViewModel>();

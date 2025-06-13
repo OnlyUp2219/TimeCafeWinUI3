@@ -8,7 +8,7 @@ namespace TimeCafeWinUI3.Helpers
         {
             if (value is Client client)
             {
-                return client.FirstName + " " + client.LastName + " " + client.LastName;
+                return client.FirstName + " " + client.LastName + " " + client.MiddleName;
             }
             return string.Empty;
         }

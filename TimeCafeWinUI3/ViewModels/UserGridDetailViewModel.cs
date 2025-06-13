@@ -12,19 +12,9 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
 {
     private readonly IClientService _clientService;
 
+    [ObservableProperty]
     private Client? _item;
-    public Client? Item
-    {
-        get => _item;
-        set
-        {
-            if (_item != value)
-            {
-                _item = value;
-                OnPropertyChanged();
-            }
-        }
-    }
+
 
     public bool HasAdditionalInfo => Item?.ClientAdditionalInfos?.Any() ?? false;
 
@@ -90,7 +80,6 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
             RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
             Title = "Редактирование клиента",
             PrimaryButtonText = "Сохранить",
-            SecondaryButtonText = "Отмена",
             CloseButtonText = "Отмена",
             DefaultButton = ContentDialogButton.Primary,
             Content = editClient
@@ -116,7 +105,12 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
                 }
             }
 
-            Item = await _clientService.GetClientByIdAsync(Item.ClientId);
+            // Сбрасываем Item и уведомляем UI
+            Item = null; // Очищаем, чтобы сбросить все привязки
+            OnPropertyChanged(nameof(Item)); // Уведомляем UI
+            Item = await _clientService.GetClientByIdAsync(updatedClient.ClientId);
+            OnPropertyChanged(nameof(Item)); // Уведомляем UI снова
+            OnPropertyChanged(nameof(HasAdditionalInfo)); // Обновляем вычисляемое свойство
         }
     }
 

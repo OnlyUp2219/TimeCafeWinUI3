@@ -58,8 +58,11 @@
                 SelectedValuePath="GenderId" />
 
             <TextBlock
+                x:Name="ErrorText"
+                x:FieldModifier="public"
                 Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                 Text="{x:Bind ViewModel.ErrorMessage}"
+                TextWrapping="Wrap"
                 Visibility="{x:Bind ViewModel.ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
         </StackPanel>
     </ScrollView>

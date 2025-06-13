@@ -201,6 +201,7 @@ public class ClientService : IClientService
             return false;
 
         client.StatusId = (int)ClientStatusType.Draft;
+        client.AccessCardNumber = null;
         await _context.SaveChangesAsync();
         return true;
     }
@@ -213,6 +214,7 @@ public class ClientService : IClientService
 
         client.StatusId = (int)ClientStatusType.Rejected;
         client.RefusalReason = reason;
+        client.AccessCardNumber = null;
         await _context.SaveChangesAsync();
         return true;
     }

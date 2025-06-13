@@ -173,4 +173,111 @@ public class ClientServiceTests
         Assert.AreEqual(20, cardNumber2.Length);
         Assert.AreNotEqual(cardNumber1, cardNumber2);
     }
+
+    [TestMethod]
+    public async Task SetClientDraft_ShouldClearAccessCardNumber()
+    {
+        // Arrange
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Active,
+            AccessCardNumber = "TEST1234567890123456"
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _service.SetClientDraftAsync(client.ClientId);
+
+        // Assert
+        Assert.IsTrue(result);
+        var updatedClient = await _context.Clients.FindAsync(client.ClientId);
+        Assert.AreEqual((int)ClientStatusType.Draft, updatedClient.StatusId);
+        Assert.IsNull(updatedClient.AccessCardNumber);
+    }
+
+    [TestMethod]
+    public async Task SetClientRejected_ShouldClearAccessCardNumber()
+    {
+        // Arrange
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Active,
+            AccessCardNumber = "TEST1234567890123456"
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _service.SetClientRejectedAsync(client.ClientId, "Test reason");
+
+        // Assert
+        Assert.IsTrue(result);
+        var updatedClient = await _context.Clients.FindAsync(client.ClientId);
+        Assert.AreEqual((int)ClientStatusType.Rejected, updatedClient.StatusId);
+        Assert.AreEqual("Test reason", updatedClient.RefusalReason);
+        Assert.IsNull(updatedClient.AccessCardNumber);
+    }
+
+    [TestMethod]
+    public async Task SetClientActive_ShouldGenerateAccessCardNumber()
+    {
+        // Arrange
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Draft,
+            AccessCardNumber = null
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _service.SetClientActiveAsync(client.ClientId);
+
+        // Assert
+        Assert.IsTrue(result);
+        var updatedClient = await _context.Clients.FindAsync(client.ClientId);
+        Assert.AreEqual((int)ClientStatusType.Active, updatedClient.StatusId);
+        Assert.IsNotNull(updatedClient.AccessCardNumber);
+        Assert.AreEqual(20, updatedClient.AccessCardNumber.Length);
+    }
+
+    [TestMethod]
+    public async Task SetClientActive_WithExistingCardNumber_ShouldKeepCardNumber()
+    {
+        // Arrange
+        var existingCardNumber = "TEST1234567890123456";
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Draft,
+            AccessCardNumber = existingCardNumber
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _service.SetClientActiveAsync(client.ClientId);
+
+        // Assert
+        Assert.IsTrue(result);
+        var updatedClient = await _context.Clients.FindAsync(client.ClientId);
+        Assert.AreEqual((int)ClientStatusType.Active, updatedClient.StatusId);
+        Assert.AreEqual(existingCardNumber, updatedClient.AccessCardNumber);
+    }
 } 

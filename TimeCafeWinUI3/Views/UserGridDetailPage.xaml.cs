@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using TimeCafeWinUI3.Contracts.Services;
 
-
 namespace TimeCafeWinUI3.Views;
 
 public sealed partial class UserGridDetailPage : Page
@@ -25,6 +24,7 @@ public sealed partial class UserGridDetailPage : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
+        detailedImage.Visibility = Visibility.Visible;
         if (e.Parameter is Client item)
         {
             ViewModel.Item = item;
@@ -38,12 +38,12 @@ public sealed partial class UserGridDetailPage : Page
         }
     }
 
-
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
         base.OnNavigatingFrom(e);
+        
         ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", detailedImage);
 
-
+        detailedImage.Visibility = Visibility.Collapsed;
     }
 }

@@ -50,7 +50,7 @@
                         Margin="{StaticResource XXSmallTopMargin}"
                         RelativePanel.AlignTopWithPanel="True"
                         Style="{ThemeResource TitleTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Item, Converter={StaticResource FullNameConverters}}" />
+                        Text="{Binding Item, Converter={StaticResource FullNameConverters}}" />
 
                     <StackPanel x:Name="propertiesGroup1">
                         <StackPanel x:Name="statusGroup" Margin="{StaticResource SmallTopMargin}">
