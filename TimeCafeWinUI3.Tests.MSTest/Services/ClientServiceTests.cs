@@ -147,6 +147,64 @@ public class ClientServiceTests
     }
 
     [DataTestMethod]
+    [DataRow("", false, "Empty phone number should be invalid")]
+    [DataRow(null, false, "Null phone number should be invalid")]
+    [DataRow("1234567890", false, "Incorrect format should be invalid")]
+    [DataRow("+375 (33) 987 6543", true, "Correct format should be valid")]
+    [DataRow("+375 (29) 123 4567", true, "Existing phone number should be valid for format check")]
+    public async Task ValidatePhoneNumberFormat_VariousInputs_ReturnsExpectedResult(string phoneNumber, bool expectedResult, string message)
+    {
+        var result = await _service.ValidatePhoneNumberFormatAsync(phoneNumber);
+        Assert.AreEqual(expectedResult, result, message);
+    }
+
+    [TestMethod]
+    public async Task ValidatePhoneNumber_ShouldCheckUniqueness()
+    {
+        // Arrange
+        var existingPhone = "+375 (29) 123 4567";
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = existingPhone,
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Draft
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _service.ValidatePhoneNumberAsync(existingPhone);
+
+        // Assert
+        Assert.IsFalse(result, "Existing phone number should be invalid");
+    }
+
+    [TestMethod]
+    public async Task ValidatePhoneNumberFormat_ShouldNotCheckUniqueness()
+    {
+        // Arrange
+        var existingPhone = "+375 (29) 123 4567";
+        var client = new Client
+        {
+            FirstName = "Test",
+            LastName = "User",
+            PhoneNumber = existingPhone,
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Draft
+        };
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        // Act
+        var result = await _service.ValidatePhoneNumberFormatAsync(existingPhone);
+
+        // Assert
+        Assert.IsTrue(result, "Existing phone number should be valid for format check");
+    }
+
+    [DataTestMethod]
     [DataRow("new@example.com", true, "Correct email format should be valid")]
     [DataRow("invalid-email", false, "Incorrect email format should be invalid")]
     [DataRow("test@example.com", false, "Existing email should be invalid")]

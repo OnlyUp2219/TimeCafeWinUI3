@@ -25,6 +25,7 @@
             <helpers:TooltipConverter x:Key="TooltipConverter" />
             <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <helpers:StatusColorConverter x:Key="StatusColorConverter" />
+            <helpers:StatusToVisibilityConverter x:Key="StatusToVisibilityConverter" />
             <!--<helpers:StatusTextConverter x:Key="StatusTextConverter" />-->
             <helpers:FullNameConverters x:Key="FullNameConverters" />
             <helpers:DateOnlyConverter x:Key="DateOnlyConverter" />

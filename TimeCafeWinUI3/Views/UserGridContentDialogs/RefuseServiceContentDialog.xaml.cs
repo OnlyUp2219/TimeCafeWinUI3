@@ -14,12 +14,16 @@ public sealed partial class RefuseServiceContentDialog : Page
         this.InitializeComponent();
     }
 
-    private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    public void PrimaryButtonClick(object sender, ContentDialogButtonClickEventArgs args)
     {
+        var deferral = args.GetDeferral();
+        ViewModel.ErrorMessage = string.Empty;
+
         if (!ViewModel.Validate())
         {
             args.Cancel = true;
-            return;
         }
+
+        deferral.Complete();
     }
 } 

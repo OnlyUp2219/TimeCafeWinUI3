@@ -6,12 +6,15 @@ using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
 using TimeCafeWinUI3.Views;
+using TimeCafeWinUI3.Core.Contracts.Services;
 
 namespace TimeCafeWinUI3.ViewModels;
 
 public partial class UserGridDetailViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IClientService _clientService;
+    private readonly IClientAdditionalInfoService _additionalInfoService;
+    private readonly INavigationService _navigationService;
 
     [ObservableProperty]
     private Client? _item;
@@ -19,9 +22,11 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
 
     public bool HasAdditionalInfo => Item?.ClientAdditionalInfos?.Any() ?? false;
 
-    public UserGridDetailViewModel(IClientService clientService)
+    public UserGridDetailViewModel(IClientService clientService, IClientAdditionalInfoService additionalInfoService, INavigationService navigationService)
     {
         _clientService = clientService;
+        _additionalInfoService = additionalInfoService;
+        _navigationService = navigationService;
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -29,11 +34,23 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
         if (parameter is Client client)
         {
             Item = client;
+            if (client.ClientAdditionalInfos == null)
+            {
+                var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(client.ClientId);
+                client.ClientAdditionalInfos = additionalInfos.ToList();
+                OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
+            }
         }
         else if (parameter is string phoneNumber)
         {
             var clients = await _clientService.GetAllClientsAsync();
             Item = clients.FirstOrDefault(c => c.PhoneNumber == phoneNumber);
+            if (Item != null)
+            {
+                var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
+                Item.ClientAdditionalInfos = additionalInfos.ToList();
+                OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
+            }
         }
     }
 
@@ -45,26 +62,53 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
     [RelayCommand]
     private async Task RefuseServiceAsync()
     {
-        var refuseService = App.GetService<RefuseServiceContentDialog>();
+        if (Item == null) return;
 
-        var dialog = new ContentDialog
-        {
-            XamlRoot = App.MainWindow.Content.XamlRoot,
-            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-            RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
-            Title = "Отказ от услуг",
-            PrimaryButtonText = "Подтвердить",
-            SecondaryButtonText = "Отмена",
-            CloseButtonText = "Отмена",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = refuseService
-        };
+        var dialog = RefuseServiceDialogFactory.Create(
+            Item,
+            App.MainWindow.Content.XamlRoot
+        );
 
         var result = await dialog.ShowAsync();
 
         if (result == ContentDialogResult.Primary)
         {
+            var refuseService = (RefuseServiceContentDialog)dialog.Content;
+            var reason = refuseService.ViewModel.Reason;
 
+            var additionalInfo = new ClientAdditionalInfo
+            {
+                ClientId = Item.ClientId,
+                InfoText = $"Отказ от услуг. \nПричина: {reason}",
+                CreatedAt = DateTime.Now
+            };
+            
+            await _additionalInfoService.CreateAdditionalInfoAsync(additionalInfo);
+            await _clientService.SetClientRejectedAsync(Item.ClientId, reason);
+            
+            // Обновляем клиента и его дополнительную информацию
+            Item = await _clientService.GetClientByIdAsync(Item.ClientId);
+            var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
+            Item.ClientAdditionalInfos = additionalInfos.ToList();
+            
+            OnPropertyChanged(nameof(Item));
+            OnPropertyChanged(nameof(HasAdditionalInfo));
+            OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
+        }
+    }
+
+    [RelayCommand]
+    private async Task VerifyPhoneAsync()
+    {
+        if (Item == null) return;
+
+        var isPhoneVerified = await VerifyPhoneNumberAsync(Item.PhoneNumber);
+        if (isPhoneVerified)
+        {
+            await _clientService.SetClientActiveAsync(Item.ClientId);
+            Item = await _clientService.GetClientByIdAsync(Item.ClientId);
+            OnPropertyChanged(nameof(Item));
+            OnPropertyChanged(nameof(HasAdditionalInfo));
         }
     }
 
@@ -78,8 +122,6 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
             App.MainWindow.Content.XamlRoot,
             "Редактирование клиента"
         );
-
-
 
         var result = await dialog.ShowAsync();
 
@@ -113,49 +155,88 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
 
     private async Task<bool> VerifyPhoneNumberAsync(string phoneNumber)
     {
-        while (true)
+        var dialog = PhoneVerificationDialogFactory.Create(
+            phoneNumber,
+            App.MainWindow.Content.XamlRoot
+        );
+
+        // TODO: Реализовать отправку SMS
+        //await _clientService.SendPhoneConfirmationCodeAsync(phoneNumber);
+
+        var verificationResult = await dialog.ShowAsync();
+
+        if (verificationResult == ContentDialogResult.Secondary)
         {
-            var dialog = PhoneVerificationDialogFactory.Create(
-                phoneNumber,
-                App.MainWindow.Content.XamlRoot
-            );
-
-            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-            dialog.RequestedTheme = App.GetService<IThemeSelectorService>().Theme;
-
-            // TODO: Реализовать отправку SMS
-            await _clientService.SendPhoneConfirmationCodeAsync(phoneNumber);
-
-            var verificationResult = await dialog.ShowAsync();
-
-            if (verificationResult == ContentDialogResult.Secondary)
-            {
-                return false;
-            }
-
-            if (verificationResult == ContentDialogResult.Primary)
-            {
-                var phoneVerification = (PhoneVerificationConfirm)dialog.Content;
-                var code = phoneVerification.VerificationCodeInput.Text;
-                if (code == "12345") // TODO: Заменить на реальную проверку кода
-                {
-                    return true;
-                }
-
-                var errorDialog = new ContentDialog
-                {
-                    XamlRoot = App.MainWindow.Content.XamlRoot,
-                    Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                    RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
-                    Title = "Ошибка",
-                    Content = "Неверный код подтверждения",
-                    CloseButtonText = "OK"
-                };
-                await errorDialog.ShowAsync();
-                continue;
-            }
-
             return false;
+        }
+
+        if (verificationResult == ContentDialogResult.Primary)
+        {
+            //var phoneVerification = (PhoneVerificationConfirm)dialog.Content;
+            //var code = phoneVerification.VerificationCodeInput.Text;
+            //return await _clientService.VerifyPhoneConfirmationCodeAsync(phoneNumber, code);
+            return true;
+        }
+
+        return false;
+    }
+
+    [RelayCommand]
+    private async Task DeleteClientAsync()
+    {
+        var dialog = new ContentDialog
+        {
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
+            XamlRoot = App.MainWindow.Content.XamlRoot,
+            Title = "Подтверждение",
+            Content = "Вы уверены, что хотите удалить этого клиента?",
+            PrimaryButtonText = "Удалить",
+            CloseButtonText = "Отмена",
+            DefaultButton = ContentDialogButton.Close
+        };
+
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary && Item != null)
+        {
+            await _clientService.DeleteClientAsync(Item.ClientId);
+            _navigationService.GoBack();
+        }
+    }
+
+    [RelayCommand]
+    private async Task AddNoteAsync()
+    {
+        if (Item == null) return;
+
+        var dialog = RefuseServiceDialogFactory.Create(
+            Item,
+            App.MainWindow.Content.XamlRoot
+        );
+
+        dialog.Title = "Добавить заметку";
+        var result = await dialog.ShowAsync();
+
+        if (result == ContentDialogResult.Primary)
+        {
+            var addNoteDialog = (RefuseServiceContentDialog)dialog.Content;
+            var noteText = addNoteDialog.ViewModel.Reason;
+
+            var additionalInfo = new ClientAdditionalInfo
+            {
+                ClientId = Item.ClientId,
+                InfoText = noteText,
+                CreatedAt = DateTime.Now
+            };
+            
+            await _additionalInfoService.CreateAdditionalInfoAsync(additionalInfo);
+            
+            var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
+            Item.ClientAdditionalInfos = additionalInfos.ToList();
+            
+            OnPropertyChanged(nameof(Item));
+            OnPropertyChanged(nameof(HasAdditionalInfo));
+            OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
         }
     }
 }

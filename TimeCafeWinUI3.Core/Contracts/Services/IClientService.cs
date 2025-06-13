@@ -11,6 +11,7 @@ public interface IClientService
     Task<Client> UpdateClientAsync(Client client);
     Task<bool> DeleteClientAsync(int clientId);
     Task<bool> ValidatePhoneNumberAsync(string phoneNumber);
+    Task<bool> ValidatePhoneNumberFormatAsync(string phoneNumber);
     Task<bool> ValidateEmailAsync(string email);
     Task<bool> ValidateAccessCardNumberAsync(string accessCardNumber);
     Task<IEnumerable<ClientStatus>> GetClientStatusesAsync();

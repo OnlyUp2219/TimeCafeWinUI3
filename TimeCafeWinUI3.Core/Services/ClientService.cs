@@ -91,6 +91,14 @@ public class ClientService : IClientService
         if (await _context.Clients.AnyAsync(c => c.PhoneNumber == phoneNumber))
             return false;
 
+        return await ValidatePhoneNumberFormatAsync(phoneNumber);
+    }
+
+    public async Task<bool> ValidatePhoneNumberFormatAsync(string phoneNumber)
+    {
+        if (string.IsNullOrWhiteSpace(phoneNumber))
+            return false;
+
         var phoneRegex = new Regex(@"^\+375 \(\d{2}\) \d{3} \d{4}$");
         return phoneRegex.IsMatch(phoneNumber);
     }

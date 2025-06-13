@@ -90,9 +90,18 @@ public partial class EditClientContentDialogViewModel : ObservableObject
 
         if (!string.IsNullOrWhiteSpace(PhoneNumber))
         {
-            var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
-            if (!validPhone)
-                sb.AppendLine("Неверный формат номера телефона или такой номер уже существует");
+            if (IsPhoneNumberChanged())
+            {
+                var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
+                if (!validPhone)
+                    sb.AppendLine("Неверный формат номера телефона или такой номер уже существует");
+            }
+            else
+            {
+                var validPhoneFormat = await _clientService.ValidatePhoneNumberFormatAsync(PhoneNumber);
+                if (!validPhoneFormat)
+                    sb.AppendLine("Неверный формат номера телефона");
+            }
         }
 
         return sb.ToString();

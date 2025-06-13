@@ -17,6 +17,12 @@
                 PlaceholderText="Введите причину отказа"
                 Text="{x:Bind ViewModel.Reason, Mode=TwoWay}"
                 TextWrapping="Wrap" />
+
+            <TextBlock
+                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                Text="{x:Bind ViewModel.ErrorMessage}"
+                TextWrapping="Wrap"
+                Visibility="{x:Bind ViewModel.ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
         </StackPanel>
     </ScrollView>
 </Page> 

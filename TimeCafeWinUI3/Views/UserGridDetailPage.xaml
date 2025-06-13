@@ -91,7 +91,7 @@
                             Margin="{StaticResource SmallTopMargin}"
                             Style="{ThemeResource SubtitleTextBlockStyle}"
                             Text="Дополнительная информация" />
-                        <ItemsControl ItemsSource="{x:Bind ViewModel.Item.ClientAdditionalInfos}">
+                        <ItemsControl ItemsSource="{Binding Item.ClientAdditionalInfos}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="{StaticResource SmallTopMargin}">
@@ -130,9 +130,20 @@
                         </Style>
                     </StackPanel.Resources>
 
-                    <Button Background="{ThemeResource SystemFillColorCriticalBrush}" Content="Удалить" />
+                    <Button
+                        Background="{ThemeResource SystemFillColorCriticalBrush}"
+                        Command="{x:Bind ViewModel.DeleteClientCommand}"
+                        Content="Удалить" />
                     <Button Command="{x:Bind ViewModel.EditClientCommand}" Content="Изменить" />
-                    <Button Command="{x:Bind ViewModel.RefuseServiceCommand}" Content="Отказ от услуг" />
+                    <Button
+                        Command="{x:Bind ViewModel.RefuseServiceCommand}"
+                        Content="Отказ от услуг"
+                        Visibility="{Binding Item.StatusId, Converter={StaticResource StatusToVisibilityConverter}, ConverterParameter=Active}" />
+                    <Button
+                        Command="{x:Bind ViewModel.VerifyPhoneCommand}"
+                        Content="Подтвердить номер телефона"
+                        Visibility="{Binding Item.StatusId, Converter={StaticResource StatusToVisibilityConverter}, ConverterParameter=NotActive}" />
+                    <Button Command="{x:Bind ViewModel.AddNoteCommand}" Content="Добавить заметку" />
                 </StackPanel>
 
             </StackPanel>
