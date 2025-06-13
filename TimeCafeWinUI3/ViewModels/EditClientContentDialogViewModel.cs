@@ -92,7 +92,7 @@ public partial class EditClientContentDialogViewModel : ObservableObject
         {
             var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
             if (!validPhone)
-                sb.AppendLine("Неверный формат номера телефона");
+                sb.AppendLine("Неверный формат номера телефона или такой номер уже существует");
         }
 
         return sb.ToString();

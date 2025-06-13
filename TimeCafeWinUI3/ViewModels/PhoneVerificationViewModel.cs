@@ -5,17 +5,10 @@ namespace TimeCafeWinUI3.ViewModels
 {
     public partial class PhoneVerificationViewModel : ObservableRecipient
     {
-        [ObservableProperty]
-        private string phoneNumber;
-
-        [ObservableProperty]
-        private bool isPhoneVerified;
-
-        [ObservableProperty]
-        private string verificationCode;
-
-        [ObservableProperty]
-        private string errorMessage;
+        [ObservableProperty] private string phoneNumber;
+        [ObservableProperty] private bool isPhoneVerified;
+        [ObservableProperty] private string verificationCode;
+        [ObservableProperty] private string errorMessage;
 
         public PhoneVerificationViewModel()
         {
@@ -29,12 +22,15 @@ namespace TimeCafeWinUI3.ViewModels
             ErrorMessage = string.Empty;
         }
 
-        public string ValidConfirmCode(string confirmCode)
+        public string ValidConfirmCode(string code)
         {
             var sb = new StringBuilder();
-            if (confirmCode == "12345")
-                sb.AppendLine(confirmCode);
+            if (string.IsNullOrWhiteSpace(code))
+                return "Код не может быть пустым.";
+            if (code != "12345") 
+                return "Неверный код подтверждения.";
             return sb.ToString();
         }
     }
 }
+

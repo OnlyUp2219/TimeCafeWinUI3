@@ -97,7 +97,7 @@ public class ClientService : IClientService
 
     public async Task<bool> ValidateEmailAsync(string email)
     {
-        var atCount = email.Count(c => c == '@');
+        var atCount = email.Count(c =>c == '@');
         if (atCount != 1)
             return false;
 

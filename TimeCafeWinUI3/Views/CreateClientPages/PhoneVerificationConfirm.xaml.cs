@@ -4,10 +4,6 @@ namespace TimeCafeWinUI3.Views;
 
 public sealed partial class PhoneVerificationConfirm : Page
 {
-    private readonly IClientService _clientService;
-    private string _phoneNumber;
-    private string _verificationCode;
-
     public PhoneVerificationViewModel ViewModel
     {
         get;
@@ -16,16 +12,21 @@ public sealed partial class PhoneVerificationConfirm : Page
     public PhoneVerificationConfirm()
     {
         ViewModel = App.GetService<PhoneVerificationViewModel>();
-        _clientService = App.GetService<IClientService>();
+        DataContext = ViewModel;
         InitializeComponent();
     }
 
-    public async void PrimaryButtonClick(object sender, ContentDialogButtonClickEventArgs args)
+    public void SetPhoneNumber(string number)
+    {
+        ViewModel.SetPhoneNumber(number);
+    }
+
+    public void PrimaryButtonClick(object sender, ContentDialogButtonClickEventArgs args)
     {
         var deferral = args.GetDeferral();
         ViewModel.ErrorMessage = string.Empty;
 
-        var validationResult = await ViewModel.ValidConfirmCode();
+        var validationResult = ViewModel.ValidConfirmCode(VerificationCodeInput.Text);
         if (!string.IsNullOrEmpty(validationResult))
         {
             ViewModel.ErrorMessage = validationResult;

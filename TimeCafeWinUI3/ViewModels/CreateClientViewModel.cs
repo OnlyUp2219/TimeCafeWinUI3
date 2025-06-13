@@ -181,43 +181,24 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             return;
         }
 
-        var dialog = ContentDialogFactory.Create(
+        var dialog = PhoneVerificationDialogFactory.Create(
             PhoneNumber,
             App.MainWindow.Content.XamlRoot,
             "Подтверждение телефона",
             "Подтвердить",
-            "Пропустить"
+            "Пропустить",
+            "Отменить"
+
         );
 
-        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-        dialog.RequestedTheme = App.GetService<IThemeSelectorService>().Theme;
-
         var result = await dialog.ShowAsync();
-
         if (result == ContentDialogResult.Primary)
         {
-            var phoneVerification = (PhoneVerificationConfirm)dialog.Content;
-            var code = phoneVerification.VerificationCodeInput.Text;
-            if (code == "12345") 
-            {
-                await CreateClientAsync(true); 
-            }
-            else
-            {
-                var errorDialog = new ContentDialog
-                {
-                    XamlRoot = App.MainWindow.Content.XamlRoot,
-                    Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                    Title = "Ошибка",
-                    Content = "Неверный код подтверждения",
-                    CloseButtonText = "OK"
-                };
-                await errorDialog.ShowAsync();
-            }
+            await CreateClientAsync(true);
         }
         else if (result == ContentDialogResult.Secondary)
         {
-            await CreateClientAsync(false); 
+            await CreateClientAsync(false);
         }
     }
 

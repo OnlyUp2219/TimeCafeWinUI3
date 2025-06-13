@@ -8,46 +8,50 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="20">
-        <StackPanel Spacing="16">
-            <TextBlock
-                Style="{StaticResource TitleTextBlockStyle}"
-                Text="Подтверждение номера телефона"
-                TextWrapping="Wrap" />
+    <ScrollView>
 
-            <TextBlock
-                Style="{StaticResource BodyStrongTextBlockStyle}"
-                Text="Это ваш номер телефона?"
-                TextWrapping="Wrap" />
+        <Grid Padding="20">
+            <StackPanel Spacing="16">
+                <TextBlock
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Подтверждение номера телефона"
+                    TextWrapping="Wrap" />
 
-            <TextBlock
-                x:Name="PhoneNumberText"
-                x:FieldModifier="public"
-                Style="{StaticResource BodyTextBlockStyle}"
-                Text="+375297143237"
-                TextWrapping="Wrap" />
+                <TextBlock
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="Это ваш номер телефона?"
+                    TextWrapping="Wrap" />
 
-            <TextBox
-                x:Name="VerificationCodeInput"
-                HorizontalAlignment="Stretch"
-                x:FieldModifier="public"
-                MaxLength="6"
-                PlaceholderText="Введите код подтверждения (12345)" />
+                <TextBlock
+                    x:Name="PhoneNumberText"
+                    x:FieldModifier="public"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{Binding PhoneNumber}"
+                    TextWrapping="Wrap" />
 
-            <TextBlock
-                x:Name="ErrorText"
-                x:FieldModifier="public"
-                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                TextWrapping="Wrap"
-                Visibility="Collapsed" />
+                <TextBox
+                    x:Name="VerificationCodeInput"
+                    HorizontalAlignment="Stretch"
+                    x:FieldModifier="public"
+                    MaxLength="6"
+                    PlaceholderText="Введите код подтверждения (12345)" />
 
-            <TextBlock
-                x:Name="CodeInfoText"
-                x:FieldModifier="public"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="Код подтверждения будет отправлен на указанный номер телефона (временное решение - имитация SMS)"
-                TextWrapping="Wrap" />
-        </StackPanel>
-    </Grid>
+                <TextBlock
+                    x:Name="ErrorText"
+                    x:FieldModifier="public"
+                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                    Text="{Binding ErrorMessage}"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+
+                <TextBlock
+                    x:Name="CodeInfoText"
+                    x:FieldModifier="public"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="Код подтверждения будет отправлен на указанный номер телефона (временное решение - имитация SMS)"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </Grid>
+    </ScrollView>
 
 </Page>

@@ -13,13 +13,15 @@ public static class EditClientDialogFactory
             PrimaryButtonText = primaryButtonText,
             SecondaryButtonText = secondaryButtonText,
             DefaultButton = ContentDialogButton.Primary,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
             XamlRoot = xamlRoot
         };
 
         var editPage = new EditClientContentDialog();
         editPage.SetData(data);
-        dialog.Content = editPage;
 
+        dialog.Content = editPage;
         dialog.PrimaryButtonClick += editPage.PrimaryButtonClick;
 
         return dialog;

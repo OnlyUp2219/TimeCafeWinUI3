@@ -30,6 +30,16 @@ public class ClientServiceTests
             new Gender { GenderId = 1, GenderName = "Женский" },
             new Gender { GenderId = 2, GenderName = "Мужской" }
         );
+        _context.Clients.Add(new Client
+        {
+            ClientId = 1,
+            FirstName = "Test",
+            PhoneNumber = "+375 (29) 123 4567",
+            Email = "test@example.com",
+            StatusId = (int)ClientStatusType.Active,
+            GenderId = 1,
+            CreatedAt = DateTime.Now
+        });
         _context.SaveChanges();
     }
 
@@ -124,30 +134,27 @@ public class ClientServiceTests
         Assert.AreEqual("User", result.LastName);
     }
 
-    [TestMethod]
-    public async Task ValidatePhoneNumber_ShouldValidateCorrectFormat()
+    [DataTestMethod]
+    [DataRow("", false, "Empty phone number should be invalid")]
+    [DataRow(null, false, "Null phone number should be invalid")]
+    [DataRow("1234567890", false, "Incorrect format should be invalid")]
+    [DataRow("+375 (33) 987 6543", true, "Correct format should be valid")]
+    [DataRow("+375 (29) 123 4567", false, "Existing phone number should be invalid")]
+    public async Task ValidatePhoneNumber_VariousInputs_ReturnsExpectedResult(string phoneNumber, bool expectedResult, string message)
     {
-        var validPhone = "+375 (29) 123 4567";
-        var invalidPhone = "1234567890";
-
-        var validResult = await _service.ValidatePhoneNumberAsync(validPhone);
-        var invalidResult = await _service.ValidatePhoneNumberAsync(invalidPhone);
-
-        Assert.IsTrue(validResult);
-        Assert.IsFalse(invalidResult);
+        var result = await _service.ValidatePhoneNumberAsync(phoneNumber);
+        Assert.AreEqual(expectedResult, result, message);
     }
 
-    [TestMethod]
-    public async Task ValidateEmail_ShouldValidateCorrectFormat()
+    [DataTestMethod]
+    [DataRow("new@example.com", true, "Correct email format should be valid")]
+    [DataRow("invalid-email", false, "Incorrect email format should be invalid")]
+    [DataRow("test@example.com", false, "Existing email should be invalid")]
+    [DataRow("test@@example.com", false, "Email with multiple @ should be invalid")]
+    public async Task ValidateEmail_VariousInputs_ReturnsExpectedResult(string email, bool expectedResult, string message)
     {
-        var validEmail = "test@example.com";
-        var invalidEmail = "invalid-email";
-
-        var validResult = await _service.ValidateEmailAsync(validEmail);
-        var invalidResult = await _service.ValidateEmailAsync(invalidEmail);
-
-        Assert.IsTrue(validResult);
-        Assert.IsFalse(invalidResult);
+        var result = await _service.ValidateEmailAsync(email);
+        Assert.AreEqual(expectedResult, result, message);
     }
 
     [TestMethod]

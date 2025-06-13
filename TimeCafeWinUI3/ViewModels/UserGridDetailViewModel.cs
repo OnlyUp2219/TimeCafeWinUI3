@@ -79,8 +79,7 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
             "Редактирование клиента"
         );
 
-        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-        dialog.RequestedTheme = App.GetService<IThemeSelectorService>().Theme;
+
 
         var result = await dialog.ShowAsync();
 
