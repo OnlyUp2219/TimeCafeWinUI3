@@ -16,26 +16,35 @@ public sealed partial class EditClientContentDialog : Page
         this.InitializeComponent();
     }
 
-    public void SetClient(Client client)
+    public void SetData<T>(T data)
     {
-        ViewModel.SetClient(client);
+        if (data is Client client)
+        {
+            ViewModel.SetClient(client);
+        }
     }
 
-    [RelayCommand]
-    private async void PrimaryButtonClick(ContentDialogButtonClickEventArgs args)
+    public void SetDialog(ContentDialog dialog)
     {
+        dialog.PrimaryButtonClick += PrimaryButtonClick;
+    }
+
+    public async void PrimaryButtonClick(object sender, ContentDialogButtonClickEventArgs args)
+    {
+        var deferral = args.GetDeferral(); 
+        ViewModel.ErrorMessage = string.Empty;
+
         var validationResult = await ViewModel.ValidateAsync();
         if (!string.IsNullOrEmpty(validationResult))
         {
             ViewModel.ErrorMessage = validationResult;
             args.Cancel = true;
-            return;
+        }
+        else
+        {
+            args.Cancel = false; 
         }
 
-        if (!ViewModel.Validate())
-        {
-            args.Cancel = true;
-            return;
-        }
+        deferral.Complete(); 
     }
 } 

@@ -181,26 +181,22 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             return;
         }
 
-        var phoneVerification = new PhoneVerificationConfirm();
-        phoneVerification.SetPhoneNumber(PhoneNumber);
+        var dialog = ContentDialogFactory.Create(
+            PhoneNumber,
+            App.MainWindow.Content.XamlRoot,
+            "Подтверждение телефона",
+            "Подтвердить",
+            "Пропустить"
+        );
 
-        var dialog = new ContentDialog
-        {
-            XamlRoot = App.MainWindow.Content.XamlRoot,
-            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-            RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
-            Title = "Подтверждение телефона",
-            PrimaryButtonText = "Подтвердить",
-            SecondaryButtonText = "Пропустить",
-            CloseButtonText = "Отмена",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = phoneVerification
-        };
+        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        dialog.RequestedTheme = App.GetService<IThemeSelectorService>().Theme;
 
         var result = await dialog.ShowAsync();
 
         if (result == ContentDialogResult.Primary)
         {
+            var phoneVerification = (PhoneVerificationConfirm)dialog.Content;
             var code = phoneVerification.VerificationCodeInput.Text;
             if (code == "12345") 
             {

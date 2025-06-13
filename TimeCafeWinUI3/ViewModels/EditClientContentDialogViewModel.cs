@@ -84,15 +84,15 @@ public partial class EditClientContentDialogViewModel : ObservableObject
         if (!string.IsNullOrWhiteSpace(Email))
         {
             var validMail = await _clientService.ValidateEmailAsync(Email);
-            if (!validMail)
+            if (validMail)
                 sb.AppendLine("Неверный формат email");
         }
 
-        if (IsPhoneNumberChanged())
+        if (!string.IsNullOrWhiteSpace(PhoneNumber))
         {
             var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
             if (!validPhone)
-                sb.AppendLine("Номер телефона не валиден");
+                sb.AppendLine("Неверный формат номера телефона");
         }
 
         return sb.ToString();
@@ -114,8 +114,4 @@ public partial class EditClientContentDialogViewModel : ObservableObject
         return _client;
     }
 
-    public bool Validate()
-    {
-        return !string.IsNullOrWhiteSpace(FirstName);
-    }
 } 

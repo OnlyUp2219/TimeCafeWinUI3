@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
+using TimeCafeWinUI3.Views;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -70,25 +71,22 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
     [RelayCommand]
     private async Task EditClientAsync()
     {
-        var editClient = App.GetService<EditClientContentDialog>();
-        editClient.SetClient(Item);
+        if (Item == null) return;
 
-        var dialog = new ContentDialog
-        {
-            XamlRoot = App.MainWindow.Content.XamlRoot,
-            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-            RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
-            Title = "Редактирование клиента",
-            PrimaryButtonText = "Сохранить",
-            CloseButtonText = "Отмена",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = editClient
-        };
+        var dialog = EditClientDialogFactory.Create(
+            Item,
+            App.MainWindow.Content.XamlRoot,
+            "Редактирование клиента"
+        );
+
+        dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+        dialog.RequestedTheme = App.GetService<IThemeSelectorService>().Theme;
 
         var result = await dialog.ShowAsync();
 
         if (result == ContentDialogResult.Primary)
         {
+            var editClient = (EditClientContentDialog)((ContentDialog)dialog).Content;
             var updatedClient = editClient.ViewModel.GetUpdatedClient();
             await _clientService.UpdateClientAsync(updatedClient);
             
@@ -105,12 +103,12 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
                 }
             }
 
-            // Сбрасываем Item и уведомляем UI
-            Item = null; // Очищаем, чтобы сбросить все привязки
-            OnPropertyChanged(nameof(Item)); // Уведомляем UI
+
+            Item = null; 
+            OnPropertyChanged(nameof(Item)); 
             Item = await _clientService.GetClientByIdAsync(updatedClient.ClientId);
-            OnPropertyChanged(nameof(Item)); // Уведомляем UI снова
-            OnPropertyChanged(nameof(HasAdditionalInfo)); // Обновляем вычисляемое свойство
+            OnPropertyChanged(nameof(Item));
+            OnPropertyChanged(nameof(HasAdditionalInfo));
         }
     }
 
@@ -118,28 +116,18 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
     {
         while (true)
         {
-            var phoneVerification = new PhoneVerificationConfirm();
-            var phoneVerificationVM = App.GetService<PhoneVerificationViewModel>();
-            phoneVerificationVM.SetPhoneNumber(phoneNumber);
-            phoneVerification.DataContext = phoneVerificationVM;
+            var dialog = PhoneVerificationDialogFactory.Create(
+                phoneNumber,
+                App.MainWindow.Content.XamlRoot
+            );
 
-            var verificationDialog = new ContentDialog
-            {
-                XamlRoot = App.MainWindow.Content.XamlRoot,
-                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                RequestedTheme = App.GetService<IThemeSelectorService>().Theme,
-                Title = "Подтверждение телефона",
-                PrimaryButtonText = "Подтвердить",
-                SecondaryButtonText = "Пропустить",
-                CloseButtonText = "Отмена",
-                DefaultButton = ContentDialogButton.Primary,
-                Content = phoneVerification
-            };
+            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            dialog.RequestedTheme = App.GetService<IThemeSelectorService>().Theme;
 
             // TODO: Реализовать отправку SMS
             await _clientService.SendPhoneConfirmationCodeAsync(phoneNumber);
 
-            var verificationResult = await verificationDialog.ShowAsync();
+            var verificationResult = await dialog.ShowAsync();
 
             if (verificationResult == ContentDialogResult.Secondary)
             {
@@ -148,6 +136,7 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
 
             if (verificationResult == ContentDialogResult.Primary)
             {
+                var phoneVerification = (PhoneVerificationConfirm)dialog.Content;
                 var code = phoneVerification.VerificationCodeInput.Text;
                 if (code == "12345") // TODO: Заменить на реальную проверку кода
                 {

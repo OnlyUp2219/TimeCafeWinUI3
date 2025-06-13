@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text;
 
 namespace TimeCafeWinUI3.ViewModels
 {
@@ -26,6 +27,14 @@ namespace TimeCafeWinUI3.ViewModels
             IsPhoneVerified = false;
             VerificationCode = string.Empty;
             ErrorMessage = string.Empty;
+        }
+
+        public string ValidConfirmCode(string confirmCode)
+        {
+            var sb = new StringBuilder();
+            if (confirmCode == "12345")
+                sb.AppendLine(confirmCode);
+            return sb.ToString();
         }
     }
 }

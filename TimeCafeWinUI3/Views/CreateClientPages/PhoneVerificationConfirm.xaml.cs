@@ -20,21 +20,22 @@ public sealed partial class PhoneVerificationConfirm : Page
         InitializeComponent();
     }
 
-    public void SetPhoneNumber(string phoneNumber)
+    public async void PrimaryButtonClick(object sender, ContentDialogButtonClickEventArgs args)
     {
-        _phoneNumber = phoneNumber;
-        PhoneNumberText.Text = phoneNumber;
-    }
+        var deferral = args.GetDeferral();
+        ViewModel.ErrorMessage = string.Empty;
 
-    public void ShowError(string message)
-    {
-        ErrorText.Text = message;
-        ErrorText.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-    }
+        var validationResult = await ViewModel.ValidConfirmCode();
+        if (!string.IsNullOrEmpty(validationResult))
+        {
+            ViewModel.ErrorMessage = validationResult;
+            args.Cancel = true;
+        }
+        else
+        {
+            args.Cancel = false;
+        }
 
-    public void ShowCodeSent()
-    {
-        ErrorText.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-        CodeInfoText.Text = "Код подтверждения отправлен";
+        deferral.Complete();
     }
 }

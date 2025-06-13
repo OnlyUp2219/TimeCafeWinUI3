@@ -15,8 +15,8 @@
                 AcceptsReturn="True"
                 Header="Причина *"
                 PlaceholderText="Введите причину отказа"
-                TextWrapping="Wrap"
-                Text="{x:Bind ViewModel.Reason, Mode=TwoWay}" />
+                Text="{x:Bind ViewModel.Reason, Mode=TwoWay}"
+                TextWrapping="Wrap" />
         </StackPanel>
     </ScrollView>
 </Page> 

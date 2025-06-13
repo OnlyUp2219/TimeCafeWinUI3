@@ -4,10 +4,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:TimeCafeWinUI3.ViewModels"
     xmlns:helpers="using:TimeCafeWinUI3.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:vm="using:TimeCafeWinUI3.ViewModels"
     mc:Ignorable="d">
 
     <ScrollView>
@@ -43,15 +43,15 @@
                 PlaceholderText="+375 (XX) XXX XXXX"
                 Text="{x:Bind ViewModel.PhoneNumber, Mode=TwoWay}" />
 
-            <DatePicker 
-                x:Name="BirthDatePicker" 
-                Header="Дата рождения"
-                Date="{x:Bind ViewModel.BirthDate, Mode=TwoWay, Converter={StaticResource DateOnlyConverter}}" />
+            <DatePicker
+                x:Name="BirthDatePicker"
+                Date="{x:Bind ViewModel.BirthDate, Mode=TwoWay, Converter={StaticResource DateOnlyConverter}}"
+                Header="Дата рождения" />
 
             <ComboBox
                 x:Name="GenderComboBox"
-                Header="Пол"
                 DisplayMemberPath="GenderName"
+                Header="Пол"
                 ItemsSource="{x:Bind ViewModel.Genders}"
                 PlaceholderText="Выберите пол"
                 SelectedValue="{x:Bind ViewModel.GenderId, Mode=TwoWay}"
@@ -59,11 +59,10 @@
 
             <TextBlock
                 x:Name="ErrorText"
-                x:FieldModifier="public"
                 Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                Text="{x:Bind ViewModel.ErrorMessage}"
+                Text="{Binding ErrorMessage}"
                 TextWrapping="Wrap"
-                Visibility="{x:Bind ViewModel.ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+                Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
         </StackPanel>
     </ScrollView>
 </Page> 
