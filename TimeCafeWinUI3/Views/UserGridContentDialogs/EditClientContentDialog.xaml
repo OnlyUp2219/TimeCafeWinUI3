@@ -5,39 +5,62 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:TimeCafeWinUI3.ViewModels"
+    xmlns:helpers="using:TimeCafeWinUI3.Helpers"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
-    <StackPanel Spacing="12">
-        <TextBox
-            x:Name="FirstNameTextBox"
-            Header="Имя *"
-            PlaceholderText="Введите имя" />
+    <ScrollView>
+        <StackPanel Spacing="12">
+            <TextBox
+                x:Name="FirstNameTextBox"
+                Header="Имя *"
+                PlaceholderText="Введите имя"
+                Text="{x:Bind ViewModel.FirstName, Mode=TwoWay}" />
 
-        <TextBox
-            x:Name="LastNameTextBox"
-            Header="Фамилия"
-            PlaceholderText="Введите фамилию" />
+            <TextBox
+                x:Name="LastNameTextBox"
+                Header="Фамилия"
+                PlaceholderText="Введите фамилию"
+                Text="{x:Bind ViewModel.LastName, Mode=TwoWay}" />
 
-        <TextBox
-            x:Name="MiddleNameTextBox"
-            Header="Отчество"
-            PlaceholderText="Введите отчество" />
+            <TextBox
+                x:Name="MiddleNameTextBox"
+                Header="Отчество"
+                PlaceholderText="Введите отчество"
+                Text="{x:Bind ViewModel.MiddleName, Mode=TwoWay}" />
 
-        <TextBox
-            x:Name="EmailTextBox"
-            Header="Email"
-            PlaceholderText="Введите email" />
+            <TextBox
+                x:Name="EmailTextBox"
+                Header="Email"
+                PlaceholderText="Введите email"
+                Text="{x:Bind ViewModel.Email, Mode=TwoWay}" />
 
-        <TextBox
-            x:Name="PhoneNumberTextBox"
-            Header="Номер телефона"
-            PlaceholderText="Введите номер телефона" />
+            <TextBox
+                x:Name="PhoneNumberTextBox"
+                ui:TextBoxExtensions.Mask="+\375 (99) 999 9999"
+                Header="Номер телефона"
+                PlaceholderText="+375 (XX) XXX XXXX"
+                Text="{x:Bind ViewModel.PhoneNumber, Mode=TwoWay}" />
 
-        <DatePicker x:Name="BirthDatePicker" Header="Дата рождения" />
+            <DatePicker 
+                x:Name="BirthDatePicker" 
+                Header="Дата рождения"
+                Date="{x:Bind ViewModel.BirthDate, Mode=TwoWay, Converter={StaticResource DateOnlyConverter}}" />
 
-        <ComboBox
-            x:Name="GenderComboBox"
-            Header="Пол"
-            PlaceholderText="Выберите пол" />
-    </StackPanel>
+            <ComboBox
+                x:Name="GenderComboBox"
+                Header="Пол"
+                DisplayMemberPath="GenderName"
+                ItemsSource="{x:Bind ViewModel.Genders}"
+                PlaceholderText="Выберите пол"
+                SelectedValue="{x:Bind ViewModel.GenderId, Mode=TwoWay}"
+                SelectedValuePath="GenderId" />
+
+            <TextBlock
+                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                Text="{x:Bind ViewModel.ErrorMessage}"
+                Visibility="{x:Bind ViewModel.ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+        </StackPanel>
+    </ScrollView>
 </Page> 

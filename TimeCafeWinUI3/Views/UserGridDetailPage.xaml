@@ -131,8 +131,8 @@
                     </StackPanel.Resources>
 
                     <Button Background="{ThemeResource SystemFillColorCriticalBrush}" Content="Удалить" />
-                    <Button Click="EditButton_Click" Content="Изменить" />
-                    <Button Click="RefuseButton_Click" Content="Отказ от услуг" />
+                    <Button Command="{x:Bind ViewModel.EditClientCommand}" Content="Изменить" />
+                    <Button Command="{x:Bind ViewModel.RefuseServiceCommand}" Content="Отказ от услуг" />
                 </StackPanel>
 
             </StackPanel>

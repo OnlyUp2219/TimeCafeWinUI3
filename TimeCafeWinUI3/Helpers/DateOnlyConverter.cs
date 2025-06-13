@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml.Data;
 using System;
 
-namespace TimeCafeWinUI3.Converters;
+namespace TimeCafeWinUI3.Helpers;
 
 public class DateOnlyConverter : IValueConverter
 {

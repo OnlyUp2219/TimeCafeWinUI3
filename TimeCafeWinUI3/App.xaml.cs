@@ -86,6 +86,8 @@ public partial class App : Application
             services.AddTransient<DetailedInfoPage>();
             services.AddTransient<TariffManagePage>();
             services.AddTransient<TariffManageViewModel>();
+            services.AddTransient<EditClientContentDialogViewModel>();
+            services.AddTransient<RefuseServiceContentDialogViewModel>();
 
             // Register ContentDialogs
             services.AddTransient<EditClientContentDialog>();

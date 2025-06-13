@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:TimeCafeWinUI3.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:converters="using:TimeCafeWinUI3.Converters"
     xmlns:customControls="using:TimeCafeWinUI3.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:TimeCafeWinUI3.Helpers"
@@ -28,7 +27,7 @@
             <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         </Style>
 
-        <converters:DateOnlyConverter x:Key="DateOnlyConverter" />
+
 
         <DataTemplate x:Key="ImageTemplate" x:DataType="models:Client">
             <Grid CornerRadius="{StaticResource ControlCornerRadius}">
@@ -220,6 +219,7 @@
                     Text="{Binding PhoneNumber, Mode=TwoWay}"
                     ToolTipService.ToolTip="{Binding Header, RelativeSource={RelativeSource Mode=Self}}" />
                 <TextBox
+                    Height="100"
                     AcceptsReturn="True"
                     Header="Введите дополнительную информацию:"
                     PlaceholderText="Дополнительная информация"

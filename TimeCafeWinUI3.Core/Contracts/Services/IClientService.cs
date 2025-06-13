@@ -20,4 +20,7 @@ public interface IClientService
     Task<bool> IsPhoneConfirmedAsync(int clientId);
     Task<bool> UpdateClientStatusAsync(int clientId, int statusId);
     Task<string> GenerateAccessCardNumberAsync();
+    Task<bool> SetClientActiveAsync(int clientId);
+    Task<bool> SetClientDraftAsync(int clientId);
+    Task<bool> SetClientRejectedAsync(int clientId, string reason);
 }

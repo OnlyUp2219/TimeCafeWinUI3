@@ -1,27 +1,25 @@
 using Microsoft.UI.Xaml.Controls;
+using TimeCafeWinUI3.ViewModels;
 
 namespace TimeCafeWinUI3.Views;
 
 public sealed partial class RefuseServiceContentDialog : Page
 {
-    public string Theme { get; private set; }
-    public string Reason { get; private set; }
+    public RefuseServiceContentDialogViewModel ViewModel { get; }
 
     public RefuseServiceContentDialog()
     {
+        ViewModel = App.GetService<RefuseServiceContentDialogViewModel>();
+        DataContext = ViewModel;
         this.InitializeComponent();
     }
 
     private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
-        // Проверяем обязательные поля
-        if (string.IsNullOrWhiteSpace(SubjectTextBox.Text) || string.IsNullOrWhiteSpace(ReasonTextBox.Text))
+        if (!ViewModel.Validate())
         {
             args.Cancel = true;
             return;
         }
-
-        Theme = SubjectTextBox.Text;
-        Reason = ReasonTextBox.Text;
     }
 } 

@@ -5,20 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:TimeCafeWinUI3.ViewModels"
     mc:Ignorable="d">
-
-    <StackPanel Spacing="12">
-        <TextBox
-            x:Name="SubjectTextBox"
-            Header="Тема *"
-            PlaceholderText="Введите тему отказа" />
-
-        <TextBox
-            x:Name="ReasonTextBox"
-            Height="100"
-            AcceptsReturn="True"
-            Header="Причина *"
-            PlaceholderText="Введите причину отказа"
-            TextWrapping="Wrap" />
-    </StackPanel>
+    <ScrollView>
+        <StackPanel Spacing="12">
+            <TextBox
+                x:Name="ReasonTextBox"
+                Height="100"
+                AcceptsReturn="True"
+                Header="Причина *"
+                PlaceholderText="Введите причину отказа"
+                TextWrapping="Wrap"
+                Text="{x:Bind ViewModel.Reason, Mode=TwoWay}" />
+        </StackPanel>
+    </ScrollView>
 </Page> 

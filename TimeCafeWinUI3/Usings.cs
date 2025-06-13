@@ -8,6 +8,7 @@ global using TimeCafeWinUI3.Core.Models;
 global using TimeCafeWinUI3.Core.Services;
 global using TimeCafeWinUI3.Helpers;
 global using TimeCafeWinUI3.Models;
+global using TimeCafeWinUI3.Contracts.Services;
 global using TimeCafeWinUI3.Notifications;
 global using TimeCafeWinUI3.Services;
 global using TimeCafeWinUI3.ViewModels;

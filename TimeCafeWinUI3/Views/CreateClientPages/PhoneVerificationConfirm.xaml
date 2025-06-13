@@ -11,7 +11,7 @@
     <Grid Padding="20">
         <StackPanel Spacing="16">
             <TextBlock
-                Style="{StaticResource TitleLargeTextBlockStyle}"
+                Style="{StaticResource TitleTextBlockStyle}"
                 Text="Подтверждение номера телефона"
                 TextWrapping="Wrap" />
 
