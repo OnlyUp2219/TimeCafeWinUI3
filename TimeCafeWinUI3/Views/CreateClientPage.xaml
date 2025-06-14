@@ -27,8 +27,6 @@
             <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         </Style>
 
-
-
         <DataTemplate x:Key="ImageTemplate" x:DataType="models:Client">
             <Grid CornerRadius="{StaticResource ControlCornerRadius}">
                 <ToolTipService.ToolTip>

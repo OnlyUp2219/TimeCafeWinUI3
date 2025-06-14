@@ -93,9 +93,14 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C7;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem x:Uid="TariffCreate" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.CreateTariffViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C7;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem x:Uid="Settings" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.SettingsViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE713;"/>
+                        <FontIcon Glyph="&#xE713;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

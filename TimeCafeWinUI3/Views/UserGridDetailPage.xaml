@@ -146,6 +146,7 @@
                     <Button Command="{x:Bind ViewModel.AddNoteCommand}" Content="Добавить заметку" />
                 </StackPanel>
 
+
             </StackPanel>
         </ScrollViewer>
 

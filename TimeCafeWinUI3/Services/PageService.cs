@@ -14,6 +14,7 @@ public class PageService : IPageService
         Configure<UserGridViewModel, UserGridPage>();
         Configure<UserGridDetailViewModel, UserGridDetailPage>();
         Configure<TariffManageViewModel, TariffManagePage>();
+        Configure<CreateTariffViewModel, CreateTariffPage>();
     }
 
     public Type GetPageType(string key)

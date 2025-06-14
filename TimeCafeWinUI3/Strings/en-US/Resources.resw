@@ -176,4 +176,7 @@
   <data name="TariffManage.Content" xml:space="preserve">
     <value>Tariff management</value>
   </data>
+  <data name="TariffCreate.Content" xml:space="preserve">
+    <value>Create tariff</value>
+  </data>
 </root>
