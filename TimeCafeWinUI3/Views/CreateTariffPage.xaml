@@ -14,8 +14,9 @@
             ColumnSpacing="16"
             RowSpacing="16">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
+                <RowDefinition x:Name="DynamicRow1" Height="auto" />
+                <RowDefinition x:Name="DynamicRow2" Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -26,8 +27,6 @@
                 x:Name="group1"
                 Grid.Row="0"
                 Grid.Column="0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
                 Spacing="16">
                 <TextBox
                     Header="Название тарифа"
@@ -37,18 +36,36 @@
                     HorizontalAlignment="Stretch"
                     Header="Тип тарифа"
                     ItemsSource="{Binding BillingTypes}"
-                    DisplayMemberPath="BillingTypeName"
-                    SelectedValuePath="BillingTypeId"
                     PlaceholderText="Выберите тип тарифа"
-                    SelectedValue="{Binding BillingTypeId, Mode=TwoWay}" />
+                    SelectedValue="{Binding BillingTypeId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="BillingTypeId" />
+                <ComboBox
+                    HorizontalAlignment="Stretch"
+                    Header="Тема тарифа"
+                    ItemsSource="{Binding Themes}"
+                    PlaceholderText="Выберите тему тарифа"
+                    SelectedValue="{Binding ThemeId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="ThemeId">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Ellipse
+                                    Width="25"
+                                    Height="25"
+                                    Fill="{Binding TechnicalName, Converter={StaticResource ThemeToBrushConverter}}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding ThemeName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <NumberBox
                     Header="Стоимость тарифа"
-                    PlaceholderText="Введите стоимость тарифа"
-                    Value="{Binding Price, Mode=TwoWay}"
-                    SpinButtonPlacementMode="Compact"
+                    LargeChange="100"
                     Minimum="0"
+                    PlaceholderText="Введите стоимость тарифа"
                     SmallChange="10"
-                    LargeChange="100" />
+                    SpinButtonPlacementMode="Compact"
+                    Value="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <StackPanel
@@ -56,216 +73,219 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Spacing="16">
-                <ComboBox
-                    HorizontalAlignment="Stretch"
-                    Header="Тема тарифа"
-                    ItemsSource="{Binding Themes}"
-                    DisplayMemberPath="ThemeName"
-                    SelectedValuePath="ThemeId"
-                    PlaceholderText="Выберите тему тарифа"
-                    SelectedValue="{Binding ThemeId, Mode=TwoWay}" />
+                <TextBlock
+                    Foreground="Red"
+                    Text="{Binding ErrorMessage}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    Header="Введите заголовок :"
+                    PlaceholderText="Заголовок"
+                    Text="{Binding DescriptionTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ToolTipService.ToolTip="{Binding Header, RelativeSource={RelativeSource Mode=Self}}" />
+                <TextBox
+                    Height="100"
+                    AcceptsReturn="True"
+                    Header="Введите описание:"
+                    PlaceholderText="Описание"
+                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ToolTipService.ToolTip="{Binding Header, RelativeSource={RelativeSource Mode=Self}}" />
                 <Button
                     HorizontalAlignment="Stretch"
-                    Content="Выбрать иконку"
-                    Click="SelectIcon_Click" />
-                <TextBlock
-                    Text="{Binding ErrorMessage}"
-                    Foreground="Red"
-                    TextWrapping="Wrap" />
+                    Click="SelectIcon_Click"
+                    Content="Выбрать иконку" />
+                <Button
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{Binding CreateTariffCommand}"
+                    Content="Создать тариф" />
             </StackPanel>
-
-            <Button
+            <StackPanel
+                x:Name="group3"
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Command="{Binding CreateTariffCommand}"
-                Content="Создать тариф" />
-        </Grid>
-
-        <StackPanel
-            x:Name="group3"
-            Margin="0,50,0,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom">
-            <Border
-                x:Name="TariffBorder"
-                Height="375"
-                MaxWidth="600"
+                Margin="0,0,0,0"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                BorderThickness="1"
-                CornerRadius="{StaticResource OverlayCornerRadius}">
-                <Grid Padding="{StaticResource ExpanderContentPadding}">
-                    <!--#region Фигуры-->
-                    <Ellipse
-                        Width="185"
-                        Height="185"
-                        Margin="-92.5,0,0,-92.5"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        Fill="White"
-                        Opacity="0.20"
-                        RenderTransformOrigin="0.0,1.0" />
-                    <Ellipse
-                        Width="290"
-                        Height="290"
-                        Margin="-145,0,0,-145"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        Fill="White"
-                        Opacity="0.15"
-                        RenderTransformOrigin="0.0,1.0" />
-                    <Ellipse
-                        Width="400"
-                        Height="400"
-                        Margin="-200,0,0,-200"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        Fill="White"
-                        Opacity="0.10"
-                        RenderTransformOrigin="0.0,1.0" />
-                    <Canvas
-                        x:Name="CrossCanvas"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        IsHitTestVisible="False" />
-                    <Canvas
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        IsHitTestVisible="False">
+                VerticalAlignment="Bottom">
+                <Border
+                    x:Name="TariffBorder"
+                    Height="375"
+                    MaxWidth="600"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource OverlayCornerRadius}">
+                    <Grid Padding="{StaticResource ExpanderContentPadding}">
+                        <!--#region Фигуры-->
                         <Ellipse
-                            Canvas.Left="450"
-                            Canvas.Top="-200"
+                            Width="185"
+                            Height="185"
+                            Margin="-92.5,0,0,-92.5"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Fill="White"
+                            Opacity="0.20"
+                            RenderTransformOrigin="0.0,1.0" />
+                        <Ellipse
+                            Width="290"
+                            Height="290"
+                            Margin="-145,0,0,-145"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Fill="White"
+                            Opacity="0.15"
+                            RenderTransformOrigin="0.0,1.0" />
+                        <Ellipse
                             Width="400"
                             Height="400"
+                            Margin="-200,0,0,-200"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
                             Fill="White"
                             Opacity="0.10"
                             RenderTransformOrigin="0.0,1.0" />
-                        <Ellipse
-                            Canvas.Left="375"
-                            Canvas.Top="50"
-                            Width="200"
-                            Height="200"
-                            Fill="White"
-                            Opacity="0.10"
-                            RenderTransformOrigin="0.0,1.0" />
-                        <Line
-                            Opacity="0.2"
-                            RenderTransformOrigin="0.5,0.5"
-                            Stroke="White"
-                            StrokeThickness="1"
-                            X1="420"
-                            X2="720"
-                            Y1="-20"
-                            Y2="375" />
-                        <Line
-                            Opacity="0.2"
-                            RenderTransformOrigin="0.5,0.5"
-                            Stroke="White"
-                            StrokeThickness="1"
-                            X1="440"
-                            X2="740"
-                            Y1="-20"
-                            Y2="375" />
-                        <Line
-                            Opacity="0.2"
-                            RenderTransformOrigin="0.5,0.5"
-                            Stroke="White"
-                            StrokeThickness="1"
-                            X1="460"
-                            X2="760"
-                            Y1="-20"
-                            Y2="375" />
-                        <Line
-                            Opacity="0.2"
-                            RenderTransformOrigin="0.5,0.5"
-                            Stroke="White"
-                            StrokeThickness="1"
-                            X1="480"
-                            X2="780"
-                            Y1="-20"
-                            Y2="375" />
-                        <Line
-                            Opacity="0.2"
-                            RenderTransformOrigin="0.5,0.5"
-                            Stroke="White"
-                            StrokeThickness="1"
-                            X1="500"
-                            X2="800"
-                            Y1="-20"
-                            Y2="375" />
-                        <Line
-                            Opacity="0.2"
-                            RenderTransformOrigin="0.5,0.5"
-                            Stroke="White"
-                            StrokeThickness="1"
-                            X1="520"
-                            X2="820"
-                            Y1="-20"
-                            Y2="375" />
-                        <Line
-                            Opacity="0.2"
-                            RenderTransformOrigin="0.5,0.5"
-                            Stroke="White"
-                            StrokeThickness="1"
-                            X1="540"
-                            X2="840"
-                            Y1="-20"
-                            Y2="375" />
-                    </Canvas>
-                    <!--#endregion-->
-                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <StackPanel.Resources>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="TextWrapping" Value="Wrap" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <TextBlock
-                            Name="Title"
-                            Foreground="White"
-                            Style="{StaticResource TitleTextBlockStyle}"
-                            Text="{Binding Title, Mode=OneWay}"
-                            TextWrapping="WrapWholeWords" />
-                        <Viewbox
-                            Name="TitleIcon"
-                            Height="50"
-                            Margin="0,10,0,20"
-                            Stretch="Uniform">
-                            <Border>
-                                <FontIcon Foreground="White" Glyph="&#xE700;" />
-                            </Border>
-                        </Viewbox>
-                        <Grid>
+                        <Canvas
+                            x:Name="CrossCanvas"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            IsHitTestVisible="False" />
+                        <Canvas
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            IsHitTestVisible="False">
+                            <Ellipse
+                                Canvas.Left="450"
+                                Canvas.Top="-200"
+                                Width="400"
+                                Height="400"
+                                Fill="White"
+                                Opacity="0.10"
+                                RenderTransformOrigin="0.0,1.0" />
+                            <Ellipse
+                                Canvas.Left="375"
+                                Canvas.Top="50"
+                                Width="200"
+                                Height="200"
+                                Fill="White"
+                                Opacity="0.10"
+                                RenderTransformOrigin="0.0,1.0" />
+                            <Line
+                                Opacity="0.2"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stroke="White"
+                                StrokeThickness="1"
+                                X1="420"
+                                X2="720"
+                                Y1="-20"
+                                Y2="375" />
+                            <Line
+                                Opacity="0.2"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stroke="White"
+                                StrokeThickness="1"
+                                X1="440"
+                                X2="740"
+                                Y1="-20"
+                                Y2="375" />
+                            <Line
+                                Opacity="0.2"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stroke="White"
+                                StrokeThickness="1"
+                                X1="460"
+                                X2="760"
+                                Y1="-20"
+                                Y2="375" />
+                            <Line
+                                Opacity="0.2"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stroke="White"
+                                StrokeThickness="1"
+                                X1="480"
+                                X2="780"
+                                Y1="-20"
+                                Y2="375" />
+                            <Line
+                                Opacity="0.2"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stroke="White"
+                                StrokeThickness="1"
+                                X1="500"
+                                X2="800"
+                                Y1="-20"
+                                Y2="375" />
+                            <Line
+                                Opacity="0.2"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stroke="White"
+                                StrokeThickness="1"
+                                X1="520"
+                                X2="820"
+                                Y1="-20"
+                                Y2="375" />
+                            <Line
+                                Opacity="0.2"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stroke="White"
+                                StrokeThickness="1"
+                                X1="540"
+                                X2="840"
+                                Y1="-20"
+                                Y2="375" />
+                        </Canvas>
+                        <!--#endregion-->
+                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                    <Setter Property="Foreground" Value="White" />
+                                </Style>
+                            </StackPanel.Resources>
                             <TextBlock
-                                Name="Type"
+                                Name="Title"
                                 Foreground="White"
                                 Style="{StaticResource TitleTextBlockStyle}"
-                                Text="{Binding Type, Mode=OneWay}" />
+                                Text="{Binding TariffName, Mode=OneWay}"
+                                TextWrapping="WrapWholeWords" />
+                            <Viewbox
+                                Name="TitleIcon"
+                                Height="50"
+                                Margin="0,10,0,20"
+                                Stretch="Uniform">
+                                <Border>
+                                    <FontIcon Foreground="White" Glyph="" />
+                                </Border>
+                            </Viewbox>
+                            <Grid>
+                                <TextBlock
+                                    Name="Type"
+                                    Foreground="White"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{Binding BillingTypes.BillingTypeName, Mode=OneWay}" />
+                                <TextBlock
+                                    Name="Price"
+                                    HorizontalAlignment="Right"
+                                    FontStyle="Italic"
+                                    Foreground="White"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{Binding Price, Mode=OneWay}" />
+                            </Grid>
                             <TextBlock
-                                Name="Price"
-                                HorizontalAlignment="Right"
-                                FontStyle="Italic"
+                                Name="DescriptionTitle"
                                 Foreground="White"
-                                Style="{StaticResource TitleTextBlockStyle}"
-                                Text="{Binding Price, Mode=OneWay}" />
-                        </Grid>
-                        <TextBlock
-                            Name="DescriptionTitle"
-                            Foreground="White"
-                            Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="{Binding DescriptionTitle, Mode=OneWay}" />
-                        <TextBlock
-                            Name="Description"
-                            Foreground="White"
-                            Style="{StaticResource BodyStrongTextBlockStyle}"
-                            Text="{Binding Description, Mode=OneWay}" />
-                    </StackPanel>
-                </Grid>
-            </Border>
-        </StackPanel>
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                Text="{Binding DescriptionTitle, Mode=OneWay}" />
+                            <TextBlock
+                                Name="Description"
+                                Foreground="White"
+                                Style="{StaticResource BodyStrongTextBlockStyle}"
+                                Text="{Binding Description, Mode=OneWay}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+        </Grid>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -276,10 +296,14 @@
                     <VisualState.Setters>
                         <Setter Target="group2.(Grid.Row)" Value="0" />
                         <Setter Target="group2.(Grid.Column)" Value="1" />
-                        <Setter Target="group2.Background" Value="Green" />
+
+                        <Setter Target="group3.(Grid.Row)" Value="1" />
+                        <Setter Target="group3.(Grid.Column)" Value="0" />
 
                         <Setter Target="group1.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="group2.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="group3.(Grid.ColumnSpan)" Value="2" />
+
 
                     </VisualState.Setters>
                 </VisualState>
@@ -291,10 +315,13 @@
                     <VisualState.Setters>
                         <Setter Target="group2.(Grid.Row)" Value="1" />
                         <Setter Target="group2.(Grid.Column)" Value="0" />
-                        <Setter Target="group2.Background" Value="Red" />
+
+                        <Setter Target="group3.(Grid.Row)" Value="2" />
+                        <Setter Target="group3.(Grid.Column)" Value="0" />
 
                         <Setter Target="group1.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="group2.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="group3.(Grid.ColumnSpan)" Value="2" />
 
 
                     </VisualState.Setters>

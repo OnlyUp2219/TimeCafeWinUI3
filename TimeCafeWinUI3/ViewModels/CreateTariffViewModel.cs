@@ -2,10 +2,12 @@ using System.Diagnostics;
 using TimeCafeWinUI3.Core.Models;
 using System.Collections.ObjectModel;
 using TimeCafeWinUI3.Core.Contracts.Services;
+using TimeCafeWinUI3.Contracts.Services;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Media;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -15,6 +17,7 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
     private readonly ITariffService _tariffService;
     private readonly IThemeService _themeService;
     private readonly IBillingTypeService _billingTypeService;
+    private readonly IThemeColorService _themeColorService;
 
     [ObservableProperty] private string tariffName;
     [ObservableProperty] private byte[] icon;
@@ -22,15 +25,21 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty] private decimal price;
     [ObservableProperty] private int billingTypeId;
     [ObservableProperty] private string errorMessage;
+    [ObservableProperty] private LinearGradientBrush selectedThemeBrush;
 
     [ObservableProperty] private ObservableCollection<Theme> themes = new();
     [ObservableProperty] private ObservableCollection<BillingType> billingTypes = new();
 
-    public CreateTariffViewModel(ITariffService tariffService, IThemeService themeService, IBillingTypeService billingTypeService)
+    public CreateTariffViewModel(
+        ITariffService tariffService, 
+        IThemeService themeService, 
+        IBillingTypeService billingTypeService,
+        IThemeColorService themeColorService)
     {
         _tariffService = tariffService;
         _themeService = themeService;
         _billingTypeService = billingTypeService;
+        _themeColorService = themeColorService;
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -126,6 +135,22 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
         catch (Exception ex)
         {
             ErrorMessage = $"Ошибка при создании тарифа: {ex.Message}";
+        }
+    }
+
+    partial void OnThemeIdChanged(int? value)
+    {
+        if (value.HasValue)
+        {
+            var theme = themes.FirstOrDefault(t => t.ThemeId == value);
+            if (theme != null)
+            {
+                SelectedThemeBrush = _themeColorService.GetThemeGradientBrush(theme.TechnicalName);
+            }
+        }
+        else
+        {
+            SelectedThemeBrush = null;
         }
     }
 

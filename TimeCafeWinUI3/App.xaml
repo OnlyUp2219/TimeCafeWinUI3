@@ -16,7 +16,6 @@
                 <ResourceDictionary Source="/Styles/AdaptiveGridView_ItemContainerStyle.xaml" />
                 <ResourceDictionary Source="Styles/ThemeColor.xaml" />
                 <ResourceDictionary Source="Styles/ThemeColor.xaml" />
-
             </ResourceDictionary.MergedDictionaries>
 
             <helpers:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
@@ -34,6 +33,7 @@
             <helpers:GenderConverters x:Key="GenderConverters" />
             <helpers:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter" />
             <FontFamily x:Key="VAGRoundCyrillic">/Assets/Fonts/vagroundcyrillic.ttf#VAG Round Cyrillic</FontFamily>
+            <helpers:ThemeToBrushConverter x:Key="ThemeToBrushConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

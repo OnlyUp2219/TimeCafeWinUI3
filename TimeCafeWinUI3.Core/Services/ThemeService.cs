@@ -16,7 +16,6 @@ public class ThemeService : IThemeService
     public async Task<IEnumerable<Theme>> GetThemesAsync()
     {
         return await _context.Themes
-            .OrderBy(t => t.ThemeName)
             .ToListAsync();
     }
 } 

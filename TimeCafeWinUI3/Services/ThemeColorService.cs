@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.Services
@@ -31,6 +32,32 @@ namespace TimeCafeWinUI3.Services
             { "Stone", "StoneGradientBorderStyle" }
         };
 
+        private readonly Dictionary<string, string> _gradientBrushKeys = new()
+        {
+            { "Red", "RedGradientBrush" },
+            { "Orange", "OrangeGradientBrush" },
+            { "Amber", "AmberGradientBrush" },
+            { "Yellow", "YellowGradientBrush" },
+            { "Lime", "LimeGradientBrush" },
+            { "Green", "GreenGradientBrush" },
+            { "Emerald", "EmeraldGradientBrush" },
+            { "Teal", "TealGradientBrush" },
+            { "Cyan", "CyanGradientBrush" },
+            { "Sky", "SkyGradientBrush" },
+            { "Blue", "BlueGradientBrush" },
+            { "Indigo", "IndigoGradientBrush" },
+            { "Violet", "VioletGradientBrush" },
+            { "Purple", "PurpleGradientBrush" },
+            { "Fuchsia", "FuchsiaGradientBrush" },
+            { "Pink", "PinkGradientBrush" },
+            { "Rose", "RoseGradientBrush" },
+            { "Slate", "SlateGradientBrush" },
+            { "Gray", "GrayGradientBrush" },
+            { "Zinc", "ZincGradientBrush" },
+            { "Neutral", "NeutralGradientBrush" },
+            { "Stone", "StoneGradientBrush" }
+        };
+
         public Style GetThemeBorderStyle(string technicalName)
         {
             if (string.IsNullOrEmpty(technicalName) || !_borderStyleKeys.ContainsKey(technicalName))
@@ -40,6 +67,17 @@ namespace TimeCafeWinUI3.Services
 
             var styleKey = _borderStyleKeys[technicalName];
             return Application.Current.Resources[styleKey] as Style;
+        }
+
+        public LinearGradientBrush GetThemeGradientBrush(string technicalName)
+        {
+            if (string.IsNullOrEmpty(technicalName) || !_gradientBrushKeys.ContainsKey(technicalName))
+            {
+                return null;
+            }
+
+            var brushKey = _gradientBrushKeys[technicalName];
+            return Application.Current.Resources[brushKey] as LinearGradientBrush;
         }
     }
 } 

@@ -20,28 +20,30 @@ public sealed partial class CreateTariffPage : Page
 
     private async void SelectIcon_Click(object sender, RoutedEventArgs e)
     {
-        var picker = new FileOpenPicker();
-        picker.FileTypeFilter.Add(".png");
-        picker.FileTypeFilter.Add(".jpg");
-        picker.FileTypeFilter.Add(".jpeg");
-
-        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
-        WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
-
-        var file = await picker.PickSingleFileAsync();
-        if (file != null)
+        try
         {
-            try
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+            var file = await picker.PickSingleFileAsync();
+            if (file == null)
             {
-                using var stream = await file.OpenStreamForReadAsync();
-                using var ms = new MemoryStream();
-                await stream.CopyToAsync(ms);
-                ViewModel.Icon = ms.ToArray();
+                return; 
             }
-            catch (Exception ex)
-            {
-                ViewModel.ErrorMessage = $"Ошибка при загрузке иконки: {ex.Message}";
-            }
+
+            using var stream = await file.OpenStreamForReadAsync();
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            ViewModel.Icon = ms.ToArray();
+        }
+        catch (Exception ex)
+        {
+            ViewModel.ErrorMessage = $"Ошибка при загрузке иконки: {ex.Message}";
         }
     }
 } 
