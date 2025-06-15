@@ -1,11 +1,7 @@
-﻿namespace TimeCafeWinUI3.Core.Models;
+﻿using System;
+using System.Collections.Generic;
 
-public enum ClientStatusType
-{
-    Draft = 1,           // Черновик
-    Active = 2,          // Активный
-    Rejected = 3         // Отказ от услуг
-}
+namespace TimeCafeWinUI3.Core.Models;
 
 public partial class ClientStatus
 {

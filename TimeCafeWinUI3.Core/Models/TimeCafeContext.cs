@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace TimeCafeWinUI3.Core.Models;
 
@@ -36,12 +38,8 @@ public partial class TimeCafeContext : DbContext
     public virtual DbSet<Visit> Visits { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=TimeCafe;Integrated Security=True;Trust Server Certificate=False;");
-        }
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=TimeCafe;Integrated Security=True;TrustServerCertificate=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -182,6 +180,8 @@ public partial class TimeCafeContext : DbContext
         {
             entity.HasKey(e => e.TariffId).HasName("PK__Tariffs__EBAF9DB359050E55");
 
+            entity.ToTable(tb => tb.HasTrigger("TRG_Tariffs_UpdateLastModified"));
+
             entity.HasIndex(e => e.TariffName, "IX_Tariffs_TariffName")
                 .IsUnique()
                 .HasFilter("([TariffName] IS NOT NULL)");
@@ -189,14 +189,22 @@ public partial class TimeCafeContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.HourlyRate).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.LastModified)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.MinutelyRate).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.TariffName)
                 .IsRequired()
                 .HasMaxLength(50);
+            entity.Property(e => e.DescriptionTitle)
+                .HasMaxLength(100);
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000);
+
+            entity.HasOne(d => d.BillingType).WithMany(p => p.Tariffs)
+                .HasForeignKey(d => d.BillingTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tariffs_BillingTypes");
 
             entity.HasOne(d => d.Theme).WithMany(p => p.Tariffs)
                 .HasForeignKey(d => d.ThemeId)
@@ -214,6 +222,13 @@ public partial class TimeCafeContext : DbContext
             entity.Property(e => e.ThemeName)
                 .IsRequired()
                 .HasMaxLength(50);
+            entity.Property(e => e.TechnicalName)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            entity.HasIndex(e => e.TechnicalName, "IX_Themes_TechnicalName")
+                .IsUnique()
+                .HasFilter("([TechnicalName] IS NOT NULL)");
         });
 
         modelBuilder.Entity<TransactionType>(entity =>

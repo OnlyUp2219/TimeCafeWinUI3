@@ -34,8 +34,7 @@
             HorizontalAlignment="Left"
             SelectedIndex="0"
             SelectionChanged="GradientSelector_SelectionChanged">
-            <!--#region Color-->
-            <ComboBoxItem Tag="RedGradientBrush">
+            <ComboBoxItem Tag="Red">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -44,7 +43,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Red" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="OrangeGradientBrush">
+            <ComboBoxItem Tag="Orange">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -53,7 +52,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Orange" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="AmberGradientBrush">
+            <ComboBoxItem Tag="Amber">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -62,7 +61,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Amber" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="YellowGradientBrush">
+            <ComboBoxItem Tag="Yellow">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -71,7 +70,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Yellow" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="LimeGradientBrush">
+            <ComboBoxItem Tag="Lime">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -80,7 +79,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Lime" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="GreenGradientBrush">
+            <ComboBoxItem Tag="Green">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -89,7 +88,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Green" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="EmeraldGradientBrush">
+            <ComboBoxItem Tag="Emerald">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -98,7 +97,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Emerald" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="TealGradientBrush">
+            <ComboBoxItem Tag="Teal">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -107,7 +106,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Teal" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="CyanGradientBrush">
+            <ComboBoxItem Tag="Cyan">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -116,7 +115,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Cyan" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="SkyGradientBrush">
+            <ComboBoxItem Tag="Sky">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -125,7 +124,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Sky" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="BlueGradientBrush">
+            <ComboBoxItem Tag="Blue">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -134,7 +133,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Blue" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="IndigoGradientBrush">
+            <ComboBoxItem Tag="Indigo">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -143,7 +142,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Indigo" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="VioletGradientBrush">
+            <ComboBoxItem Tag="Violet">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -152,7 +151,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Violet" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="PurpleGradientBrush">
+            <ComboBoxItem Tag="Purple">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -161,7 +160,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Purple" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="FuchsiaGradientBrush">
+            <ComboBoxItem Tag="Fuchsia">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -170,7 +169,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Fuchsia" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="PinkGradientBrush">
+            <ComboBoxItem Tag="Pink">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -179,7 +178,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Pink" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="RoseGradientBrush">
+            <ComboBoxItem Tag="Rose">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -188,7 +187,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Rose" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="SlateGradientBrush">
+            <ComboBoxItem Tag="Slate">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -197,7 +196,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Slate" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="GrayGradientBrush">
+            <ComboBoxItem Tag="Gray">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -206,7 +205,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Gray" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="ZincGradientBrush">
+            <ComboBoxItem Tag="Zinc">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -215,7 +214,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Zinc" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="NeutralGradientBrush">
+            <ComboBoxItem Tag="Neutral">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -224,7 +223,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Neutral" />
                 </StackPanel>
             </ComboBoxItem>
-            <ComboBoxItem Tag="StoneGradientBrush">
+            <ComboBoxItem Tag="Stone">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Ellipse
                         Width="25"
@@ -233,7 +232,6 @@
                     <TextBlock VerticalAlignment="Center" Text="Stone" />
                 </StackPanel>
             </ComboBoxItem>
-            <!--#endregion-->
         </ComboBox>
 
         <pagination:PaginationControl
@@ -256,7 +254,7 @@
             ItemHeight="375"
             SelectionMode="Single">
             <controls:AdaptiveGridView.ItemTemplate>
-                <DataTemplate x:DataType="local:Tariff">
+                <DataTemplate x:DataType="models:Tariff">
                     <Border
                         x:Name="TariffBorder"
                         HorizontalAlignment="Stretch"

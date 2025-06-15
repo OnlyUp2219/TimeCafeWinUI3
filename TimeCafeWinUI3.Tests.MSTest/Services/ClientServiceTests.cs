@@ -151,6 +151,7 @@ public class ClientServiceTests
     [DataRow(null, false, "Null phone number should be invalid")]
     [DataRow("1234567890", false, "Incorrect format should be invalid")]
     [DataRow("+375 (33) 987 6543", true, "Correct format should be valid")]
+    [DataRow("+375-33-9876543", true, "New format should be valid")]
     [DataRow("+375 (29) 123 4567", true, "Existing phone number should be valid for format check")]
     public async Task ValidatePhoneNumberFormat_VariousInputs_ReturnsExpectedResult(string phoneNumber, bool expectedResult, string message)
     {
@@ -345,4 +346,5 @@ public class ClientServiceTests
         Assert.AreEqual((int)ClientStatusType.Active, updatedClient.StatusId);
         Assert.AreEqual(existingCardNumber, updatedClient.AccessCardNumber);
     }
+
 } 

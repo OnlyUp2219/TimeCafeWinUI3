@@ -1,28 +1,136 @@
+using System.Diagnostics;
+using TimeCafeWinUI3.Core.Models;
+using System.Collections.ObjectModel;
+using TimeCafeWinUI3.Core.Contracts.Services;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+
 namespace TimeCafeWinUI3.ViewModels;
 
+[DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public partial class CreateTariffViewModel : ObservableRecipient, INavigationAware
 {
+    private readonly ITariffService _tariffService;
+    private readonly IThemeService _themeService;
+    private readonly IBillingTypeService _billingTypeService;
 
-    [ObservableProperty] private string title;
-    [ObservableProperty] private string type;
-    [ObservableProperty] private string price;
-    [ObservableProperty] private string descriptionTitle;
-    [ObservableProperty] private string description;
-    [ObservableProperty] private List<string> tariffTypes = new List<string> { "�������", "�������" };
-    [ObservableProperty] private List<string> tariffThemes = new List<string> { "�������", "������" };
+    [ObservableProperty] private string tariffName;
+    [ObservableProperty] private byte[] icon;
+    [ObservableProperty] private int? themeId;
+    [ObservableProperty] private decimal price;
+    [ObservableProperty] private int billingTypeId;
+    [ObservableProperty] private string errorMessage;
 
-    public CreateTariffViewModel()
+    [ObservableProperty] private ObservableCollection<Theme> themes = new();
+    [ObservableProperty] private ObservableCollection<BillingType> billingTypes = new();
+
+    public CreateTariffViewModel(ITariffService tariffService, IThemeService themeService, IBillingTypeService billingTypeService)
     {
+        _tariffService = tariffService;
+        _themeService = themeService;
+        _billingTypeService = billingTypeService;
+    }
 
+    public async void OnNavigatedTo(object parameter)
+    {
+        await LoadDataAsync();
     }
 
     public void OnNavigatedFrom()
     {
-
+        ClearData();
     }
 
-    public void OnNavigatedTo(object parameter)
+    private async Task LoadDataAsync()
     {
+        try
+        {
+            Themes.Clear();
+            BillingTypes.Clear();
 
+            var themes = await _themeService.GetThemesAsync();
+            foreach (var theme in themes)
+            {
+                Themes.Add(theme);
+            }
+
+            var billingTypes = await _billingTypeService.GetBillingTypesAsync();
+            foreach (var billingType in billingTypes)
+            {
+                BillingTypes.Add(billingType);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Ошибка при загрузке данных: {ex.Message}";
+        }
+    }
+
+    private void ClearData()
+    {
+        TariffName = string.Empty;
+        Icon = null;
+        ThemeId = null;
+        Price = 0;
+        BillingTypeId = 0;
+        ErrorMessage = string.Empty;
+        Themes.Clear();
+        BillingTypes.Clear();
+    }
+
+    public async Task<string> ValidateAsync()
+    {
+        var sb = new StringBuilder();
+
+        if (string.IsNullOrWhiteSpace(TariffName))
+            sb.AppendLine("Название тарифа обязательно для заполнения");
+
+        if (Price <= 0)
+            sb.AppendLine("Стоимость тарифа должна быть больше 0");
+
+        if (BillingTypeId <= 0)
+            sb.AppendLine("Тип тарифа обязателен для выбора");
+
+        return sb.ToString();
+    }
+
+    [RelayCommand]
+    private async Task CreateTariffAsync()
+    {
+        var validationResult = await ValidateAsync();
+        if (!string.IsNullOrEmpty(validationResult))
+        {
+            ErrorMessage = validationResult;
+            return;
+        }
+
+        try
+        {
+            var tariff = new Tariff
+            {
+                TariffName = TariffName,
+                Icon = Icon,
+                ThemeId = ThemeId,
+                Price = Price,
+                BillingTypeId = BillingTypeId,
+                CreatedAt = DateTime.Now,
+                LastModified = DateTime.Now
+            };
+
+            await _tariffService.CreateTariffAsync(tariff);
+            ClearData();
+            ErrorMessage = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Ошибка при создании тарифа: {ex.Message}";
+        }
+    }
+
+    private string GetDebuggerDisplay()
+    {
+        return ToString();
     }
 }

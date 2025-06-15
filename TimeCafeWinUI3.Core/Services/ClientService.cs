@@ -99,13 +99,13 @@ public class ClientService : IClientService
         if (string.IsNullOrWhiteSpace(phoneNumber))
             return false;
 
-        var phoneRegex = new Regex(@"^\+375 \(\d{2}\) \d{3} \d{4}$");
+        var phoneRegex = new Regex(@"^\+375 \(\d{2}\) \d{3} \d{4}$|^\+375-\d{2}-\d{7}$");
         return phoneRegex.IsMatch(phoneNumber);
     }
 
     public async Task<bool> ValidateEmailAsync(string email)
     {
-        var atCount = email.Count(c =>c == '@');
+        var atCount = email.Count(c => c == '@');
         if (atCount != 1)
             return false;
 
@@ -241,4 +241,5 @@ public class ClientService : IClientService
 
         return cardNumber;
     }
+
 }

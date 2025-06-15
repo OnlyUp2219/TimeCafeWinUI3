@@ -62,9 +62,13 @@ public partial class App : Application
             services.AddSingleton<INavigationService, NavigationService>();
 
             // Core Services
-            services.AddSingleton<IFileService, FileService>();
+            services.AddTransient<IFileService, FileService>();
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<IClientAdditionalInfoService, ClientAdditionalInfoService>();
+            services.AddTransient<ITariffService, TariffService>();
+            services.AddTransient<IThemeService, ThemeService>();
+            services.AddTransient<IThemeColorService, ThemeColorService>();
+            services.AddTransient<IBillingTypeService, BillingTypeService>();
             services.AddDbContext<TimeCafeContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
             // Views and ViewModels

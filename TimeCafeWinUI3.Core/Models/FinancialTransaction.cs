@@ -1,4 +1,7 @@
-﻿namespace TimeCafeWinUI3.Core.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace TimeCafeWinUI3.Core.Models;
 
 public partial class FinancialTransaction
 {

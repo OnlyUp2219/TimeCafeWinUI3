@@ -32,17 +32,23 @@
                 <TextBox
                     Header="Название тарифа"
                     PlaceholderText="Введите название тарифа"
-                    Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding TariffName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <ComboBox
                     HorizontalAlignment="Stretch"
                     Header="Тип тарифа"
-                    ItemsSource="{Binding TariffTypes}"
+                    ItemsSource="{Binding BillingTypes}"
+                    DisplayMemberPath="BillingTypeName"
+                    SelectedValuePath="BillingTypeId"
                     PlaceholderText="Выберите тип тарифа"
-                    SelectedItem="{Binding Type, Mode=TwoWay}" />
-                <TextBox
+                    SelectedValue="{Binding BillingTypeId, Mode=TwoWay}" />
+                <NumberBox
                     Header="Стоимость тарифа"
                     PlaceholderText="Введите стоимость тарифа"
-                    Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding Price, Mode=TwoWay}"
+                    SpinButtonPlacementMode="Compact"
+                    Minimum="0"
+                    SmallChange="10"
+                    LargeChange="100" />
             </StackPanel>
 
             <StackPanel
@@ -53,16 +59,29 @@
                 <ComboBox
                     HorizontalAlignment="Stretch"
                     Header="Тема тарифа"
-                    ItemsSource="{Binding TariffThemes}"
+                    ItemsSource="{Binding Themes}"
+                    DisplayMemberPath="ThemeName"
+                    SelectedValuePath="ThemeId"
                     PlaceholderText="Выберите тему тарифа"
-                    SelectedItem="{Binding DescriptionTitle, Mode=TwoWay}" />
-                <TextBox
-                    Header="Иконка тарифа"
-                    PlaceholderText="Выберите иконку тарифа"
-                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    SelectedValue="{Binding ThemeId, Mode=TwoWay}" />
+                <Button
+                    HorizontalAlignment="Stretch"
+                    Content="Выбрать иконку"
+                    Click="SelectIcon_Click" />
+                <TextBlock
+                    Text="{Binding ErrorMessage}"
+                    Foreground="Red"
+                    TextWrapping="Wrap" />
             </StackPanel>
 
-
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Command="{Binding CreateTariffCommand}"
+                Content="Создать тариф" />
         </Grid>
 
         <StackPanel
@@ -216,7 +235,7 @@
                             Margin="0,10,0,20"
                             Stretch="Uniform">
                             <Border>
-                                <FontIcon Foreground="White" Glyph="" />
+                                <FontIcon Foreground="White" Glyph="&#xE700;" />
                             </Border>
                         </Viewbox>
                         <Grid>

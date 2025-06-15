@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using TimeCafeWinUI3.Contracts.Services;
+using TimeCafeWinUI3.Core.Contracts.Services;
 using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -13,11 +14,13 @@ namespace TimeCafeWinUI3.Views;
 
 public sealed partial class TariffManagePage : Page
 {
+    private readonly IThemeColorService _themeColorService;
     public TariffManageViewModel ViewModel { get; }
     public TariffViewModel FakeViewModel { get; }
     public TariffManagePage()
     {
         ViewModel = App.GetService<TariffManageViewModel>();
+        _themeColorService = App.GetService<IThemeColorService>();
         InitializeComponent();
         FakeViewModel = new TariffViewModel();
         DataContext = FakeViewModel;
@@ -42,9 +45,8 @@ public sealed partial class TariffManagePage : Page
                     {
                         if (GradientSelector.SelectedItem is ComboBoxItem selectedItem)
                         {
-                            string gradientBrushKey = selectedItem.Tag.ToString()!;
-                            string styleKey = gradientBrushKey.Replace("GradientBrush", "GradientBorderStyle");
-                            border.Style = (Style)Application.Current.Resources[styleKey];
+                            string technicalName = selectedItem.Tag.ToString()!.Replace("GradientBrush", "");
+                            border.Style = _themeColorService.GetThemeBorderStyle(technicalName);
                         }
                     }
                 }
@@ -83,15 +85,16 @@ public sealed partial class TariffManagePage : Page
 
         if (GradientSelector.SelectedItem is ComboBoxItem selectedItem)
         {
-            string gradientBrushKey = selectedItem.Tag.ToString();
-            string styleKey = gradientBrushKey.Replace("GradientBrush", "GradientBorderStyle");
+            string technicalName = selectedItem.Tag.ToString()!.Replace("GradientBrush", "");
+            var style = _themeColorService.GetThemeBorderStyle(technicalName);
+            
             foreach (var item in AdaptiveGrid.Items)
             {
                 if (AdaptiveGrid.ContainerFromItem(item) is GridViewItem container)
                 {
                     if (container.ContentTemplateRoot is Border border)
                     {
-                        border.Style = (Style)Application.Current.Resources[styleKey];
+                        border.Style = style;
                     }
                 }
             }
@@ -106,7 +109,7 @@ public sealed partial class TariffManagePage : Page
         CrossBlockPool.ReleaseAll(canvas);
 
         var tariff = (Tariff)border.DataContext;
-        int idx = Math.Abs(tariff.Title.GetHashCode()) % CrossTemplates.Templates.Count;
+        int idx = Math.Abs(tariff.TariffName.GetHashCode()) % CrossTemplates.Templates.Count;
         var template = CrossTemplates.Templates[idx];
 
         double w = border.ActualWidth;
@@ -211,15 +214,6 @@ public sealed partial class TariffManagePage : Page
 
 
 
-public class Tariff
-{
-    public string Title { get; set; }
-    public string Price { get; set; }
-    public string Type { get; set; }
-    public string DescriptionTitle { get; set; }
-    public string Description { get; set; }
-}
-
 public class TariffViewModel
 {
     public ObservableCollection<Tariff> Tariffs { get; set; }
@@ -241,9 +235,9 @@ public class TariffViewModel
         {
             var tariff = new Tariff
             {
-                Title = $"Тариф {i}",
-                Price = $"{i * 100} ₽",
-                Type = i % 2 == 0 ? "Почасовая" : "Поминутная",
+                TariffName = $"Тариф {i}",
+                Price = i * 100,
+                BillingTypeId = i % 2 == 0 ? 1 : 2,
                 DescriptionTitle = i % 2 == 0 ? "Описание" : "Что включено",
                 Description = $"Описание тарифа номер {i}. Уникальные особенности."
             };
