@@ -34,6 +34,7 @@
                     Text="{Binding TariffName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <ComboBox
                     HorizontalAlignment="Stretch"
+                    DisplayMemberPath="BillingTypeName"
                     Header="Тип тарифа"
                     ItemsSource="{Binding BillingTypes}"
                     PlaceholderText="Выберите тип тарифа"
@@ -65,7 +66,7 @@
                     PlaceholderText="Введите стоимость тарифа"
                     SmallChange="10"
                     SpinButtonPlacementMode="Compact"
-                    Value="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding Price, Converter={StaticResource DecimalToDoubleConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <StackPanel
@@ -114,6 +115,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     BorderThickness="1"
+                    Style="{Binding SelectedThemeStyle}"
                     CornerRadius="{StaticResource OverlayCornerRadius}">
                     <Grid Padding="{StaticResource ExpanderContentPadding}">
                         <!--#region Фигуры-->
@@ -261,14 +263,14 @@
                                     Name="Type"
                                     Foreground="White"
                                     Style="{StaticResource TitleTextBlockStyle}"
-                                    Text="{Binding BillingTypes.BillingTypeName, Mode=OneWay}" />
+                                    Text="{Binding SelectedBillingTypeName, Mode=OneWay}" />
                                 <TextBlock
                                     Name="Price"
                                     HorizontalAlignment="Right"
                                     FontStyle="Italic"
                                     Foreground="White"
                                     Style="{StaticResource TitleTextBlockStyle}"
-                                    Text="{Binding Price, Mode=OneWay}" />
+                                    Text="{Binding Price, Converter={StaticResource PriceConverter}, Mode=OneWay}" />
                             </Grid>
                             <TextBlock
                                 Name="DescriptionTitle"

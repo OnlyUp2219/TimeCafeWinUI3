@@ -1,13 +1,9 @@
-using System.Diagnostics;
-using TimeCafeWinUI3.Core.Models;
-using System.Collections.ObjectModel;
-using TimeCafeWinUI3.Core.Contracts.Services;
-using TimeCafeWinUI3.Contracts.Services;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Text;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -26,13 +22,17 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty] private int billingTypeId;
     [ObservableProperty] private string errorMessage;
     [ObservableProperty] private LinearGradientBrush selectedThemeBrush;
+    [ObservableProperty] private string descriptionTitle;
+    [ObservableProperty] private string description;
+    [ObservableProperty] private string selectedBillingTypeName;
+    [ObservableProperty] private Style selectedThemeStyle;
 
     [ObservableProperty] private ObservableCollection<Theme> themes = new();
     [ObservableProperty] private ObservableCollection<BillingType> billingTypes = new();
 
     public CreateTariffViewModel(
-        ITariffService tariffService, 
-        IThemeService themeService, 
+        ITariffService tariffService,
+        IThemeService themeService,
         IBillingTypeService billingTypeService,
         IThemeColorService themeColorService)
     {
@@ -85,6 +85,10 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
         Price = 0;
         BillingTypeId = 0;
         ErrorMessage = string.Empty;
+        DescriptionTitle = string.Empty;
+        Description = string.Empty;
+        SelectedBillingTypeName = string.Empty;
+        SelectedThemeStyle = null;
         Themes.Clear();
         BillingTypes.Clear();
     }
@@ -146,12 +150,27 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
             if (theme != null)
             {
                 SelectedThemeBrush = _themeColorService.GetThemeGradientBrush(theme.TechnicalName);
+                SelectedThemeStyle = _themeColorService.GetThemeBorderStyle(theme.TechnicalName);
             }
         }
         else
         {
             SelectedThemeBrush = null;
+            SelectedThemeStyle = null;
         }
+    }
+
+    partial void OnBillingTypeIdChanged(int value)
+    {
+        var billingType = BillingTypes.FirstOrDefault(b => b.BillingTypeId == value);
+        SelectedBillingTypeName = billingType?.BillingTypeName ?? string.Empty;
+    }
+
+    partial void OnPriceChanged(decimal value)
+    {
+        // Форматируем цену для отображения
+        Price = Math.Round(value, 2);
+        Debug.WriteLine(value);
     }
 
     private string GetDebuggerDisplay()

@@ -34,6 +34,8 @@
             <helpers:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter" />
             <FontFamily x:Key="VAGRoundCyrillic">/Assets/Fonts/vagroundcyrillic.ttf#VAG Round Cyrillic</FontFamily>
             <helpers:ThemeToBrushConverter x:Key="ThemeToBrushConverter" />
+            <helpers:PriceConverter x:Key="PriceConverter" />
+            <helpers:DecimalToDoubleConverter x:Key="DecimalToDoubleConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
