@@ -179,4 +179,10 @@
   <data name="TariffCreate.Content" xml:space="preserve">
     <value>Создание тарифа</value>
   </data>
+  <data name="Entry.Content" xml:space="preserve">
+    <value>Вход и регистрация</value>
+  </data>
+  <data name="VisitorManagement.Content" xml:space="preserve">
+    <value>Управление посетителями</value>
+  </data>
 </root>

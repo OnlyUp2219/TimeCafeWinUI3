@@ -14,6 +14,7 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
     private readonly IThemeService _themeService;
     private readonly IBillingTypeService _billingTypeService;
     private readonly IThemeColorService _themeColorService;
+    private readonly FakeDataGenerator _fakeDataGenerator;
 
     [ObservableProperty] private string tariffName;
     [ObservableProperty] private byte[] icon;
@@ -40,6 +41,7 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
         _themeService = themeService;
         _billingTypeService = billingTypeService;
         _themeColorService = themeColorService;
+        _fakeDataGenerator = new FakeDataGenerator();
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -89,8 +91,6 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
         Description = string.Empty;
         SelectedBillingTypeName = string.Empty;
         SelectedThemeStyle = null;
-        Themes.Clear();
-        BillingTypes.Clear();
     }
 
     public async Task<string> ValidateAsync()
@@ -128,6 +128,8 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
                 ThemeId = ThemeId,
                 Price = Price,
                 BillingTypeId = BillingTypeId,
+                DescriptionTitle = DescriptionTitle,
+                Description = Description,
                 CreatedAt = DateTime.Now,
                 LastModified = DateTime.Now
             };
@@ -139,6 +141,31 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
         catch (Exception ex)
         {
             ErrorMessage = $"Ошибка при создании тарифа: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
+    private void GenerateFakeData()
+    {
+        var fakeTariff = _fakeDataGenerator.GenerateTariff();
+
+        TariffName = fakeTariff.TariffName;
+        DescriptionTitle = fakeTariff.DescriptionTitle;
+        Description = fakeTariff.Description;
+        Price = fakeTariff.Price;
+
+        // Выбираем случайный тип тарифа, если есть
+        if (BillingTypes.Any())
+        {
+            var randomBillingType = BillingTypes[new Random().Next(BillingTypes.Count)];
+            BillingTypeId = randomBillingType.BillingTypeId;
+        }
+
+        // Выбираем случайную тему, если есть
+        if (Themes.Any())
+        {
+            var randomTheme = Themes[new Random().Next(Themes.Count)];
+            ThemeId = randomTheme.ThemeId;
         }
     }
 

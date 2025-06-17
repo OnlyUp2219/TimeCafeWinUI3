@@ -65,7 +65,10 @@
 
                         <StackPanel x:Name="scudCardGroup" Margin="{StaticResource SmallTopMargin}">
                             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Номер карты SCUD" />
-                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Item.AccessCardNumber, Mode=OneWay}" />
+                            <TextBlock
+                                IsTextSelectionEnabled="True"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Text="{x:Bind ViewModel.Item.AccessCardNumber, Mode=OneWay}" />
                         </StackPanel>
                     </StackPanel>
 

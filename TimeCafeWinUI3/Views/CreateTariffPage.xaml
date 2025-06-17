@@ -95,6 +95,11 @@
                     Click="SelectIcon_Click"
                     Content="Выбрать иконку" />
                 <Button
+                    Margin="0,8,0,0"
+                    Command="{x:Bind ViewModel.GenerateFakeDataCommand}"
+                    Content="Сгенерировать тестовые данные"
+                    Style="{StaticResource DefaultButtonStyle}" />
+                <Button
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Command="{Binding CreateTariffCommand}"
@@ -115,8 +120,8 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     BorderThickness="1"
-                    Style="{Binding SelectedThemeStyle}"
-                    CornerRadius="{StaticResource OverlayCornerRadius}">
+                    CornerRadius="{StaticResource OverlayCornerRadius}"
+                    Style="{Binding SelectedThemeStyle}">
                     <Grid Padding="{StaticResource ExpanderContentPadding}">
                         <!--#region Фигуры-->
                         <Ellipse

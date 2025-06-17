@@ -9,8 +9,8 @@ public class CrossTemplateItem
 
 public static class CrossTemplates
 {
-    private const double BaseWidth = 500;
-    private const double BaseHeight = 375;
+    public const double BaseWidth = 500;
+    public const double BaseHeight = 375;
     private const double MinDistance = 60;
     private const int ItemsPerTemplate = 15;
     private const int TemplateCount = 25;

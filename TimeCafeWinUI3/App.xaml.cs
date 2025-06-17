@@ -76,6 +76,10 @@ public partial class App : Application
             services.AddTransient<SettingsPage>();
             services.AddTransient<CreateClientViewModel>();
             services.AddTransient<CreateClientPage>();
+            services.AddTransient<EntryViewModel>();
+            services.AddTransient<EntryPage>();
+            services.AddTransient<VisitorManagementViewModel>();
+            services.AddTransient<VisitorManagementPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
             services.AddTransient<PhoneVerificationConfirm>();

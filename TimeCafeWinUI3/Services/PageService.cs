@@ -15,6 +15,8 @@ public class PageService : IPageService
         Configure<UserGridDetailViewModel, UserGridDetailPage>();
         Configure<TariffManageViewModel, TariffManagePage>();
         Configure<CreateTariffViewModel, CreateTariffPage>();
+        Configure<VisitorManagementViewModel, VisitorManagementPage>();
+        Configure<EntryViewModel, EntryPage>();
     }
 
     public Type GetPageType(string key)
@@ -24,6 +26,7 @@ public class PageService : IPageService
         {
             if (!_pages.TryGetValue(key, out pageType))
             {
+                throw new ArgumentException($"Page not found: {key}. Did you forget to call PageService.Configure?");
                 throw new ArgumentException($"Page not found: {key}. Did you forget to call PageService.Configure?");
             }
         }

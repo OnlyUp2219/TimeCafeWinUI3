@@ -120,5 +120,6 @@
   
   <ItemGroup>
     <Folder Include="Views\UserGridContentDialogs\" />
+    <Folder Include="Views\Новая папка\" />
   </ItemGroup>
 </Project>

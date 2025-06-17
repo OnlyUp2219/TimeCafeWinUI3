@@ -20,238 +20,18 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ComboBox
-            x:Name="GradientSelector"
-            Grid.Row="0"
-            Width="200"
-            Margin="0,0,0,8"
-            HorizontalAlignment="Left"
-            SelectedIndex="0"
-            SelectionChanged="GradientSelector_SelectionChanged">
-            <ComboBoxItem Tag="Red">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource RedGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Red" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Orange">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource OrangeGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Orange" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Amber">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource AmberGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Amber" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Yellow">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource YellowGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Yellow" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Lime">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource LimeGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Lime" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Green">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource GreenGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Green" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Emerald">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource EmeraldGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Emerald" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Teal">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource TealGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Teal" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Cyan">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource CyanGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Cyan" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Sky">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource SkyGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Sky" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Blue">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource BlueGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Blue" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Indigo">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource IndigoGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Indigo" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Violet">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource VioletGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Violet" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Purple">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource PurpleGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Purple" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Fuchsia">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource FuchsiaGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Fuchsia" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Pink">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource PinkGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Pink" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Rose">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource RoseGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Rose" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Slate">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource SlateGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Slate" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Gray">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource GrayGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Gray" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Zinc">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource ZincGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Zinc" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Neutral">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource NeutralGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Neutral" />
-                </StackPanel>
-            </ComboBoxItem>
-            <ComboBoxItem Tag="Stone">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Ellipse
-                        Width="25"
-                        Height="25"
-                        Fill="{ThemeResource StoneGradientBrush}" />
-                    <TextBlock VerticalAlignment="Center" Text="Stone" />
-                </StackPanel>
-            </ComboBoxItem>
-        </ComboBox>
-
-        <pagination:PaginationControl
-            x:Name="TopPaginationControl"
-            Grid.Row="1"
-            Margin="16"
-            HorizontalAlignment="Center"
-            ItemsSource="{x:Bind FakeViewModel.Tariffs}"
-            PageChanged="OnPageChanged"
-            PageSize="16"
-            TargetControl="{x:Bind AdaptiveGrid}"
-            TotalItems="{x:Bind FakeViewModel.TotalItems, Mode=OneWay}" />
-
         <controls:AdaptiveGridView
             x:Name="AdaptiveGrid"
-            Grid.Row="2"
+            Grid.Row="0"
             HorizontalAlignment="Stretch"
             DesiredWidth="600"
             IsItemClickEnabled="True"
             ItemHeight="375"
+            ItemsSource="{x:Bind ViewModel.Source, Mode=OneWay}"
             SelectionMode="Single">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Tariff">
@@ -261,9 +41,10 @@
                         VerticalAlignment="Stretch"
                         BorderThickness="1"
                         CornerRadius="{StaticResource OverlayCornerRadius}"
-                        Loaded="TariffBorder_Loaded">
+                        Loaded="TariffBorder_Loaded"
+                        Style="{Binding Theme.TechnicalName, Converter={StaticResource ThemeToStyleConverter}}">
                         <Grid Padding="{StaticResource ExpanderContentPadding}">
-
+                            <!--#region Фигуры-->
                             <Ellipse
                                 Width="185"
                                 Height="185"
@@ -273,7 +54,6 @@
                                 Fill="White"
                                 Opacity="0.20"
                                 RenderTransformOrigin="0.0,1.0" />
-
                             <Ellipse
                                 Width="290"
                                 Height="290"
@@ -283,7 +63,6 @@
                                 Fill="White"
                                 Opacity="0.15"
                                 RenderTransformOrigin="0.0,1.0" />
-
                             <Ellipse
                                 Width="400"
                                 Height="400"
@@ -293,13 +72,11 @@
                                 Fill="White"
                                 Opacity="0.10"
                                 RenderTransformOrigin="0.0,1.0" />
-
                             <Canvas
                                 x:Name="CrossCanvas"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 IsHitTestVisible="False" />
-
                             <Canvas
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
@@ -312,7 +89,6 @@
                                     Fill="White"
                                     Opacity="0.10"
                                     RenderTransformOrigin="0.0,1.0" />
-
                                 <Ellipse
                                     Canvas.Left="375"
                                     Canvas.Top="50"
@@ -321,7 +97,7 @@
                                     Fill="White"
                                     Opacity="0.10"
                                     RenderTransformOrigin="0.0,1.0" />
-
+                                <!--  Линии  -->
                                 <Line
                                     Opacity="0.2"
                                     RenderTransformOrigin="0.5,0.5"
@@ -331,7 +107,6 @@
                                     X2="720"
                                     Y1="-20"
                                     Y2="375" />
-
                                 <Line
                                     Opacity="0.2"
                                     RenderTransformOrigin="0.5,0.5"
@@ -341,7 +116,6 @@
                                     X2="740"
                                     Y1="-20"
                                     Y2="375" />
-
                                 <Line
                                     Opacity="0.2"
                                     RenderTransformOrigin="0.5,0.5"
@@ -351,7 +125,6 @@
                                     X2="760"
                                     Y1="-20"
                                     Y2="375" />
-
                                 <Line
                                     Opacity="0.2"
                                     RenderTransformOrigin="0.5,0.5"
@@ -361,7 +134,6 @@
                                     X2="780"
                                     Y1="-20"
                                     Y2="375" />
-
                                 <Line
                                     Opacity="0.2"
                                     RenderTransformOrigin="0.5,0.5"
@@ -371,7 +143,6 @@
                                     X2="800"
                                     Y1="-20"
                                     Y2="375" />
-
                                 <Line
                                     Opacity="0.2"
                                     RenderTransformOrigin="0.5,0.5"
@@ -381,7 +152,6 @@
                                     X2="820"
                                     Y1="-20"
                                     Y2="375" />
-
                                 <Line
                                     Opacity="0.2"
                                     RenderTransformOrigin="0.5,0.5"
@@ -391,11 +161,8 @@
                                     X2="840"
                                     Y1="-20"
                                     Y2="375" />
-
-
-
                             </Canvas>
-
+                            <!--#endregion-->
                             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <StackPanel.Resources>
                                     <Style TargetType="TextBlock">
@@ -407,7 +174,7 @@
                                     Name="Title"
                                     Foreground="White"
                                     Style="{StaticResource TitleTextBlockStyle}"
-                                    Text="{x:Bind Title}"
+                                    Text="{x:Bind TariffName}"
                                     TextWrapping="WrapWholeWords" />
 
                                 <Viewbox
@@ -425,7 +192,7 @@
                                         Name="Type"
                                         Foreground="White"
                                         Style="{StaticResource TitleTextBlockStyle}"
-                                        Text="{x:Bind Type}" />
+                                        Text="{x:Bind BillingType.BillingTypeName}" />
 
                                     <TextBlock
                                         Name="Price"
@@ -433,22 +200,21 @@
                                         FontStyle="Italic"
                                         Foreground="White"
                                         Style="{StaticResource TitleTextBlockStyle}"
-                                        Text="{x:Bind Price}" />
+                                        Text="{x:Bind Price, Converter={StaticResource PriceConverter}}" />
                                 </Grid>
 
                                 <TextBlock
                                     Name="DescriptionTitle"
                                     Foreground="White"
                                     Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{x:Bind DescriptionTitle}" />
+                                    Text="{x:Bind DescriptionTitle, Mode=OneWay}" />
 
                                 <TextBlock
                                     Name="Description"
                                     Foreground="White"
                                     Style="{StaticResource BodyStrongTextBlockStyle}"
-                                    Text="{x:Bind Description}" />
+                                    Text="{x:Bind Description, Mode=OneWay}" />
                             </StackPanel>
-
                         </Grid>
                     </Border>
                 </DataTemplate>
@@ -456,15 +222,28 @@
         </controls:AdaptiveGridView>
 
         <pagination:PaginationControl
-            x:Name="BottomPaginationControl"
-            Grid.Row="3"
+            x:Name="PaginationControl"
+            Grid.Row="1"
             Margin="16"
             HorizontalAlignment="Center"
-            ItemsSource="{x:Bind FakeViewModel.Tariffs}"
+            ItemsSource="{x:Bind ViewModel.Source}"
             PageChanged="OnPageChanged"
             PageSize="16"
-            TargetControl="{x:Bind AdaptiveGrid}"
-            TotalItems="{x:Bind FakeViewModel.TotalItems, Mode=OneWay}" />
-    </Grid>
+            TargetControl="{x:Bind ViewModel.ActiveView}"
+            TotalItems="{x:Bind ViewModel.TotalItems, Mode=OneWay}" />
 
+        <ProgressRing
+            Grid.Row="0"
+            Width="50"
+            Height="50"
+            IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <TextBlock
+            Grid.Row="0"
+            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+            Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+            TextWrapping="Wrap"
+            Visibility="{x:Bind ViewModel.ErrorMessage, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" />
+    </Grid>
 </Page>
