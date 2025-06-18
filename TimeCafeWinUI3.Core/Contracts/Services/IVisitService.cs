@@ -12,4 +12,7 @@ public interface IVisitService
     Task<bool> IsClientAlreadyEnteredAsync(int clientId);
     Task<decimal> CalculateVisitCostAsync(Visit visit);
     Task<TimeSpan> GetVisitDurationAsync(Visit visit);
+    
+    // TODO: Автоматический выход всех посетителей при закрытии заведения
+    // Task ExitAllVisitorsAsync(string reason = "Автоматический выход при закрытии заведения");
 } 

@@ -156,4 +156,29 @@ public class VisitService : IVisitService
         var endTime = visit.ExitTime ?? DateTime.Now;
         return endTime - visit.EntryTime;
     }
+
+    // TODO: Автоматический выход всех посетителей при закрытии заведения
+    // Этот метод будет вызываться при закрытии приложения или изменении рабочих часов
+    /*
+    public async Task ExitAllVisitorsAsync(string reason = "Автоматический выход при закрытии заведения")
+    {
+        var activeVisits = await _context.Visits
+            .Include(v => v.Client)
+            .Include(v => v.Tariff)
+            .Include(v => v.BillingType)
+            .Where(v => v.ExitTime == null)
+            .ToListAsync();
+
+        foreach (var visit in activeVisits)
+        {
+            visit.ExitTime = DateTime.Now;
+            visit.VisitCost = await CalculateVisitCostAsync(visit);
+            
+            // TODO: Логирование автоматического выхода
+            // await _logger.LogAsync($"Автоматический выход клиента {visit.Client?.FirstName} {visit.Client?.LastName} по причине: {reason}");
+        }
+
+        await _context.SaveChangesAsync();
+    }
+    */
 } 

@@ -182,6 +182,55 @@ public partial class App : Application
 
         await App.GetService<IActivationService>().ActivateAsync(args);
     }
+
+    // Обработчик закрытия приложения с проверкой активных посетителей
+    protected async override void OnSuspending(SuspendingEventArgs args)
+    {
+        base.OnSuspending(args);
+
+        try
+        {
+            using var scope = Host.Services.CreateScope();
+            var visitService = scope.ServiceProvider.GetRequiredService<IVisitService>();
+            
+            // Проверяем, есть ли активные посетители
+            var activeVisits = await visitService.GetActiveVisitsAsync();
+            var activeVisitorsCount = activeVisits.Count();
+
+            if (activeVisitorsCount > 0)
+            {
+                // Показываем предупреждение о том, что есть активные посетители
+                await MainWindow.DispatcherQueue.EnqueueAsync(async () =>
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Внимание!",
+                        Content = $"В заведении находится {activeVisitorsCount} активных посетителей.\n\n" +
+                                 "Убедитесь, что все посетители вышли из заведения перед закрытием приложения.",
+                        PrimaryButtonText = "Продолжить закрытие",
+                        CloseButtonText = "Отмена",
+                        XamlRoot = MainWindow.Content.XamlRoot
+                    };
+
+                    var result = await dialog.ShowAsync();
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        // TODO: Автоматический выход всех посетителей
+                        // await visitService.ExitAllVisitorsAsync("Закрытие приложения");
+                    }
+                    else
+                    {
+                        // Отменяем закрытие приложения
+                        args.SuspendingOperation.GetDeferral().Complete();
+                    }
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Ошибка при проверке активных посетителей: {ex.Message}");
+        }
+    }
 }
 public static class CrossManager
 {
