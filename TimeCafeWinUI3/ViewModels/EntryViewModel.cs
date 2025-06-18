@@ -5,8 +5,10 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Text;
 using TimeCafeWinUI3.Contracts.Services;
+using TimeCafeWinUI3.Core.Contracts.Services;
 using TimeCafeWinUI3.Core.Models;
 using TimeCafeWinUI3.Views;
+using Microsoft.UI.Xaml.Media;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -23,6 +25,8 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IClientService _clientService;
     private readonly ITariffService _tariffService;
+    private readonly IVisitService _visitService;
+    private readonly IWorkingHoursService _workingHoursService;
     private readonly INavigationService _navigationService;
     private readonly DispatcherTimer _countdownTimer;
 
@@ -48,11 +52,13 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     // Track the path user took
     private bool _isRegistrationPath = false;
 
-    public EntryViewModel(INavigationService navigationService, IClientService clientService, ITariffService tariffService)
+    public EntryViewModel(INavigationService navigationService, IClientService clientService, ITariffService tariffService, IVisitService visitService, IWorkingHoursService workingHoursService)
     {
         _navigationService = navigationService;
         _clientService = clientService;
         _tariffService = tariffService;
+        _visitService = visitService;
+        _workingHoursService = workingHoursService;
 
         _countdownTimer = new DispatcherTimer
         {
@@ -228,7 +234,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     {
         if (string.IsNullOrWhiteSpace(CardNumber))
         {
-            ErrorMessage = "Введите номер карты СКУД";
+            await ShowErrorAsync("Введите номер карты СКУД");
             return;
         }
 
@@ -241,13 +247,13 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
             if (CurrentClient == null)
             {
-                ErrorMessage = "Такого клиента нет или карты СКУД не правильная";
+                await ShowErrorAsync("Такого клиента нет или карты СКУД не правильная");
                 return;
             }
 
             if (CurrentClient.StatusId != (int)ClientStatusType.Active)
             {
-                ErrorMessage = "Клиент не в статусе активный";
+                await ShowErrorAsync("Клиент не в статусе активный");
                 return;
             }
 
@@ -257,7 +263,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Ошибка поиска клиента: {ex.Message}";
+            await ShowErrorAsync($"Ошибка поиска клиента: {ex.Message}");
         }
     }
 
@@ -266,7 +272,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         var validationResult = await ValidateRegistration();
         if (!string.IsNullOrEmpty(validationResult))
         {
-            ErrorMessage = validationResult;
+            await ShowErrorAsync(validationResult);
             return;
         }
 
@@ -292,7 +298,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
             {
                 await CreateClient(false);
                 // Show error for draft status
-                ErrorMessage = "Клиент не в статусе активный";
+                await ShowErrorAsync("Клиент не в статусе активный");
                 return; // Don't proceed to tariff selection
             }
             else
@@ -305,7 +311,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Ошибка регистрации: {ex.Message}";
+            await ShowErrorAsync($"Ошибка регистрации: {ex.Message}");
         }
     }
 
@@ -318,6 +324,12 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
         if (string.IsNullOrWhiteSpace(PhoneNumber))
             sb.AppendLine("Номер телефона обязателен для заполнения");
+        else
+        {
+            var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
+            if (!validPhone)
+                sb.AppendLine("Неверный формат номера телефона или такой номер уже существует");
+        }
 
         if (!string.IsNullOrWhiteSpace(Email))
         {
@@ -356,14 +368,36 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     {
         if (SelectedTariff == null)
         {
-            ErrorMessage = "Выберите тариф";
+            await ShowErrorAsync("Выберите тариф");
             return;
         }
 
         try
         {
-            // TODO: Create visit record
-            // For now, just show success
+            // Проверяем, что клиент активен
+            if (!await _visitService.IsClientActiveAsync(CurrentClient.ClientId))
+            {
+                await ShowErrorAsync("Клиент не имеет активного статуса");
+                return;
+            }
+
+            // Проверяем, что клиент еще не вошел
+            if (await _visitService.IsClientAlreadyEnteredAsync(CurrentClient.ClientId))
+            {
+                await ShowErrorAsync("Ошибка. Вход уже осуществлен");
+                return;
+            }
+
+            // Проверяем рабочие часы
+            if (!await _workingHoursService.IsWorkingHoursAsync())
+            {
+                await ShowErrorAsync("Регистрация невозможна в нерабочее время");
+                return;
+            }
+
+            // Создаем посещение
+            await _visitService.EnterClientAsync(CurrentClient.ClientId, SelectedTariff.TariffId);
+
             CurrentState = EntryState.Success;
             ErrorMessage = string.Empty;
             UpdateStateProperties();
@@ -374,8 +408,40 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Ошибка создания посещения: {ex.Message}";
+            await ShowErrorAsync($"Ошибка создания посещения: {ex.Message}");
         }
+    }
+
+    private async Task ShowErrorAsync(string message)
+    {
+        ErrorMessage = message;
+        
+        // Показываем TeachingTip с ошибкой через code-behind
+        if (App.MainWindow?.Content is FrameworkElement rootElement)
+        {
+            // Находим EntryPage в дереве элементов
+            var entryPage = FindEntryPage(rootElement);
+            if (entryPage != null)
+            {
+                entryPage.ShowError(message);
+            }
+        }
+    }
+
+    private EntryPage? FindEntryPage(DependencyObject element)
+    {
+        if (element is EntryPage entryPage)
+            return entryPage;
+
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
+        {
+            var child = VisualTreeHelper.GetChild(element, i);
+            var result = FindEntryPage(child);
+            if (result != null)
+                return result;
+        }
+
+        return null;
     }
 
     [RelayCommand]

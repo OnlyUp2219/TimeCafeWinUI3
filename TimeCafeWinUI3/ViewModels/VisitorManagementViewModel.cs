@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
+using TimeCafeWinUI3.Core.Contracts.Services;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -9,6 +10,7 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
 {
     private readonly IClientService _clientService;
     private readonly ITariffService _tariffService;
+    private readonly IVisitService _visitService;
     private readonly DispatcherTimer _updateTimer;
 
     [ObservableProperty] private ObservableCollection<Visit> visitors = new();
@@ -18,10 +20,11 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
     [ObservableProperty] private Tariff selectedTariffFilter;
     [ObservableProperty] private bool isLoading;
 
-    public VisitorManagementViewModel(IClientService clientService, ITariffService tariffService)
+    public VisitorManagementViewModel(IClientService clientService, ITariffService tariffService, IVisitService visitService)
     {
         _clientService = clientService;
         _tariffService = tariffService;
+        _visitService = visitService;
 
         _updateTimer = new DispatcherTimer
         {
@@ -64,6 +67,7 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
         catch (Exception ex)
         {
             // TODO: Show error message
+            System.Diagnostics.Debug.WriteLine($"Ошибка загрузки данных: {ex.Message}");
         }
         finally
         {
@@ -73,53 +77,19 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
 
     private async Task LoadActiveVisits()
     {
-        // TODO: Implement VisitService to get active visits
-        // For now, we'll simulate with some fake data
-        Visitors.Clear();
-
-        // This is temporary - replace with actual service call
-        // var activeVisits = await _visitService.GetActiveVisitsAsync();
-        // foreach (var visit in activeVisits)
-        // {
-        //     Visitors.Add(visit);
-        // }
-
-        // Temporary test data
-        var testVisit = new Visit
+        try
         {
-            VisitId = 1,
-            EntryTime = DateTime.Now.AddHours(-1),
-            Client = new Client
+            var activeVisits = await _visitService.GetActiveVisitsAsync();
+            Visitors.Clear();
+            foreach (var visit in activeVisits)
             {
-                FirstName = "Иван",
-                LastName = "Иванов",
-                PhoneNumber = "+375 (29) 123 4567"
-            },
-            Tariff = new Tariff
-            {
-                TariffName = "Стандартный",
-                Price = 100
+                Visitors.Add(visit);
             }
-        };
-        Visitors.Add(testVisit);
-
-        var testVisit2 = new Visit
+        }
+        catch (Exception ex)
         {
-            VisitId = 2,
-            EntryTime = DateTime.Now.AddMinutes(-30),
-            Client = new Client
-            {
-                FirstName = "Петр",
-                LastName = "Петров",
-                PhoneNumber = "+375 (33) 987 6543"
-            },
-            Tariff = new Tariff
-            {
-                TariffName = "Премиум",
-                Price = 150
-            }
-        };
-        Visitors.Add(testVisit2);
+            System.Diagnostics.Debug.WriteLine($"Ошибка загрузки активных посещений: {ex.Message}");
+        }
     }
 
     private void UpdateTimer_Tick(object sender, object e)
@@ -152,12 +122,23 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
 
     private decimal CalculateCurrentCost(Visit visit, TimeSpan duration)
     {
-        if (visit.Tariff == null) return 0;
+        if (visit.Tariff == null || visit.BillingType == null) return 0;
 
-        // TODO: Implement proper billing calculation based on BillingType
-        // For now, simple hourly calculation
-        var hours = Math.Ceiling(duration.TotalHours);
-        return visit.Tariff.Price * (decimal)hours;
+        switch (visit.BillingType.BillingTypeId)
+        {
+            case 1: // Почасовая тарификация
+                // Почасовая тарификация с округлением вверх
+                var hours = Math.Ceiling(duration.TotalHours);
+                return visit.Tariff.Price * (decimal)hours;
+
+            case 2: // Поминутная тарификация
+                // Поминутная тарификация
+                var minutes = duration.TotalMinutes;
+                return visit.Tariff.Price * (decimal)minutes;
+
+            default:
+                return 0;
+        }
     }
 
     private void ApplyFilters()
@@ -204,16 +185,14 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
         {
             try
             {
-                // TODO: Implement exit logic
-                // await _visitService.ExitVisitorAsync(visit.VisitId);
-
-                // For now, just remove from list
-                Visitors.Remove(visit);
+                await _visitService.ExitClientAsync(visit.VisitId);
+                await LoadActiveVisits(); // Перезагружаем список
                 ApplyFilters();
             }
             catch (Exception ex)
             {
                 // TODO: Show error message
+                System.Diagnostics.Debug.WriteLine($"Ошибка при выходе посетителя: {ex.Message}");
             }
         }
     }

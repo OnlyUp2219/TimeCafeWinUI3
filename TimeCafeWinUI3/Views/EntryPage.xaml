@@ -35,6 +35,17 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
+        <!--  TeachingTip for errors  -->
+        <TeachingTip
+            x:Name="ErrorTeachingTip"
+            Title="Ошибка"
+            Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+            CloseButtonContent="Закрыть"
+            IsLightDismissEnabled="True"
+            PlacementMargin="20"
+            PreferredPlacement="Bottom"
+            Subtitle="{Binding ErrorMessage}" />
+
         <!--  Header  -->
         <Grid Grid.Row="0" Padding="20">
             <StackPanel HorizontalAlignment="Center">
@@ -52,6 +63,7 @@
 
         <!--  Main Content - States  -->
         <Grid Grid.Row="1" Padding="20">
+
 
             <!--  Welcome State  -->
             <Grid x:Name="WelcomeState" Visibility="{Binding IsWelcomeState, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -117,11 +129,6 @@
                         Header="Номер карты:"
                         PlaceholderText="Введите 20-значный номер карты"
                         Text="{Binding CardNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                    <TextBlock
-                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                        Text="{Binding ErrorMessage}"
-                        Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
                 </StackPanel>
             </Grid>
 
@@ -180,11 +187,6 @@
                             Header="Введите дополнительную информацию:"
                             PlaceholderText="Дополнительная информация"
                             Text="{Binding AdditionalInfo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                        <TextBlock
-                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            Text="{Binding ErrorMessage}"
-                            Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
                     </StackPanel>
                 </ScrollViewer>
 
@@ -272,11 +274,6 @@
                             HorizontalAlignment="Center"
                             NumberOfPages="{Binding Tariffs.Count}" />
                     </Grid>
-
-                    <TextBlock
-                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                        Text="{Binding ErrorMessage}"
-                        Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
                 </StackPanel>
             </Grid>
 

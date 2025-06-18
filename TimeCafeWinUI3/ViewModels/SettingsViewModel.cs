@@ -10,6 +10,7 @@ namespace TimeCafeWinUI3.ViewModels;
 public partial class SettingsViewModel : ObservableRecipient
 {
     private readonly IThemeSelectorService _themeSelectorService;
+    private readonly IWorkingHoursService _workingHoursService;
 
     [ObservableProperty]
     private ElementTheme _elementTheme;
@@ -17,14 +18,26 @@ public partial class SettingsViewModel : ObservableRecipient
     [ObservableProperty]
     private string _versionDescription;
 
+    [ObservableProperty]
+    private TimeSpan _openTime;
+
+    [ObservableProperty]
+    private TimeSpan _closeTime;
+
     public ICommand SwitchThemeCommand
     {
         get;
     }
 
-    public SettingsViewModel(IThemeSelectorService themeSelectorService)
+    public ICommand SaveWorkingHoursCommand
+    {
+        get;
+    }
+
+    public SettingsViewModel(IThemeSelectorService themeSelectorService, IWorkingHoursService workingHoursService)
     {
         _themeSelectorService = themeSelectorService;
+        _workingHoursService = workingHoursService;
         _elementTheme = _themeSelectorService.Theme;
         _versionDescription = GetVersionDescription();
 
@@ -41,6 +54,39 @@ public partial class SettingsViewModel : ObservableRecipient
                     await _themeSelectorService.SetThemeAsync(param);
                 }
             });
+
+        SaveWorkingHoursCommand = new AsyncRelayCommand(SaveWorkingHoursAsync);
+
+        // Загружаем настройки рабочего времени
+        _ = LoadWorkingHoursAsync();
+    }
+
+    private async Task LoadWorkingHoursAsync()
+    {
+        try
+        {
+            OpenTime = await _workingHoursService.GetOpenTimeAsync();
+            CloseTime = await _workingHoursService.GetCloseTimeAsync();
+        }
+        catch (Exception ex)
+        {
+            // TODO: Обработка ошибок
+            System.Diagnostics.Debug.WriteLine($"Ошибка загрузки настроек рабочего времени: {ex.Message}");
+        }
+    }
+
+    private async Task SaveWorkingHoursAsync()
+    {
+        try
+        {
+            await _workingHoursService.SetOpenTimeAsync(OpenTime);
+            await _workingHoursService.SetCloseTimeAsync(CloseTime);
+        }
+        catch (Exception ex)
+        {
+            // TODO: Обработка ошибок
+            System.Diagnostics.Debug.WriteLine($"Ошибка сохранения настроек рабочего времени: {ex.Message}");
+        }
     }
 
     private void RootElement_ActualThemeChanged(FrameworkElement sender, object args)

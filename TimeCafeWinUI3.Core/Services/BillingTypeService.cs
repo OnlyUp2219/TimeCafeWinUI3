@@ -19,4 +19,10 @@ public class BillingTypeService : IBillingTypeService
             .OrderBy(b => b.BillingTypeName)
             .ToListAsync();
     }
+
+    public async Task<BillingType?> GetBillingTypeByIdAsync(int billingTypeId)
+    {
+        return await _context.BillingTypes
+            .FirstOrDefaultAsync(b => b.BillingTypeId == billingTypeId);
+    }
 } 

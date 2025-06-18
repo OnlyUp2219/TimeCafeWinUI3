@@ -99,7 +99,8 @@ public class ClientService : IClientService
         if (string.IsNullOrWhiteSpace(phoneNumber))
             return false;
 
-        var phoneRegex = new Regex(@"^\+375 \(\d{2}\) \d{3} \d{4}$|^\+375-\d{2}-\d{7}$");
+        // Регулярное выражение проверяет формат и что все символы - это цифры (не подчеркивания)
+        var phoneRegex = new Regex(@"^\+375 \([0-9]{2}\) [0-9]{3} [0-9]{4}$|^\+375-[0-9]{2}-[0-9]{7}$");
         return phoneRegex.IsMatch(phoneNumber);
     }
 

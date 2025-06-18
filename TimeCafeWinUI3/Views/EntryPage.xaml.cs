@@ -16,4 +16,10 @@ public sealed partial class EntryPage : Page
         DataContext = ViewModel;
         InitializeComponent();
     }
+
+    public void ShowError(string message)
+    {
+        ErrorTeachingTip.Subtitle = message;
+        ErrorTeachingTip.IsOpen = true;
+    }
 } 

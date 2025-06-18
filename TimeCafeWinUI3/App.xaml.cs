@@ -6,6 +6,8 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using TimeCafeWinUI3.Contracts.Services;
+using TimeCafeWinUI3.Core.Contracts.Services;
+using TimeCafeWinUI3.Core.Services;
 
 namespace TimeCafeWinUI3;
 
@@ -69,6 +71,8 @@ public partial class App : Application
             services.AddTransient<IThemeService, ThemeService>();
             services.AddTransient<IThemeColorService, ThemeColorService>();
             services.AddTransient<IBillingTypeService, BillingTypeService>();
+            services.AddTransient<IVisitService, VisitService>();
+            services.AddTransient<IWorkingHoursService, WorkingHoursService>();
             services.AddDbContext<TimeCafeContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
             // Views and ViewModels

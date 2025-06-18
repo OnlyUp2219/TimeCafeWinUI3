@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TimeCafeWinUI3.Core.Models;
 
@@ -28,8 +29,10 @@ public partial class Visit : INotifyPropertyChanged
 
     public virtual Tariff Tariff { get; set; }
 
-    // UI Properties
+    // UI Properties - Not mapped to database
+    [NotMapped]
     private string _durationText;
+    [NotMapped]
     public string DurationText
     {
         get => _durationText;
@@ -40,7 +43,9 @@ public partial class Visit : INotifyPropertyChanged
         }
     }
 
+    [NotMapped]
     private decimal _currentCost;
+    [NotMapped]
     public decimal CurrentCost
     {
         get => _currentCost;

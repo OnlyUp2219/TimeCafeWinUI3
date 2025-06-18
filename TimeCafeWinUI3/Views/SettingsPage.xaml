@@ -46,6 +46,26 @@
                     </StackPanel>
                 </controls:SettingsCard>
 
+                <controls:SettingsCard Description="Настройте рабочие часы заведения" Header="Рабочие часы">
+                    <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                        <TextBlock Text="Время открытия:" />
+                        <TimePicker
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Time="{x:Bind ViewModel.OpenTime, Mode=TwoWay}" />
+
+                        <TextBlock Margin="{StaticResource XSmallTopMargin}" Text="Время закрытия:" />
+                        <TimePicker
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Time="{x:Bind ViewModel.CloseTime, Mode=TwoWay}" />
+
+                        <Button
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Command="{x:Bind ViewModel.SaveWorkingHoursCommand}"
+                            Content="Сохранить настройки"
+                            Style="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </controls:SettingsCard>
+
                 <controls:SettingsCard Description="Информация о версии и лицензии" Header="О приложении">
                     <StackPanel Margin="{StaticResource XSmallTopMargin}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
