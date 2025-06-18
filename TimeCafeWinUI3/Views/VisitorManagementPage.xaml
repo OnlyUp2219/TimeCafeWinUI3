@@ -16,6 +16,7 @@
     xmlns:pagination="using:TimeCafeWinUI3.Controls"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:TimeCafeWinUI3.ViewModels"
+    x:Name="VisitorPage"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -34,24 +35,25 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Header -->
+        <!--  Header  -->
         <Grid Grid.Row="0" Padding="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            
+
             <StackPanel Grid.Column="0">
                 <TextBlock
                     FontSize="24"
                     FontWeight="Bold"
                     Text="Управление посетителями" />
-                <TextBlock
-                    FontSize="16"
-                    Text="Активные посетители в заведении" />
+                <TextBlock FontSize="16" Text="Активные посетители в заведении" />
             </StackPanel>
-            
-            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10">
+
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Spacing="10">
                 <TextBlock
                     VerticalAlignment="Center"
                     FontSize="18"
@@ -66,20 +68,20 @@
             </StackPanel>
         </Grid>
 
-        <!-- Visitors List -->
+        <!--  Visitors List  -->
         <Grid Grid.Row="1" Padding="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Search and Filters -->
+            <!--  Search and Filters  -->
             <Grid Grid.Row="0" Margin="0,0,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBox
                     Grid.Column="0"
                     Width="300"
@@ -87,7 +89,7 @@
                     Header="Поиск по имени:"
                     PlaceholderText="Введите имя или фамилию"
                     Text="{Binding SearchText, Mode=TwoWay}" />
-                
+
                 <ComboBox
                     Grid.Column="1"
                     Width="200"
@@ -98,7 +100,7 @@
                     SelectedItem="{Binding SelectedTariffFilter, Mode=TwoWay}" />
             </Grid>
 
-            <!-- Visitors ListView -->
+            <!--  Visitors ListView  -->
             <ListView
                 Grid.Row="1"
                 ItemsSource="{Binding FilteredVisitors}"
@@ -114,7 +116,7 @@
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- Avatar -->
+                            <!--  Avatar  -->
                             <Grid
                                 Grid.Column="0"
                                 Width="50"
@@ -128,30 +130,29 @@
                                     Glyph="&#xE779;" />
                             </Grid>
 
-                            <!-- Client Info -->
+                            <!--  Client Info  -->
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock
                                     FontSize="16"
                                     FontWeight="Bold"
                                     Text="{Binding Client.FirstName}" />
-                                <TextBlock
-                                    FontSize="14"
-                                    Text="{Binding Client.LastName}" />
+                                <TextBlock FontSize="14" Text="{Binding Client.LastName}" />
                                 <TextBlock
                                     FontSize="12"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     Text="{Binding Client.PhoneNumber}" />
                             </StackPanel>
 
-                            <!-- Time Info -->
-                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="16,0">
+                            <!--  Time Info  -->
+                            <StackPanel
+                                Grid.Column="2"
+                                Margin="16,0"
+                                VerticalAlignment="Center">
                                 <TextBlock
                                     FontSize="14"
                                     FontWeight="Bold"
                                     Text="Время входа:" />
-                                <TextBlock
-                                    FontSize="12"
-                                    Text="{Binding EntryTime}" />
+                                <TextBlock FontSize="12" Text="{Binding EntryTime}" />
                                 <TextBlock
                                     FontSize="14"
                                     FontWeight="Bold"
@@ -162,15 +163,16 @@
                                     Text="{Binding DurationText}" />
                             </StackPanel>
 
-                            <!-- Tariff Info -->
-                            <StackPanel Grid.Column="3" VerticalAlignment="Center" Margin="16,0">
+                            <!--  Tariff Info  -->
+                            <StackPanel
+                                Grid.Column="3"
+                                Margin="16,0"
+                                VerticalAlignment="Center">
                                 <TextBlock
                                     FontSize="14"
                                     FontWeight="Bold"
                                     Text="Тариф:" />
-                                <TextBlock
-                                    FontSize="12"
-                                    Text="{Binding Tariff.TariffName}" />
+                                <TextBlock FontSize="12" Text="{Binding Tariff.TariffName}" />
                                 <TextBlock
                                     FontSize="14"
                                     FontWeight="Bold"
@@ -181,12 +183,12 @@
                                     Text="{Binding CurrentCost}" />
                             </StackPanel>
 
-                            <!-- Exit Button -->
+                            <!--  Exit Button  -->
                             <Button
                                 Grid.Column="4"
                                 Margin="16,0,0,0"
-                                Command="{Binding DataContext.ExitVisitorCommand}"
-                                CommandParameter="{Binding}"
+                                Click="ExitButton_Click"
+                                Tag="{Binding}"
                                 Content="Выход"
                                 Style="{StaticResource AccentButtonStyle}" />
                         </Grid>
@@ -194,7 +196,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <!-- Empty State -->
+            <!--  Empty State  -->
             <Grid
                 Grid.Row="1"
                 HorizontalAlignment="Center"
@@ -207,14 +209,14 @@
                         Glyph="&#xE779;" />
                     <TextBlock
                         Margin="0,16,0,0"
+                        HorizontalAlignment="Center"
                         FontSize="18"
                         FontWeight="Bold"
-                        HorizontalAlignment="Center"
                         Text="Нет активных посетителей" />
                     <TextBlock
                         Margin="0,8,0,0"
-                        FontSize="14"
                         HorizontalAlignment="Center"
+                        FontSize="14"
                         Text="В данный момент в заведении нет посетителей" />
                 </StackPanel>
             </Grid>

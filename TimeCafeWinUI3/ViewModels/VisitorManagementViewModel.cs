@@ -166,8 +166,7 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
         }
     }
 
-    [RelayCommand]
-    private async Task ExitVisitor(Visit visit)
+    public async Task ExitVisitorAsync(Visit visit)
     {
         if (visit == null) return;
 
@@ -191,7 +190,15 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
             }
             catch (Exception ex)
             {
-                // TODO: Show error message
+                // Показываем ошибку пользователю
+                var errorDialog = new ContentDialog
+                {
+                    Title = "Ошибка",
+                    Content = $"Ошибка при выходе посетителя: {ex.Message}",
+                    CloseButtonText = "OK",
+                    XamlRoot = App.MainWindow.Content.XamlRoot
+                };
+                await errorDialog.ShowAsync();
                 System.Diagnostics.Debug.WriteLine($"Ошибка при выходе посетителя: {ex.Message}");
             }
         }

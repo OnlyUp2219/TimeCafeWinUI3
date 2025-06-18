@@ -40,6 +40,7 @@
             x:Name="ErrorTeachingTip"
             Title="Ошибка"
             Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+            Foreground="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
             CloseButtonContent="Закрыть"
             IsLightDismissEnabled="True"
             PlacementMargin="20"
