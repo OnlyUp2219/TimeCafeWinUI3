@@ -56,6 +56,12 @@ public partial class TimeCafeContext : DbContext
             entity.Property(e => e.BillingTypeName)
                 .IsRequired()
                 .HasMaxLength(20);
+
+            // Сидирование типов тарификации
+            entity.HasData(
+                new BillingType { BillingTypeId = 1, BillingTypeName = "Почасовая" },
+                new BillingType { BillingTypeId = 2, BillingTypeName = "Поминутная" }
+            );
         });
 
         modelBuilder.Entity<Client>(entity =>
@@ -122,6 +128,13 @@ public partial class TimeCafeContext : DbContext
             entity.Property(e => e.StatusName)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            // Сидирование статусов клиента
+            entity.HasData(
+                new ClientStatus { StatusId = 1, StatusName = "Черновик" },
+                new ClientStatus { StatusId = 2, StatusName = "Активный" },
+                new ClientStatus { StatusId = 3, StatusName = "Отказ от услуг" }
+            );
         });
 
         modelBuilder.Entity<FinancialTransaction>(entity =>
@@ -156,6 +169,13 @@ public partial class TimeCafeContext : DbContext
             entity.Property(e => e.GenderName)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            // Сидирование гендеров
+            entity.HasData(
+                new Gender { GenderId = 1, GenderName = "Мужской" },
+                new Gender { GenderId = 2, GenderName = "Женский" },
+                new Gender { GenderId = 3, GenderName = "Не указан" }
+            );
         });
 
         modelBuilder.Entity<PhoneConfirmation>(entity =>
@@ -242,6 +262,12 @@ public partial class TimeCafeContext : DbContext
             entity.Property(e => e.TransactionTypeName)
                 .IsRequired()
                 .HasMaxLength(20);
+
+            // Сидирование типов транзакций
+            entity.HasData(
+                new TransactionType { TransactionTypeId = 1, TransactionTypeName = "Пополнение" },
+                new TransactionType { TransactionTypeId = 2, TransactionTypeName = "Списание" }
+            );
         });
 
         modelBuilder.Entity<Visit>(entity =>

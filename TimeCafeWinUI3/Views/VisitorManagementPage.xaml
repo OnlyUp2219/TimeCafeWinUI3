@@ -180,7 +180,7 @@
                                 <TextBlock
                                     FontSize="12"
                                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                    Text="{Binding CurrentCost}" />
+                                    Text="{Binding CurrentCost, Converter={StaticResource PriceConverter}, ConverterParameter=3}" />
                             </StackPanel>
 
                             <!--  Exit Button  -->

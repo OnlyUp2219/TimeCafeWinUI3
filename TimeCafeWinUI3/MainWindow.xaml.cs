@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using TimeCafeWinUI3.Contracts.Services;
+using TimeCafeWinUI3.Core.Contracts.Services;
 using Windows.UI.ViewManagement;
 
 namespace TimeCafeWinUI3;
@@ -54,17 +55,31 @@ public sealed partial class MainWindow : WindowEx
             args.Cancel = true;
 
             System.Diagnostics.Debug.WriteLine("Начинаем закрытие окна...");
-            System.Diagnostics.Debug.WriteLine($"Content: {Content}");
-            System.Diagnostics.Debug.WriteLine($"DispatcherQueue: {dispatcherQueue}");
-            System.Diagnostics.Debug.WriteLine($"Settings: {settings}");
 
             var themeSelectorService = App.GetService<IThemeSelectorService>();
             var currentTheme = themeSelectorService.Theme;
-            Environment.Exit(0);// TODO : УБРАТЬ 
+
+            // Проверяем, есть ли активные посетители
+            var visitService = App.GetService<IVisitService>();
+            var activeVisits = await visitService.GetActiveVisitsAsync();
+            var activeVisitorsCount = activeVisits.Count();
+
+            string dialogContent;
+            if (activeVisitorsCount > 0)
+            {
+                dialogContent = $"В заведении находится {activeVisitorsCount} активных посетителей.\n\n" +
+                               "Убедитесь, что все посетители вышли из заведения перед закрытием приложения.\n\n" +
+                               "Вы уверены, что хотите закрыть приложение?";
+            }
+            else
+            {
+                dialogContent = "Вы уверены, что хотите закрыть приложение?";
+            }
+
             var dialog = new ContentDialog
             {
                 Title = "Подтверждение",
-                Content = "Вы уверены, что хотите закрыть приложение?",
+                Content = dialogContent,
                 PrimaryButtonText = "Да",
                 SecondaryButtonText = "Нет",
                 XamlRoot = Content.XamlRoot,
@@ -76,9 +91,14 @@ public sealed partial class MainWindow : WindowEx
             if (result == ContentDialogResult.Primary)
             {
                 System.Diagnostics.Debug.WriteLine("Пользователь подтвердил закрытие, скрываем окно");
+                
+                // TODO: Автоматический выход всех посетителей при закрытии
+                // if (activeVisitorsCount > 0)
+                // {
+                //     await visitService.ExitAllVisitorsAsync("Закрытие приложения");
+                // }
+                
                 AppWindow.Hide();
-
-                System.Diagnostics.Debug.WriteLine("Вызываем Environment.Exit(0)");
                 Environment.Exit(0);
             }
             else

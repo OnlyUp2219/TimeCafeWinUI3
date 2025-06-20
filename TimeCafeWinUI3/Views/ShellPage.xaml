@@ -77,7 +77,7 @@
                 TODO: Update item icons by updating FontIcon.Glyph properties.
                 https://docs.microsoft.com/windows/apps/design/style/segoe-fluent-icons-font#icon-list
                 -->
-
+                <NavigationViewItemHeader Content="Управление входом/выходом" />
                 <NavigationViewItem x:Uid="Entry" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.EntryViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE716;" />
@@ -88,6 +88,7 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE779;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItemHeader Content="Управление клиентами" />
                 <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.CreateClientViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;" />
@@ -98,6 +99,7 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE779;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItemHeader Content="Управление тарифами" />
                 <NavigationViewItem x:Uid="TariffManage" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.TariffManageViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C7;" />

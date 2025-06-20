@@ -9,7 +9,12 @@ public class PriceConverter : IValueConverter
     {
         if (value is decimal price)
         {
-            return $"{Math.Round(price, 2):N2} ₽";
+            int decimals = 2;
+            if (parameter != null && int.TryParse(parameter.ToString(), out int paramDecimals))
+            {
+                decimals = paramDecimals;
+            }
+            return $"{Math.Round(price, decimals)}:N" + decimals + " ₽";
         }
         return "0 ₽";
     }
