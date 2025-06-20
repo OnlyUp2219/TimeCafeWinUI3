@@ -14,7 +14,8 @@ public class PriceConverter : IValueConverter
             {
                 decimals = paramDecimals;
             }
-            return $"{Math.Round(price, decimals)}:N" + decimals + " ₽";
+            
+            return $"{Math.Round(price, decimals)} ₽";
         }
         return "0 ₽";
     }

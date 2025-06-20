@@ -1,0 +1,812 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TimeCafeWinUI3.Activation.ActivationHandler&lt;T&gt;" Collapsed="true">
+    <Position X="7.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAACAAAAAAAAAAAAEIAAAAA=</HashCode>
+      <FileName>Activation\ActivationHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Activation.AppNotificationActivationHandler" Collapsed="true">
+    <Position X="8.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAIAAAAAAAAAAAAAAAAAAAEIAAAAA=</HashCode>
+      <FileName>Activation\AppNotificationActivationHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Activation.DefaultActivationHandler" Collapsed="true">
+    <Position X="6.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAEIAAAAA=</HashCode>
+      <FileName>Activation\DefaultActivationHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Behaviors.NavigationViewHeaderBehavior" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEAAAAAAFEUAAAAEAAACoBIABAgAAAAAAABABCAAIAA=</HashCode>
+      <FileName>Behaviors\NavigationViewHeaderBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Behaviors.SelectedPointerOverBehavior" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAFBAAAAAAAAAAAAAAAAAEAAgAIAAAABAAAAA=</HashCode>
+      <FileName>Behaviors\SelectedPointerOverBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Controls.ControlExtensions" Collapsed="true">
+    <Position X="11" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\PaginationControl.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Controls.PaginationControl" Collapsed="true">
+    <Position X="12.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAUAiMgICAAAAAAIIASAhASpIwIAKABAghIEcECBQI=</HashCode>
+      <FileName>Controls\PaginationControl.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.BooleanNegationConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\BooleanNegationConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.BooleanToVisibilityConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\BooleanToVisibilityConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.CrossBlockPool" Collapsed="true">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAABAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\CrossBlockPool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.CrossTemplateItem" Collapsed="true">
+    <Position X="5.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Helpers\CrossTemplates.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.CrossTemplates" Collapsed="true">
+    <Position X="7.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAEAAAkAAAAAAAAAAAABAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Helpers\CrossTemplates.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.DateOnlyConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\DateOnlyConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.DateOnlyToDateTimeConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\DateOnlyToDateTimeConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.DateTimeFormatConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\DateTimeFormatConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.DecimalToDoubleConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\DecimalToDoubleConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.DispatcherQueueExtensions" Collapsed="true">
+    <Position X="5.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Helpers\DispatcherQueueExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.EnumToBooleanConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\EnumToBooleanConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.FrameExtensions" Collapsed="true">
+    <Position X="9.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\FrameExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.FullNameConverters" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\FullNameConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.FullNameInitialsConverters" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\FullNameInitialsConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.GenderConverters" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\GenderConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.NavigationHelper" Collapsed="true">
+    <Position X="5.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\NavigationHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.NullToVisibilityConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\NullToVisibilityConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.PriceConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\PriceConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.ResourceExtensions" Collapsed="true">
+    <Position X="0.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\ResourceExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.RuntimeHelper" Collapsed="true">
+    <Position X="2.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAQAAAAAAA=</HashCode>
+      <FileName>Helpers\RuntimeHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.SettingsStorageExtensions" Collapsed="true">
+    <Position X="4" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAACAAAAwIgQAAAIAAEAAAAAAAA=</HashCode>
+      <FileName>Helpers\SettingsStorageExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.StatusColorConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\StatusColorConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.StatusToVisibilityConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\StatusToVisibilityConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.StringToVisibilityConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\StringToVisibilityConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.ThemeToBrushConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\ThemeToBrushConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.ThemeToStyleConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\ThemeToStyleConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.TitleBarHelper" Collapsed="true">
+    <Position X="4" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAACAAAAAAAAAAAAAACSEAAAAAAQA=</HashCode>
+      <FileName>Helpers\TitleBarHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.TooltipConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\TooltipConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Helpers.UIHelper" Collapsed="true">
+    <Position X="7.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Helpers\UIHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Models.CrossInfo" Collapsed="true">
+    <Position X="11" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAIAAAQAACAAAAAAAAAAEAAAAAAYAA=</HashCode>
+      <FileName>Models\CrossInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Models.LocalSettingsOptions" Collapsed="true">
+    <Position X="12.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\LocalSettingsOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Models.TooltipItem" Collapsed="true">
+    <Position X="11" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TooltipItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Services.ActivationService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgAAAAAAQAAAAAAIAAAAAQAAAAAAAAAAAgAAAAAAgAI=</HashCode>
+      <FileName>Services\ActivationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Services.LocalSettingsService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAUAQAAIEAAgARAAAAAAAAAAAAAAAAQAAEAgAA=</HashCode>
+      <FileName>Services\LocalSettingsService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Services.NavigationService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAgAAAAACAAAIAAAAIIAEAAAAQgAABABE=</HashCode>
+      <FileName>Services\NavigationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Services.NavigationViewService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAQAAAAARAAMAAAAgAACAACAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Services\NavigationViewService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Services.PageService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAIgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\PageService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Services.ThemeColorService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAgEAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Services\ThemeColorService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Services.ThemeSelectorService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIAAAAAAAAAAAICQAAAAAAAAAAAIAAAAAAAgAAAACAA=</HashCode>
+      <FileName>Services\ThemeSelectorService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Services.WorkingHoursService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAgBAAAAAAAAAABAAAAAAAAQAAACAAAEAgAIAAACAA=</HashCode>
+      <FileName>Services\WorkingHoursService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Notifications.AppNotificationService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAgAAAAAAQAAIAAAAAAAAAAEAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Services\AppNotificationService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Styles.Controls.ButtonRadio" Collapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Styles\Controls\ButtonRadio.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Styles.Controls.CopyButton" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Styles\Controls\CopyButton.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.PhoneVerificationConfirm" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\CreateClientPages\PhoneVerificationConfirm.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.PhoneVerificationDialogFactory" Collapsed="true">
+    <Position X="22" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\CreateClientPages\PhoneVerificationDialogFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.EditClientContentDialog" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABBAAAAAAAAAAAAAAAEAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Views\UserGridContentDialogs\EditClientContentDialog.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.EditClientDialogFactory" Collapsed="true">
+    <Position X="23.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\UserGridContentDialogs\EditClientDialogFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.RefuseServiceContentDialog" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\UserGridContentDialogs\RefuseServiceContentDialog.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.RefuseServiceDialogFactory" Collapsed="true">
+    <Position X="18.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\UserGridContentDialogs\RefuseServiceDialogFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.CreateClientPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAEgAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Views\CreateClientPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.CreateTariffPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Views\CreateTariffPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.EntryPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\EntryPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.SettingsPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\SettingsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.ShellPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAQAAQAAAAEAAAAAAAgQAAgAAAAAA=</HashCode>
+      <FileName>Views\ShellPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.TariffManagePage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAEAAAEgAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Views\TariffManagePage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.UserGridDetailPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAQAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\UserGridDetailPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.UserGridPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAgAAAAQAEgAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Views\UserGridPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Views.VisitorManagementPage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="22" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Views\VisitorManagementPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.CreateClientViewModel" Collapsed="true">
+    <Position X="18.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgBCAoEACABACQIgLGAADAQSkEAAAAQAgIRAGQEAAAA=</HashCode>
+      <FileName>ViewModels\CreateClientViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.CreateTariffViewModel" Collapsed="true">
+    <Position X="20" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GCABAAEAABAAAQgAKYAAAASCggCAAAQAAYQAQQAAAAA=</HashCode>
+      <FileName>ViewModels\CreateTariffViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.EditClientContentDialogViewModel" Collapsed="true">
+    <Position X="21.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAADAAEAgBEABCAAQEEQAAAAAAASACAAAAAQ=</HashCode>
+      <FileName>ViewModels\EditClientContentDialogViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.PhoneVerificationViewModel" Collapsed="true">
+    <Position X="18.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgEABAAAAIAAgAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\PhoneVerificationViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.RefuseServiceContentDialogViewModel" Collapsed="true">
+    <Position X="20" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAgCAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>ViewModels\RefuseServiceContentDialogViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.SettingsViewModel" Collapsed="true">
+    <Position X="21.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAEACAAAQAgAAEAAAAEAAAAACAAAAQs=</HashCode>
+      <FileName>ViewModels\SettingsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.ShellViewModel" Collapsed="true">
+    <Position X="18.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAICAIAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>ViewModels\ShellViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.TariffManageViewModel" Collapsed="true">
+    <Position X="20" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgEACAAAAAIAICAABAQCgAAAAAQAgABAEAAAAAA=</HashCode>
+      <FileName>ViewModels\TariffManageViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.UserGridDetailViewModel" Collapsed="true">
+    <Position X="21.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAQAIAAACCQAABEAECQIAAAAAAAIAAA=</HashCode>
+      <FileName>ViewModels\UserGridDetailViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.UserGridViewModel" Collapsed="true">
+    <Position X="23.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAgAAAAAAAAIAICAADAQAgAAAAAQAAABAEAAAAAI=</HashCode>
+      <FileName>ViewModels\UserGridViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.VisitorManagementViewModel" Collapsed="true">
+    <Position X="23.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JEQAAgQAAAAAAAAAEAAASAYCgAAhAIQBAIAIAAAAAEA=</HashCode>
+      <FileName>ViewModels\VisitorManagementViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.ViewModels.EntryViewModel" Collapsed="true">
+    <Position X="23.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>A0CAAKFAAgBIQCEgJkCBSFRbkFBBCIUAIIAADAAFAAA=</HashCode>
+      <FileName>ViewModels\EntryViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Helpers.Json" Collapsed="true">
+    <Position X="20.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.BillingType" Collapsed="true">
+    <Position X="11" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.Client" Collapsed="true">
+    <Position X="12.75" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.ClientAdditionalInfo" Collapsed="true">
+    <Position X="14.5" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.ClientStatus" Collapsed="true">
+    <Position X="16.25" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.ClientStatusType" Collapsed="true">
+    <Position X="11" Y="11" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.FinancialTransaction" Collapsed="true">
+    <Position X="12.75" Y="11" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.Gender" Collapsed="true">
+    <Position X="14.5" Y="11" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.PhoneConfirmation" Collapsed="true">
+    <Position X="16.25" Y="11" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.Tariff" Collapsed="true">
+    <Position X="11" Y="12" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.Theme" Collapsed="true">
+    <Position X="12.75" Y="12" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.TimeCafeContext" Collapsed="true">
+    <Position X="14.5" Y="12" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.TransactionType" Collapsed="true">
+    <Position X="16.25" Y="12" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Models.Visit" Collapsed="true">
+    <Position X="11" Y="13" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Services.BillingTypeService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="10" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Services.ClientAdditionalInfoService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="10" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Services.ClientService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9" Y="10" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Services.FakeDataGenerator" Collapsed="true">
+    <Position X="5.5" Y="11" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Services.FileService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="11" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Services.TariffService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="9" Y="11" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Services.ThemeService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="12" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TimeCafeWinUI3.Core.Services.VisitService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="12" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="TimeCafeWinUI3.Activation.IActivationHandler" Collapsed="true">
+    <Position X="9.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Activation\IActivationHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.IActivationService" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\Services\IActivationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.IAppNotificationService" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAQAAAAAAAAAAAAAEAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Contracts\Services\IAppNotificationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.ILocalSettingsService" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\Services\ILocalSettingsService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.INavigationService" Collapsed="true">
+    <Position X="0.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAIAAEAAAAQAAABAAE=</HashCode>
+      <FileName>Contracts\Services\INavigationService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.INavigationViewService" Collapsed="true">
+    <Position X="2.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAARAAAAAAAAAAAAACAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Contracts\Services\INavigationViewService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.IPageService" Collapsed="true">
+    <Position X="4" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\Services\IPageService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.IThemeColorService" Collapsed="true">
+    <Position X="5.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\Services\IThemeColorService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.IThemeSelectorService" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAACQAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\Services\IThemeSelectorService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.Services.IWorkingHoursService" Collapsed="true">
+    <Position X="2.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAABAAAAAAAAQAAACAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\Services\IWorkingHoursService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Contracts.ViewModels.INavigationAware" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\ViewModels\INavigationAware.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Core.Contracts.Services.IBillingTypeService" Collapsed="true">
+    <Position X="18.5" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Core.Contracts.Services.IClientAdditionalInfoService" Collapsed="true">
+    <Position X="20.25" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Core.Contracts.Services.IClientService" Collapsed="true">
+    <Position X="22" Y="10" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Core.Contracts.Services.IFileService" Collapsed="true">
+    <Position X="18.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Core.Contracts.Services.ITariffService" Collapsed="true">
+    <Position X="20.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Core.Contracts.Services.IThemeService" Collapsed="true">
+    <Position X="22" Y="10.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="TimeCafeWinUI3.Core.Contracts.Services.IVisitService" Collapsed="true">
+    <Position X="18.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="TimeCafeWinUI3.Behaviors.NavigationViewHeaderMode" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Behaviors\NavigationViewHeaderMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TimeCafeWinUI3.Helpers.EStatusColor" Collapsed="true">
+    <Position X="0.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\EStatusColor.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TimeCafeWinUI3.ViewModels.EntryState" Collapsed="true">
+    <Position X="23.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAEAAAAAAAAAAAgAAAAAAAAAAAAAEAEA=</HashCode>
+      <FileName>ViewModels\EntryViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
