@@ -99,6 +99,12 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE779;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItemHeader Content="Управление финансами" />
+                <NavigationViewItem x:Uid="FinanceManagement" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.FinanceManagementViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8D5;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItemHeader Content="Управление тарифами" />
                 <NavigationViewItem x:Uid="TariffManage" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.TariffManageViewModel">
                     <NavigationViewItem.Icon>

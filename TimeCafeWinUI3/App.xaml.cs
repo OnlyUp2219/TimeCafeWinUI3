@@ -65,6 +65,7 @@ public partial class App : Application
             services.AddTransient<IBillingTypeService, BillingTypeService>();
             services.AddTransient<IVisitService, VisitService>();
             services.AddTransient<IWorkingHoursService, WorkingHoursService>();
+            services.AddTransient<IFinancialService, FinancialService>();
             services.AddDbContext<TimeCafeContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
             // Views and ViewModels
@@ -90,6 +91,10 @@ public partial class App : Application
             services.AddTransient<RefuseServiceContentDialogViewModel>();
             services.AddTransient<CreateTariffViewModel>();
             services.AddTransient<CreateTariffPage>();
+            services.AddTransient<ClientFinanceViewModel>();
+            services.AddTransient<FinanceManagementViewModel>();
+            services.AddTransient<FinanceManagementPage>();
+            services.AddTransient<ClientFinancePage>();
 
             // Register ContentDialogs
             services.AddTransient<EditClientContentDialog>();

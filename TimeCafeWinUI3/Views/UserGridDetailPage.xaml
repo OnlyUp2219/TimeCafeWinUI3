@@ -138,6 +138,7 @@
                         Command="{x:Bind ViewModel.DeleteClientCommand}"
                         Content="Удалить" />
                     <Button Command="{x:Bind ViewModel.EditClientCommand}" Content="Изменить" />
+                    <Button Command="{x:Bind ViewModel.FinanceCommand}" Content="Финансы" />
                     <Button
                         Command="{x:Bind ViewModel.RefuseServiceCommand}"
                         Content="Отказ от услуг"

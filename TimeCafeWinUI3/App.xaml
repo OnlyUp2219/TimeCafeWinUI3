@@ -21,6 +21,7 @@
             <helpers:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
             <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <helpers:BooleanNegationConverter x:Key="BooleanNegationConverter" />
+            <helpers:BooleanToTextConverter x:Key="BooleanToTextConverter" />
             <helpers:TooltipConverter x:Key="TooltipConverter" />
             <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <helpers:StatusColorConverter x:Key="StatusColorConverter" />

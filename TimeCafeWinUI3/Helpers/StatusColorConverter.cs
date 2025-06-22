@@ -1,5 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
+using Windows.UI;
 
 namespace TimeCafeWinUI3.Helpers
 {
@@ -28,6 +30,22 @@ namespace TimeCafeWinUI3.Helpers
                     ClientStatusType.Rejected => isBackground ? GridCriticalStyle : FontIconCriticalStyle,    // Отказ от услуг
                     _ => isBackground ? GridNeutralStyle : FontIconNeutralStyle
                 };
+            }
+
+            // Для статуса возвращаем цвет текста
+            if (parameter == "status" && value is bool isActive)
+            {
+                return isActive 
+                    ? new SolidColorBrush(Color.FromArgb(255, 0, 128, 0)) // Зеленый для активного
+                    : new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)); // Красный для неактивного
+            }
+
+            // Для транзакций возвращаем цвет текста
+            if (parameter == "transaction" && value is int transactionTypeId)
+            {
+                return transactionTypeId == 1 
+                    ? new SolidColorBrush(Color.FromArgb(255, 0, 128, 0)) // Зеленый для пополнения
+                    : new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)); // Красный для списания
             }
 
             return isBackground ? GridNeutralStyle : FontIconNeutralStyle;

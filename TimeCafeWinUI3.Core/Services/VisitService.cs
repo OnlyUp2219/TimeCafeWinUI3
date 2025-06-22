@@ -8,11 +8,13 @@ public class VisitService : IVisitService
 {
     private readonly TimeCafeContext _context;
     private readonly IBillingTypeService _billingTypeService;
+    private readonly IFinancialService _financialService;
 
-    public VisitService(TimeCafeContext context, IBillingTypeService billingTypeService)
+    public VisitService(TimeCafeContext context, IBillingTypeService billingTypeService, IFinancialService financialService)
     {
         _context = context;
         _billingTypeService = billingTypeService;
+        _financialService = financialService;
     }
 
     public async Task<Visit> EnterClientAsync(int clientId, int tariffId)
@@ -34,6 +36,14 @@ public class VisitService : IVisitService
 
         if (tariff.BillingType == null)
             throw new InvalidOperationException($"У тарифа {tariff.TariffName} не указан тип тарификации");
+
+        // Проверяем минимальный баланс для входа
+        var minRequiredAmount = await CalculateMinimumRequiredAmountAsync(tariff);
+        if (!await _financialService.HasSufficientBalanceAsync(clientId, minRequiredAmount))
+        {
+            var currentBalance = await _financialService.GetClientBalanceAsync(clientId);
+            throw new InvalidOperationException($"Недостаточно средств для входа. Требуется минимум {minRequiredAmount:C}, доступно {currentBalance:C}");
+        }
 
         var visit = new Visit
         {
@@ -77,8 +87,8 @@ public class VisitService : IVisitService
         visit.ExitTime = DateTime.Now;
         visit.VisitCost = await CalculateVisitCostAsync(visit);
 
-        // TODO: Снятие с баланса клиента (депозита)
-        // await _financialService.DeductFromBalanceAsync(visit.ClientId, visit.VisitCost.Value);
+        // Списание с баланса клиента
+        await _financialService.DeductAsync(visit.ClientId.Value, visit.VisitCost.Value, visit.VisitId, "Оплата посещения");
 
         await _context.SaveChangesAsync();
         return visit;
@@ -155,6 +165,29 @@ public class VisitService : IVisitService
     {
         var endTime = visit.ExitTime ?? DateTime.Now;
         return endTime - visit.EntryTime;
+    }
+
+    /// <summary>
+    /// Рассчитать минимальную требуемую сумму для входа
+    /// </summary>
+    private async Task<decimal> CalculateMinimumRequiredAmountAsync(Tariff tariff)
+    {
+        if (tariff.BillingType == null)
+            return 0;
+
+        switch (tariff.BillingType.BillingTypeId)
+        {
+            case 1: // Почасовая тарификация
+                // Минимум на 1 час
+                return tariff.Price;
+
+            case 2: // Поминутная тарификация
+                // Минимум на 1 час (60 минут)
+                return tariff.Price * 60;
+
+            default:
+                return 0;
+        }
     }
 
     // TODO: Автоматический выход всех посетителей при закрытии заведения

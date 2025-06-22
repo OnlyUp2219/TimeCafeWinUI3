@@ -1,6 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using TimeCafeWinUI3.Core.Contracts.Services;
+using TimeCafeWinUI3.Core.Models;
+using TimeCafeWinUI3.Contracts.Services;
+using TimeCafeWinUI3.Contracts.ViewModels;
+using TimeCafeWinUI3.Views;
+using TimeCafeWinUI3.Views.UserGridContentDialogs;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -195,6 +202,15 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
         {
             await _clientService.DeleteClientAsync(Item.ClientId);
             _navigationService.GoBack();
+        }
+    }
+
+    [RelayCommand]
+    private void Finance()
+    {
+        if (Item != null)
+        {
+            _navigationService.NavigateTo(typeof(ClientFinancePage), Item);
         }
     }
 
