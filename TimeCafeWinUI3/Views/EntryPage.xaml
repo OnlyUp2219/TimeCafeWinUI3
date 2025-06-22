@@ -14,8 +14,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:TimeCafeWinUI3.Core.Models"
     xmlns:pagination="using:TimeCafeWinUI3.Controls"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:TimeCafeWinUI3.ViewModels"
+    behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -28,310 +30,333 @@
         </Style>
     </Page.Resources>
 
-    <Grid x:Name="ContentArea">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+    <Grid>
 
-        <!--  TeachingTip for errors  -->
-        <TeachingTip
-            x:Name="ErrorTeachingTip"
-            Title="Ошибка"
-            Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-            Foreground="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-            CloseButtonContent="Закрыть"
-            IsLightDismissEnabled="True"
-            PlacementMargin="20"
-            PreferredPlacement="Bottom"
-            Subtitle="{Binding ErrorMessage}" />
+        <toolkit:OpacityMaskView Margin="-175">
+            <toolkit:OpacityMaskView.OpacityMask>
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1.3">
+                            <GradientStop Offset="0" Color="White" />
+                            <GradientStop Offset="0.6" Color="Transparent" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </toolkit:OpacityMaskView.OpacityMask>
+            <Border>
+                <Image Source="ms-appx:///Assets/Imagebackground/flexy-image-1750441471864 (1).png" />
+            </Border>
+        </toolkit:OpacityMaskView>
 
-        <!--  Header  -->
-        <Grid Grid.Row="0" Padding="20">
-            <StackPanel HorizontalAlignment="Center">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="32"
-                    FontWeight="Bold"
-                    Text="TimeCafe" />
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="16"
-                    Text="Добро пожаловать!" />
-            </StackPanel>
-        </Grid>
+        <Grid x:Name="ContentArea">
 
-        <!--  Main Content - States  -->
-        <Grid Grid.Row="1" Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <!--  TeachingTip for errors  -->
+            <TeachingTip
+                x:Name="ErrorTeachingTip"
+                Title="Ошибка"
+                Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                CloseButtonContent="Закрыть"
+                Foreground="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                IsLightDismissEnabled="True"
+                PlacementMargin="20"
+                PreferredPlacement="Bottom"
+                Subtitle="{Binding ErrorMessage}" />
 
 
-            <!--  Welcome State  -->
-            <Grid x:Name="WelcomeState" Visibility="{Binding IsWelcomeState, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Spacing="20">
+
+            <!--  Header  -->
+            <Grid Grid.Row="0" Padding="20">
+                <StackPanel HorizontalAlignment="Center">
                     <TextBlock
                         HorizontalAlignment="Center"
-                        FontSize="24"
+                        FontSize="32"
                         FontWeight="Bold"
-                        Text="Выберите действие" />
-
-                    <StackPanel Orientation="Horizontal" Spacing="20">
-                        <Button
-                            Width="200"
-                            Height="120"
-                            Command="{x:Bind ViewModel.EnterAsMemberCommand}"
-                            Style="{StaticResource DefaultButtonStyle}">
-                            <StackPanel>
-                                <FontIcon FontSize="48" Glyph="&#xE716;" />
-                                <TextBlock
-                                    Margin="0,8,0,0"
-                                    FontSize="16"
-                                    FontWeight="Bold"
-                                    Text="Войти как член" />
-                            </StackPanel>
-                        </Button>
-
-                        <Button
-                            Width="200"
-                            Height="120"
-                            Command="{x:Bind ViewModel.RegisterCommand}"
-                            Style="{StaticResource AccentButtonStyle}">
-                            <StackPanel>
-                                <FontIcon FontSize="48" Glyph="&#xE779;" />
-                                <TextBlock
-                                    Margin="0,8,0,0"
-                                    FontSize="16"
-                                    FontWeight="Bold"
-                                    Text="Зарегистрироваться" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-
-            <!--  Card Input State  -->
-            <Grid x:Name="CardInputState" Visibility="{Binding IsCardInputState, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Spacing="20">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Text="Введите номер карты СКУД" />
-
-                    <TextBox
-                        Width="300"
-                        FontSize="18"
-                        Header="Номер карты:"
-                        PlaceholderText="Введите 20-значный номер карты"
-                        Text="{Binding CardNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-            </Grid>
-
-            <!--  Registration State  -->
-            <Grid x:Name="RegistrationState" Visibility="{Binding IsRegistrationState, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="300" />
-                </Grid.ColumnDefinitions>
-
-                <!--  Registration Form (Copy of CreateClientPage)  -->
-                <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                    <StackPanel Padding="20" Spacing="12">
-                        <TextBlock
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="Регистрация нового клиента" />
-
-                        <TextBox
-                            Header="Введите имя:"
-                            PlaceholderText="Имя"
-                            Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            Header="Введите фамилию:"
-                            PlaceholderText="Фамилия"
-                            Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            Header="Введите отчество:"
-                            PlaceholderText="Отчество"
-                            Text="{Binding MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <ComboBox
-                            HorizontalAlignment="Stretch"
-                            DisplayMemberPath="GenderName"
-                            Header="Выберите пол:"
-                            ItemsSource="{Binding Genders}"
-                            PlaceholderText="Укажите пол"
-                            SelectedValue="{Binding GenderId, Mode=TwoWay}"
-                            SelectedValuePath="GenderId" />
-                        <TextBox
-                            Header="Введите электронную почту:"
-                            PlaceholderText="Электронная почта"
-                            Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <DatePicker
-                            HorizontalAlignment="Stretch"
-                            Date="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateOnlyConverter}}"
-                            DayFormat="{}{dayofweek.solo.full}"
-                            Header="Выберите дату рождения:" />
-                        <TextBox
-                            ui:TextBoxExtensions.Mask="+\375 (99) 999 9999"
-                            Header="Введите номер телефона:"
-                            PlaceholderText="+375 (XX) XXX XXXX"
-                            Text="{Binding PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            Height="100"
-                            AcceptsReturn="True"
-                            Header="Введите дополнительную информацию:"
-                            PlaceholderText="Дополнительная информация"
-                            Text="{Binding AdditionalInfo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
-                </ScrollViewer>
-
-                <!--  QR Code Placeholder  -->
-                <Border
-                    Grid.Column="1"
-                    Margin="20"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <Grid>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <FontIcon
-                                FontSize="120"
-                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Glyph="&#xE8D1;" />
-                            <TextBlock
-                                Margin="0,16,0,0"
-                                HorizontalAlignment="Center"
-                                Text="QR код карты"
-                                TextWrapping="Wrap" />
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </Grid>
-
-            <!--  Tariff Selection State  -->
-            <Grid x:Name="TariffSelectionState" Visibility="{Binding IsTariffSelectionState, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Spacing="20">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Text="Выберите тариф" />
-
-                    <!--  Tariff Selection  -->
-                    <Grid Width="500" MaxHeight="400">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-
-                        <controls:AdaptiveGridView
-                            Grid.Row="0"
-                            DesiredWidth="200"
-                            ItemHeight="150"
-                            ItemsSource="{Binding Tariffs}"
-                            SelectedItem="{Binding SelectedTariff, Mode=TwoWay}">
-                            <controls:AdaptiveGridView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Tariff">
-                                    <Border
-                                        Padding="16"
-                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                        BorderThickness="1"
-                                        CornerRadius="8">
-                                        <StackPanel>
-                                            <TextBlock
-                                                FontSize="16"
-                                                FontWeight="Bold"
-                                                Text="{Binding TariffName}" />
-                                            <TextBlock
-                                                Margin="0,8,0,0"
-                                                FontSize="14"
-                                                Text="{Binding Description}" />
-                                            <TextBlock
-                                                Margin="0,8,0,0"
-                                                FontSize="18"
-                                                FontWeight="Bold"
-                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                Text="{Binding Price}" />
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </controls:AdaptiveGridView.ItemTemplate>
-                        </controls:AdaptiveGridView>
-
-                        <PipsPager
-                            Grid.Row="1"
-                            Margin="0,16,0,0"
-                            HorizontalAlignment="Center"
-                            NumberOfPages="{Binding Tariffs.Count}" />
-                    </Grid>
-                </StackPanel>
-            </Grid>
-
-            <!--  Success State  -->
-            <Grid x:Name="SuccessState" Visibility="{Binding IsSuccessState, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Spacing="20">
-                    <FontIcon
-                        FontSize="120"
-                        Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-                        Glyph="&#xE930;" />
-
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Text="Успешно!" />
-
+                        Text="TimeCafe" />
                     <TextBlock
                         HorizontalAlignment="Center"
                         FontSize="16"
-                        Text="Возврат к началу через:" />
-
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        FontSize="48"
-                        FontWeight="Bold"
-                        Text="{Binding CountdownSeconds}" />
-
-                    <Button
-                        Command="{x:Bind ViewModel.SkipWaitCommand}"
-                        Content="Пропустить ожидание"
-                        Style="{StaticResource DefaultButtonStyle}" />
+                        Text="Добро пожаловать!" />
                 </StackPanel>
             </Grid>
-        </Grid>
 
-        <!--  Navigation Buttons  -->
-        <Grid Grid.Row="2" Padding="20">
-            <StackPanel
-                HorizontalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="20">
-                <Button
-                    Command="{x:Bind ViewModel.BackCommand}"
-                    Content="Назад"
-                    Style="{StaticResource DefaultButtonStyle}"
-                    Visibility="{Binding CanGoBack, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                <Button
-                    Command="{x:Bind ViewModel.NextCommand}"
-                    Content="Далее"
-                    Style="{StaticResource AccentButtonStyle}"
-                    Visibility="{Binding CanGoNext, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            </StackPanel>
+            <!--  Main Content - States  -->
+            <Grid Grid.Row="1" Padding="20">
+
+
+                <!--  Welcome State  -->
+                <Grid x:Name="WelcomeState" Visibility="{Binding IsWelcomeState, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="20">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Text="Выберите действие" />
+
+                        <StackPanel Orientation="Horizontal" Spacing="20">
+                            <Button
+                                Width="200"
+                                Height="120"
+                                Command="{x:Bind ViewModel.EnterAsMemberCommand}"
+                                Style="{StaticResource DefaultButtonStyle}">
+                                <StackPanel>
+                                    <FontIcon FontSize="48" Glyph="&#xE716;" />
+                                    <TextBlock
+                                        Margin="0,8,0,0"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Text="Войти как член" />
+                                </StackPanel>
+                            </Button>
+
+                            <Button
+                                Width="200"
+                                Height="120"
+                                Command="{x:Bind ViewModel.RegisterCommand}"
+                                Style="{StaticResource AccentButtonStyle}">
+                                <StackPanel>
+                                    <FontIcon FontSize="48" Glyph="&#xE779;" />
+                                    <TextBlock
+                                        Margin="0,8,0,0"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Text="Зарегистрироваться" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!--  Card Input State  -->
+                <Grid x:Name="CardInputState" Visibility="{Binding IsCardInputState, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="20">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Text="Введите номер карты СКУД" />
+
+                        <TextBox
+                            Width="300"
+                            FontSize="18"
+                            Header="Номер карты:"
+                            PlaceholderText="Введите 20-значный номер карты"
+                            Text="{Binding CardNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </Grid>
+
+                <!--  Registration State  -->
+                <Grid x:Name="RegistrationState" Visibility="{Binding IsRegistrationState, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Registration Form (Copy of CreateClientPage)  -->
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Padding="20" Spacing="12">
+                            <TextBlock
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Text="Регистрация нового клиента" />
+
+                            <TextBox
+                                Header="Введите имя:"
+                                PlaceholderText="Имя"
+                                Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                Header="Введите фамилию:"
+                                PlaceholderText="Фамилия"
+                                Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                Header="Введите отчество:"
+                                PlaceholderText="Отчество"
+                                Text="{Binding MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <ComboBox
+                                HorizontalAlignment="Stretch"
+                                DisplayMemberPath="GenderName"
+                                Header="Выберите пол:"
+                                ItemsSource="{Binding Genders}"
+                                PlaceholderText="Укажите пол"
+                                SelectedValue="{Binding GenderId, Mode=TwoWay}"
+                                SelectedValuePath="GenderId" />
+                            <TextBox
+                                Header="Введите электронную почту:"
+                                PlaceholderText="Электронная почта"
+                                Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DatePicker
+                                HorizontalAlignment="Stretch"
+                                Date="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateOnlyConverter}}"
+                                DayFormat="{}{dayofweek.solo.full}"
+                                Header="Выберите дату рождения:" />
+                            <TextBox
+                                ui:TextBoxExtensions.Mask="+\375 (99) 999 9999"
+                                Header="Введите номер телефона:"
+                                PlaceholderText="+375 (XX) XXX XXXX"
+                                Text="{Binding PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                Height="100"
+                                AcceptsReturn="True"
+                                Header="Введите дополнительную информацию:"
+                                PlaceholderText="Дополнительная информация"
+                                Text="{Binding AdditionalInfo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!--  QR Code Placeholder  -->
+                    <Border
+                        Grid.Column="1"
+                        Margin="20"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                        <Grid>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <FontIcon
+                                    FontSize="120"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Glyph="&#xE8D1;" />
+                                <TextBlock
+                                    Margin="0,16,0,0"
+                                    HorizontalAlignment="Center"
+                                    Text="QR код карты"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--  Tariff Selection State  -->
+                <Grid x:Name="TariffSelectionState" Visibility="{Binding IsTariffSelectionState, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="20">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Text="Выберите тариф" />
+
+                        <!--  Tariff Selection  -->
+                        <Grid Width="500" MaxHeight="400">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <controls:AdaptiveGridView
+                                Grid.Row="0"
+                                DesiredWidth="200"
+                                ItemHeight="150"
+                                ItemsSource="{Binding Tariffs}"
+                                SelectedItem="{Binding SelectedTariff, Mode=TwoWay}">
+                                <controls:AdaptiveGridView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Tariff">
+                                        <Border
+                                            Padding="16"
+                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="8">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    FontSize="16"
+                                                    FontWeight="Bold"
+                                                    Text="{Binding TariffName}" />
+                                                <TextBlock
+                                                    Margin="0,8,0,0"
+                                                    FontSize="14"
+                                                    Text="{Binding Description}" />
+                                                <TextBlock
+                                                    Margin="0,8,0,0"
+                                                    FontSize="18"
+                                                    FontWeight="Bold"
+                                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                    Text="{Binding Price}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </controls:AdaptiveGridView.ItemTemplate>
+                            </controls:AdaptiveGridView>
+
+                            <PipsPager
+                                Grid.Row="1"
+                                Margin="0,16,0,0"
+                                HorizontalAlignment="Center"
+                                NumberOfPages="{Binding Tariffs.Count}" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <!--  Success State  -->
+                <Grid x:Name="SuccessState" Visibility="{Binding IsSuccessState, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="20">
+                        <FontIcon
+                            FontSize="120"
+                            Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                            Glyph="&#xE930;" />
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Text="Успешно!" />
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="16"
+                            Text="Возврат к началу через:" />
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="48"
+                            FontWeight="Bold"
+                            Text="{Binding CountdownSeconds}" />
+
+                        <Button
+                            Command="{x:Bind ViewModel.SkipWaitCommand}"
+                            Content="Пропустить ожидание"
+                            Style="{StaticResource DefaultButtonStyle}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!--  Navigation Buttons  -->
+            <Grid Grid.Row="2" Padding="20">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="20">
+                    <Button
+                        Command="{x:Bind ViewModel.BackCommand}"
+                        Content="Назад"
+                        Style="{StaticResource DefaultButtonStyle}"
+                        Visibility="{Binding CanGoBack, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <Button
+                        Command="{x:Bind ViewModel.NextCommand}"
+                        Content="Далее"
+                        Style="{StaticResource AccentButtonStyle}"
+                        Visibility="{Binding CanGoNext, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Page> 

@@ -25,19 +25,8 @@
     <Content Remove="Assets\BadgeLogo.scale-150.png" />
     <Content Remove="Assets\BadgeLogo.scale-200.png" />
     <Content Remove="Assets\BadgeLogo.scale-400.png" />
-    <Content Remove="Assets\Imagebackground\flexy-image-1750441429684 (1).png" />
-    <Content Remove="Assets\Imagebackground\flexy-image-1750441434932 (1).png" />
-    <Content Remove="Assets\Imagebackground\flexy-image-1750441471864 (1).png" />
-    <Content Remove="Assets\Imagebackground\flexy-image-1750441826717 (1).png" />
-    <Content Remove="Assets\Imagebackground\flexy-image-1750441827699.png" />
     <Content Remove="Assets\Image\generated_image 2.png" />
     <Content Remove="Assets\Image\generated_image.png" />
-    <Content Remove="Assets\LargeTile.scale-125.png" />
-    <Content Remove="Assets\LargeTile.scale-150.png" />
-    <Content Remove="Assets\SmallTile.scale-125.png" />
-    <Content Remove="Assets\SmallTile.scale-150.png" />
-    <Content Remove="Assets\Square150x150Logo.scale-125.png" />
-    <Content Remove="Assets\Square150x150Logo.scale-150.png" />
     <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
     <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
     <Content Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
@@ -48,30 +37,26 @@
     <Content Remove="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
     <Content Remove="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
     <Content Remove="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <Content Remove="Assets\Square44x44Logo.scale-125.png" />
-    <Content Remove="Assets\Square44x44Logo.scale-150.png" />
-    <Content Remove="Assets\Square44x44Logo.targetsize-16.png" />
-    <Content Remove="Assets\Square44x44Logo.targetsize-24.png" />
-    <Content Remove="Assets\Square44x44Logo.targetsize-256.png" />
-    <Content Remove="Assets\Square44x44Logo.targetsize-32.png" />
-    <Content Remove="Assets\Square44x44Logo.targetsize-48.png" />
     <Content Remove="Assets\StoreLogo.scale-100.png" />
-    <Content Remove="Assets\StoreLogo.scale-125.png" />
-    <Content Remove="Assets\StoreLogo.scale-150.png" />
-    <Content Remove="Assets\StoreLogo.scale-200.png" />
-    <Content Remove="Assets\StoreLogo.scale-400.png" />
-    <Content Remove="Assets\Wide310x150Logo.scale-125.png" />
-    <Content Remove="Assets\Wide310x150Logo.scale-150.png" />
     <Content Remove="Assets\WindowIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Fonts\vagroundcyrillic.ttf" />
     <None Remove="Assets\HelpContent\sample1.mp4" />
     <None Remove="Assets\HelpContent\sample2.mp4" />
+    <None Remove="Assets\Imagebackground\flexy-image-1750441429684 %281%29.png" />
+    <None Remove="Assets\Imagebackground\flexy-image-1750441434932 %281%29.png" />
+    <None Remove="Assets\Imagebackground\flexy-image-1750441471864 %281%29.png" />
+    <None Remove="Assets\Imagebackground\flexy-image-1750441826717 %281%29.png" />
+    <None Remove="Assets\Imagebackground\flexy-image-1750441827699.png" />
     <None Remove="Assets\LargeTile.scale-100.png" />
+    <None Remove="Assets\LargeTile.scale-125.png" />
+    <None Remove="Assets\LargeTile.scale-150.png" />
     <None Remove="Assets\LargeTile.scale-200.png" />
     <None Remove="Assets\LargeTile.scale-400.png" />
     <None Remove="Assets\SmallTile.scale-100.png" />
+    <None Remove="Assets\SmallTile.scale-125.png" />
+    <None Remove="Assets\SmallTile.scale-150.png" />
     <None Remove="Assets\SmallTile.scale-200.png" />
     <None Remove="Assets\SmallTile.scale-400.png" />
     <None Remove="Assets\SplashScreen.scale-100.png" />
@@ -80,12 +65,37 @@
     <None Remove="Assets\SplashScreen.scale-200.png" />
     <None Remove="Assets\SplashScreen.scale-400.png" />
     <None Remove="Assets\Square150x150Logo.scale-100.png" />
+    <None Remove="Assets\Square150x150Logo.scale-125.png" />
+    <None Remove="Assets\Square150x150Logo.scale-150.png" />
     <None Remove="Assets\Square150x150Logo.scale-200.png" />
     <None Remove="Assets\Square150x150Logo.scale-400.png" />
     <None Remove="Assets\Square44x44Logo.scale-100.png" />
+    <None Remove="Assets\Square44x44Logo.scale-125.png" />
+    <None Remove="Assets\Square44x44Logo.scale-150.png" />
     <None Remove="Assets\Square44x44Logo.scale-200.png" />
     <None Remove="Assets\Square44x44Logo.scale-400.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-16.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-24.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-256.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-32.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-32_altform-unplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-48.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <None Remove="Assets\StoreLogo.scale-125.png" />
+    <None Remove="Assets\StoreLogo.scale-150.png" />
+    <None Remove="Assets\StoreLogo.scale-200.png" />
+    <None Remove="Assets\StoreLogo.scale-400.png" />
     <None Remove="Assets\Wide310x150Logo.scale-100.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-125.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-150.png" />
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
     <None Remove="Styles\Controls\AdaptiveGridView_ItemContainerStyle.xaml" />
@@ -105,6 +115,7 @@
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Bogus" Version="35.6.3" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.OpacityMaskView" Version="0.1.250618-build.2154" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.250402" />
