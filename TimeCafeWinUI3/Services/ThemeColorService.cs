@@ -1,6 +1,5 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.Services
 {
@@ -80,4 +79,4 @@ namespace TimeCafeWinUI3.Services
             return Application.Current.Resources[brushKey] as LinearGradientBrush;
         }
     }
-} 
+}

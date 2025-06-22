@@ -2,10 +2,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.Xaml.Interactivity;
-using System.Linq;
-using TimeCafeWinUI3.Contracts.Services;
-using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Views;
 
@@ -22,14 +18,14 @@ public sealed partial class UserGridPage : Page
         ViewModel = App.GetService<UserGridViewModel>();
         DataContext = ViewModel;
         InitializeComponent();
-        
+
         //this.NavigationCacheMode = NavigationCacheMode.Enabled;
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
-        
+
         if (_storeditem != null)
         {
             ViewModel.SetCurrentPage(_storedPage).Wait();

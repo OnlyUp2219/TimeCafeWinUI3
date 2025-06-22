@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Text;
+﻿using System.Text;
 
 namespace TimeCafeWinUI3.ViewModels
 {
@@ -27,7 +26,7 @@ namespace TimeCafeWinUI3.ViewModels
             var sb = new StringBuilder();
             if (string.IsNullOrWhiteSpace(code))
                 return "Код не может быть пустым.";
-            if (code != "12345") 
+            if (code != "12345")
                 return "Неверный код подтверждения.";
             return sb.ToString();
         }

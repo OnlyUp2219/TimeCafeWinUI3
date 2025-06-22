@@ -1,9 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
-using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Core.Contracts.Services;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -123,4 +119,4 @@ public partial class EditClientContentDialogViewModel : ObservableObject
         return _client;
     }
 
-} 
+}

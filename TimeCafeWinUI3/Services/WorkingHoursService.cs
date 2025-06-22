@@ -1,5 +1,3 @@
-using TimeCafeWinUI3.Contracts.Services;
-
 namespace TimeCafeWinUI3.Services;
 
 public class WorkingHoursService : IWorkingHoursService
@@ -65,4 +63,4 @@ public class WorkingHoursService : IWorkingHoursService
             return currentTime >= openTime && currentTime <= closeTime;
         }
     }
-} 
+}

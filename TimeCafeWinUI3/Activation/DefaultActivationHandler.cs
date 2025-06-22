@@ -1,7 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
 
-using TimeCafeWinUI3.Contracts.Services;
-
 namespace TimeCafeWinUI3.Activation;
 
 public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventArgs>

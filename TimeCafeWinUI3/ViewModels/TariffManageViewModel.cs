@@ -1,10 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
-using TimeCafeWinUI3.Contracts.Services;
-using TimeCafeWinUI3.Core.Models;
 using System.Diagnostics;
 
 namespace TimeCafeWinUI3.ViewModels;
@@ -50,7 +47,7 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
 
             var (items, total) = await _tariffService.GetTariffsPageAsync(_currentPage, PageSize);
             Debug.WriteLine($"Loaded {items.Count()} items, total: {total}");
-            
+
             TotalItems = total;
 
             foreach (var tariff in items)

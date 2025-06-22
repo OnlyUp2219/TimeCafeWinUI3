@@ -8,14 +8,8 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace TimeCafeWinUI3;
 
-// To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application
 {
-    // The .NET Generic Host provides dependency injection, configuration, logging, and other services.
-    // https://docs.microsoft.com/dotnet/core/extensions/generic-host
-    // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
-    // https://docs.microsoft.com/dotnet/core/extensions/configuration
-    // https://docs.microsoft.com/dotnet/core/extensions/logging
     public IHost Host
     {
         get;
@@ -32,7 +26,8 @@ public partial class App : Application
         return service;
     }
 
-    public static WindowEx MainWindow { get; } = new MainWindow();
+    public static WindowEx MainWindow { get; set; } 
+        = new MainWindow();
     public static UIElement? AppTitlebar { get; set; }
 
     public App()
@@ -105,7 +100,7 @@ public partial class App : Application
         }).
         Build();
 
-        App.GetService<IAppNotificationService>().Initialize();
+        /*App.GetService<IAppNotificationService>().Initialize();*/
 
         UnhandledException += App_UnhandledException;
 
@@ -175,9 +170,9 @@ public partial class App : Application
     {
         base.OnLaunched(args);
 
-        App.GetService<IAppNotificationService>().Show(string.Format(ResourceExtensions.GetLocalized("AppNotificationSamplePayload"), AppContext.BaseDirectory));
-
-        await App.GetService<IActivationService>().ActivateAsync(args);
+        //App.GetService<IAppNotificationService>().Show(string.Format(ResourceExtensions.GetLocalized("AppNotificationSamplePayload"), AppContext.BaseDirectory));
+        App.MainWindow ??= new MainWindow();
+        App.GetService<IActivationService>().ActivateAsync(args);
     }
 }
 public static class CrossManager

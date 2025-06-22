@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Data;
-using System;
 
 namespace TimeCafeWinUI3.Helpers;
 
@@ -22,4 +21,4 @@ public class DecimalToDoubleConverter : IValueConverter
         }
         return 0m;
     }
-} 
+}

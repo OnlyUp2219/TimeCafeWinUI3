@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.Services;
 

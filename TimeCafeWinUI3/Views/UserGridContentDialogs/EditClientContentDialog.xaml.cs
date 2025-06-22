@@ -1,7 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
-using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.ViewModels;
 
 namespace TimeCafeWinUI3.Views;
 
@@ -31,7 +28,7 @@ public sealed partial class EditClientContentDialog : Page
 
     public async void PrimaryButtonClick(object sender, ContentDialogButtonClickEventArgs args)
     {
-        var deferral = args.GetDeferral(); 
+        var deferral = args.GetDeferral();
         ViewModel.ErrorMessage = string.Empty;
 
         var validationResult = await ViewModel.ValidateAsync();
@@ -42,9 +39,9 @@ public sealed partial class EditClientContentDialog : Page
         }
         else
         {
-            args.Cancel = false; 
+            args.Cancel = false;
         }
 
-        deferral.Complete(); 
+        deferral.Complete();
     }
-} 
+}

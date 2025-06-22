@@ -19,4 +19,4 @@ public class ThemeToBrushConverter : IValueConverter
     {
         throw new NotImplementedException();
     }
-} 
+}

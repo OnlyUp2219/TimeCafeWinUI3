@@ -1,15 +1,6 @@
-﻿using CommunityToolkit.WinUI.UI.Controls;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Helpers;
-using TimeCafeWinUI3.ViewModels;
-using Windows.Foundation;
 
 namespace TimeCafeWinUI3.Views;
 

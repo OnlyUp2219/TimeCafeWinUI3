@@ -1,10 +1,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI.Controls;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
-using TimeCafeWinUI3.Contracts.Services;
-using TimeCafeWinUI3.Core.Models;
 using System.Text;
 
 namespace TimeCafeWinUI3.ViewModels;

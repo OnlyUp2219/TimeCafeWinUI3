@@ -1,14 +1,9 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using System.Collections.ObjectModel;
 using System.Text;
-using TimeCafeWinUI3.Contracts.Services;
-using TimeCafeWinUI3.Core.Contracts.Services;
-using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Views;
-using Microsoft.UI.Xaml.Media;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -415,7 +410,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     private async Task ShowErrorAsync(string message)
     {
         ErrorMessage = message;
-        
+
         // Показываем TeachingTip с ошибкой через code-behind
         if (App.MainWindow?.Content is FrameworkElement rootElement)
         {
@@ -503,4 +498,4 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         OnPropertyChanged(nameof(CanGoNext));
         UpdateStateProperties();
     }
-} 
+}

@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Data;
 using System.Text;
-using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Helpers
 {

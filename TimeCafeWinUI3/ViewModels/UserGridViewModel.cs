@@ -1,8 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using TimeCafeWinUI3.Contracts.Services;
-using CommunityToolkit.Mvvm.ComponentModel;
-using TimeCafeWinUI3.Core.Contracts.Services;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -13,7 +10,7 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
     private static int _currentPage = 1;
     private const int PageSize = 16;
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private ObservableCollection<Client> source = new();
 
     [ObservableProperty]

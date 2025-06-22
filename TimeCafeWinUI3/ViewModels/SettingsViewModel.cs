@@ -2,7 +2,6 @@
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Windows.Input;
-using TimeCafeWinUI3.Contracts.Services;
 using Windows.ApplicationModel;
 
 namespace TimeCafeWinUI3.ViewModels;

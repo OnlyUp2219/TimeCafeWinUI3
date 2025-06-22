@@ -8,4 +8,4 @@ namespace TimeCafeWinUI3.Contracts.Services
         Style GetThemeBorderStyle(string technicalName);
         LinearGradientBrush GetThemeGradientBrush(string technicalName);
     }
-} 
+}

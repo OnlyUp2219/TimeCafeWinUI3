@@ -1,7 +1,6 @@
 ﻿using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
-using TimeCafeWinUI3.Contracts.Services;
-using TimeCafeWinUI3.Core.Contracts.Services;
+
 using Windows.UI.ViewManagement;
 
 namespace TimeCafeWinUI3;
@@ -14,8 +13,6 @@ public sealed partial class MainWindow : WindowEx
     public MainWindow()
     {
         InitializeComponent();
-        AppWindow.Closing += AppWindow_Closing;
-        AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit!;
 
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/WindowIcon.ico"));
         Content = null;
@@ -25,6 +22,9 @@ public sealed partial class MainWindow : WindowEx
         dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
         settings = new UISettings();
         settings.ColorValuesChanged += Settings_ColorValuesChanged; // cannot use FrameworkElement.ActualThemeChanged event
+
+        //AppWindow.Closing += AppWindow_Closing;
+        //AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit!;
     }
 
     private void CurrentDomain_ProcessExit(object sender, EventArgs e)
@@ -91,13 +91,13 @@ public sealed partial class MainWindow : WindowEx
             if (result == ContentDialogResult.Primary)
             {
                 System.Diagnostics.Debug.WriteLine("Пользователь подтвердил закрытие, скрываем окно");
-                
+
                 // TODO: Автоматический выход всех посетителей при закрытии
                 // if (activeVisitorsCount > 0)
                 // {
                 //     await visitService.ExitAllVisitorsAsync("Закрытие приложения");
                 // }
-                
+
                 AppWindow.Hide();
                 Environment.Exit(0);
             }

@@ -1,12 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using TimeCafeWinUI3.Core.Models;
-using System.Linq;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
-using TimeCafeWinUI3.Views;
-using TimeCafeWinUI3.Core.Contracts.Services;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -82,15 +76,15 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
                 InfoText = $"Отказ от услуг. \nПричина: {reason}",
                 CreatedAt = DateTime.Now
             };
-            
+
             await _additionalInfoService.CreateAdditionalInfoAsync(additionalInfo);
             await _clientService.SetClientRejectedAsync(Item.ClientId, reason);
-            
+
             // Обновляем клиента и его дополнительную информацию
             Item = await _clientService.GetClientByIdAsync(Item.ClientId);
             var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
             Item.ClientAdditionalInfos = additionalInfos.ToList();
-            
+
             OnPropertyChanged(nameof(Item));
             OnPropertyChanged(nameof(HasAdditionalInfo));
             OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
@@ -130,7 +124,7 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
             var editClient = (EditClientContentDialog)((ContentDialog)dialog).Content;
             var updatedClient = editClient.ViewModel.GetUpdatedClient();
             await _clientService.UpdateClientAsync(updatedClient);
-            
+
             if (editClient.ViewModel.IsPhoneNumberChanged())
             {
                 var isPhoneVerified = await VerifyPhoneNumberAsync(updatedClient.PhoneNumber);
@@ -145,8 +139,8 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
             }
 
 
-            Item = null; 
-            OnPropertyChanged(nameof(Item)); 
+            Item = null;
+            OnPropertyChanged(nameof(Item));
             Item = await _clientService.GetClientByIdAsync(updatedClient.ClientId);
             OnPropertyChanged(nameof(Item));
             OnPropertyChanged(nameof(HasAdditionalInfo));
@@ -228,12 +222,12 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
                 InfoText = noteText,
                 CreatedAt = DateTime.Now
             };
-            
+
             await _additionalInfoService.CreateAdditionalInfoAsync(additionalInfo);
-            
+
             var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
             Item.ClientAdditionalInfos = additionalInfos.ToList();
-            
+
             OnPropertyChanged(nameof(Item));
             OnPropertyChanged(nameof(HasAdditionalInfo));
             OnPropertyChanged(nameof(Item.ClientAdditionalInfos));

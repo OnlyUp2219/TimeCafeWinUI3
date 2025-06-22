@@ -5,7 +5,7 @@ namespace TimeCafeWinUI3.Views;
 
 public static class PhoneVerificationDialogFactory
 {
-    public static ContentDialog Create<T>(T data, XamlRoot xamlRoot, string title = "Подтверждение телефона", string primaryButtonText = "Подтвердить", string secondaryButtonText = "Пропустить", string closeButtonText = "Отменить" )
+    public static ContentDialog Create<T>(T data, XamlRoot xamlRoot, string title = "Подтверждение телефона", string primaryButtonText = "Подтвердить", string secondaryButtonText = "Пропустить", string closeButtonText = "Отменить")
     {
         var dialog = new ContentDialog
         {
@@ -21,7 +21,7 @@ public static class PhoneVerificationDialogFactory
 
         var phoneVerification = new PhoneVerificationConfirm();
 
-        
+
         if (data is string phoneNumber)
         {
             phoneVerification.SetPhoneNumber(phoneNumber);
@@ -36,4 +36,4 @@ public static class PhoneVerificationDialogFactory
 
         return dialog;
     }
-} 
+}

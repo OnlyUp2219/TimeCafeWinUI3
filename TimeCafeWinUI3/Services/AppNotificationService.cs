@@ -1,7 +1,6 @@
 ﻿using Microsoft.Windows.AppNotifications;
 using System.Collections.Specialized;
 using System.Web;
-using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.Notifications;
 
@@ -39,12 +38,12 @@ public class AppNotificationService : IAppNotificationService
         ////    });
         //// }
 
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
-        {
-            App.MainWindow.ShowMessageDialogAsync("TODO: Handle notification invocations when your app is already running.", "Notification Invoked");
+        //App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        //{
+        //    App.MainWindow.ShowMessageDialogAsync("TODO: Handle notification invocations when your app is already running.", "Notification Invoked");
 
-            App.MainWindow.BringToFront();
-        });
+        //    App.MainWindow.BringToFront();
+        //});
     }
 
     public bool Show(string payload)

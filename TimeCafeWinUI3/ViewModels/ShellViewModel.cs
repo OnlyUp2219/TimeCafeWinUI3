@@ -1,7 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Navigation;
 
-using TimeCafeWinUI3.Contracts.Services;
-
 namespace TimeCafeWinUI3.ViewModels;
 
 public partial class ShellViewModel : ObservableRecipient

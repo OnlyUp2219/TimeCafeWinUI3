@@ -1,6 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using TimeCafeWinUI3.Core.Models;
-
 namespace TimeCafeWinUI3.ViewModels;
 
 public partial class RefuseServiceContentDialogViewModel : ObservableObject
@@ -31,4 +28,4 @@ public partial class RefuseServiceContentDialogViewModel : ObservableObject
         ErrorMessage = string.Empty;
         return true;
     }
-} 
+}

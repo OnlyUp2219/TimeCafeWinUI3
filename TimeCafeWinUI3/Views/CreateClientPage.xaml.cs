@@ -1,9 +1,6 @@
-﻿using CommunityToolkit.WinUI.Controls;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 using Microsoft.Xaml.Interactivity;
 using System.Collections.ObjectModel;
-using TimeCafeWinUI3.Contracts.Services;
 using Windows.Media.Core;
 
 namespace TimeCafeWinUI3.Views;

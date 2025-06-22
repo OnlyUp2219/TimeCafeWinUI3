@@ -1,6 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using TimeCafeWinUI3.ViewModels;
-using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Views;
 
@@ -25,4 +23,4 @@ public sealed partial class VisitorManagementPage : Page
             await ViewModel.ExitVisitorAsync(visit);
         }
     }
-} 
+}

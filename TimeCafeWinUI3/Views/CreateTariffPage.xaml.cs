@@ -1,9 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using TimeCafeWinUI3.ViewModels;
 using Windows.Storage.Pickers;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace TimeCafeWinUI3.Views;
 
@@ -33,7 +30,7 @@ public sealed partial class CreateTariffPage : Page
             var file = await picker.PickSingleFileAsync();
             if (file == null)
             {
-                return; 
+                return;
             }
 
             using var stream = await file.OpenStreamForReadAsync();
@@ -46,4 +43,4 @@ public sealed partial class CreateTariffPage : Page
             ViewModel.ErrorMessage = $"Ошибка при загрузке иконки: {ex.Message}";
         }
     }
-} 
+}

@@ -2,7 +2,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.Diagnostics.CodeAnalysis;
-using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.Services;
 

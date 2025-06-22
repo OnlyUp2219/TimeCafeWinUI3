@@ -1,6 +1,5 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
-using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Helpers;
 
@@ -28,4 +27,4 @@ public class StatusToVisibilityConverter : IValueConverter
     {
         throw new NotImplementedException();
     }
-} 
+}

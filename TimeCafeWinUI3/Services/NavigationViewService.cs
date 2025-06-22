@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using System.Diagnostics.CodeAnalysis;
-using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.Services;
 

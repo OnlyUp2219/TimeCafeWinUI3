@@ -30,4 +30,4 @@ public static class RefuseServiceDialogFactory
 
         return dialog;
     }
-} 
+}

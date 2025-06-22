@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-
-using TimeCafeWinUI3.Contracts.Services;
 using TimeCafeWinUI3.Core.Helpers;
 using Windows.Storage;
 

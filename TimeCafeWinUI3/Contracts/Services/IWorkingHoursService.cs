@@ -8,4 +8,4 @@ public interface IWorkingHoursService
     Task SetCloseTimeAsync(TimeSpan closeTime);
     Task<bool> IsWorkingHoursAsync();
     Task<bool> IsWorkingHoursAsync(DateTime time);
-} 
+}

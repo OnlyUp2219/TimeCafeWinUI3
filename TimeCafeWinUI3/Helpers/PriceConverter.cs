@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml.Data;
-using System;
 
 namespace TimeCafeWinUI3.Helpers;
 
@@ -14,7 +13,7 @@ public class PriceConverter : IValueConverter
             {
                 decimals = paramDecimals;
             }
-            
+
             return $"{Math.Round(price, decimals)} ₽";
         }
         return "0 ₽";
@@ -24,4 +23,4 @@ public class PriceConverter : IValueConverter
     {
         throw new NotImplementedException();
     }
-} 
+}

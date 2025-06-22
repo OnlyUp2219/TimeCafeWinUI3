@@ -9,9 +9,10 @@
     MinWidth="500"
     MinHeight="500"
     Height="720"
+    PersistenceId="MainWindow"
     Width="1240"
     mc:Ignorable="d">
-    <!--PersistenceId="MainWindow"-->
+    <!---->
     <Window.SystemBackdrop>
         <MicaBackdrop />
     </Window.SystemBackdrop>

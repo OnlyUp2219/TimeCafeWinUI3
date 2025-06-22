@@ -1,14 +1,13 @@
 ﻿global using CommunityToolkit.Mvvm.ComponentModel;
 global using TimeCafeWinUI3.Activation;
 global using TimeCafeWinUI3.Behaviors;
+global using TimeCafeWinUI3.Contracts.Services;
 global using TimeCafeWinUI3.Contracts.ViewModels;
-global using TimeCafeWinUI3.Controls;
 global using TimeCafeWinUI3.Core.Contracts.Services;
 global using TimeCafeWinUI3.Core.Models;
 global using TimeCafeWinUI3.Core.Services;
 global using TimeCafeWinUI3.Helpers;
 global using TimeCafeWinUI3.Models;
-global using TimeCafeWinUI3.Contracts.Services;
 global using TimeCafeWinUI3.Notifications;
 global using TimeCafeWinUI3.Services;
 global using TimeCafeWinUI3.ViewModels;

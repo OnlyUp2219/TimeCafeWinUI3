@@ -2,8 +2,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 
-using TimeCafeWinUI3.Contracts.Services;
-
 namespace TimeCafeWinUI3.Activation;
 
 public class AppNotificationActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
