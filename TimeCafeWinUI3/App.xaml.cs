@@ -177,7 +177,7 @@ public partial class App : Application
 
         //App.GetService<IAppNotificationService>().Show(string.Format(ResourceExtensions.GetLocalized("AppNotificationSamplePayload"), AppContext.BaseDirectory));
         App.MainWindow ??= new MainWindow();
-        App.GetService<IActivationService>().ActivateAsync(args);
+        await App.GetService<IActivationService>().ActivateAsync(args);
     }
 }
 public static class CrossManager

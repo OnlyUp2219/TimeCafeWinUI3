@@ -21,126 +21,120 @@
         </Grid.BackgroundTransition>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <StackPanel Grid.Row="0" Margin="{StaticResource MediumLeftTopRightBottomMargin}">
-            <TextBlock
-                Style="{ThemeResource TitleTextBlockStyle}"
-                Text="Финансы клиента" />
-            <TextBlock
-                Style="{ThemeResource BodyTextBlockStyle}"
-                Text="{x:Bind ViewModel.CurrentClient, Converter={StaticResource FullNameConverters}, Mode=OneWay}" />
+        <!--  Header  -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="Финансы клиента" />
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.ClientName, Mode=OneWay}" />
         </StackPanel>
 
-        <!-- Balance Cards -->
-        <Grid Grid.Row="1" Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+        <!--  Balance Cards  -->
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Current Balance -->
+            <!--  Current Balance  -->
             <Border
                 Grid.Column="0"
+                Margin="0,0,8,0"
+                Padding="16"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
-                CornerRadius="8"
-                Margin="0,0,8,0"
-                Padding="16">
+                CornerRadius="8">
                 <StackPanel>
-                    <TextBlock
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="Текущий баланс" />
-                    <TextBlock
-                        Style="{ThemeResource TitleTextBlockStyle}"
-                        Foreground="{x:Bind ViewModel.CurrentBalance, Converter={StaticResource StatusColorConverter}, ConverterParameter=Balance, Mode=OneWay}"
-                        Text="{x:Bind ViewModel.CurrentBalance, Converter={StaticResource PriceConverter}, Mode=OneWay}" />
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="Текущий баланс" />
+                    <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind ViewModel.CurrentBalance, Converter={StaticResource PriceConverter}, Mode=OneWay}" />
                 </StackPanel>
             </Border>
 
-            <!-- Debt -->
+            <!--  Debt  -->
             <Border
                 Grid.Column="1"
+                Margin="4,0"
+                Padding="16"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
-                CornerRadius="8"
-                Margin="4,0"
-                Padding="16">
+                CornerRadius="8">
                 <StackPanel>
+                    <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="Задолженность" />
                     <TextBlock
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="Задолженность" />
-                    <TextBlock
-                        Style="{ThemeResource TitleTextBlockStyle}"
                         Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                        Text="{x:Bind ViewModel.DebtAmount, Converter={StaticResource PriceConverter}, Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.DebtAmount, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="{x:Bind ViewModel.CurrentDebt, Converter={StaticResource PriceConverter}, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.CurrentDebt, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
                     <TextBlock
                         Style="{ThemeResource TitleTextBlockStyle}"
                         Text="Нет долгов"
-                        Visibility="{x:Bind ViewModel.DebtAmount, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}" />
+                        Visibility="{x:Bind ViewModel.CurrentDebt, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse, Mode=OneWay}" />
                 </StackPanel>
             </Border>
 
-            <!-- Actions -->
-            <StackPanel Grid.Column="2" Margin="8,0,0,0" Spacing="8">
+            <!--  Actions  -->
+            <StackPanel
+                Grid.Column="2"
+                Margin="8,0,0,0"
+                Spacing="8">
                 <Button
-                    Command="{x:Bind ViewModel.DepositFullCommand}"
-                    Content="Пополнить полностью"
+                    Command="{x:Bind ViewModel.PayFullDebtCommand}"
+                    Content="Погасить полностью"
                     Style="{StaticResource AccentButtonStyle}"
-                    Visibility="{x:Bind ViewModel.DebtAmount, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
-                <Button
-                    Command="{x:Bind ViewModel.ClearMessagesCommand}"
-                    Content="Очистить сообщения" />
+                    Visibility="{x:Bind ViewModel.CurrentDebt, Converter={StaticResource NullToVisibilityConverter}, Mode=OneWay}" />
+                <Button Command="{x:Bind ViewModel.ClearMessagesCommand}" Content="Очистить сообщения" />
             </StackPanel>
         </Grid>
 
-        <!-- Main Content -->
-        <Grid Grid.Row="2" Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+        <!--  Main Content  -->
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Messages -->
-            <StackPanel Grid.Row="0" Spacing="8" Margin="0,0,0,16">
+            <!--  Messages  -->
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,0,0,16"
+                Spacing="8">
                 <TextBlock
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                    IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.ErrorMessage, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" />
                 <TextBlock
                     Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                    IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.SuccessMessage, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.SuccessMessage, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" />
             </StackPanel>
 
-            <!-- Deposit Form and Transactions -->
+            <!--  Deposit Form and Transactions  -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Deposit Form -->
+                <!--  Deposit Form  -->
                 <Border
                     Grid.Column="0"
+                    Margin="0,0,16,0"
+                    Padding="16"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
-                    CornerRadius="8"
-                    Margin="0,0,16,0"
-                    Padding="16">
+                    CornerRadius="8">
                     <StackPanel Spacing="16">
-                        <TextBlock
-                            Style="{ThemeResource SubtitleTextBlockStyle}"
-                            Text="Пополнение депозита" />
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Пополнение депозита" />
 
                         <NumberBox
                             Header="Сумма пополнения"
@@ -151,47 +145,94 @@
                             SpinButtonPlacementMode="Compact"
                             Value="{x:Bind ViewModel.DepositAmount, Converter={StaticResource DecimalToDoubleConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+                        <TextBox
+                            Header="Комментарий"
+                            PlaceholderText="Необязательно"
+                            Text="{x:Bind ViewModel.DepositComment, Mode=TwoWay}" />
+
                         <Button
                             Command="{x:Bind ViewModel.DepositCommand}"
                             Content="Пополнить"
-                            IsEnabled="{x:Bind ViewModel.IsLoading, Converter={StaticResource BooleanNegationConverter}, Mode=OneWay}"
+                            IsEnabled="{x:Bind ViewModel.IsDepositLoading, Converter={StaticResource BooleanNegationConverter}, Mode=OneWay}"
                             Style="{StaticResource AccentButtonStyle}" />
 
-                        <ProgressRing
-                            IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
-                            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ProgressRing IsActive="{x:Bind ViewModel.IsDepositLoading, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsDepositLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
                     </StackPanel>
                 </Border>
 
-                <!-- Transactions History -->
+                <!--  Debt Payment Form  -->
                 <Border
                     Grid.Column="1"
+                    Margin="0,0,16,0"
+                    Padding="16"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
-                    CornerRadius="8"
-                    Padding="16">
-                    <StackPanel>
-                        <TextBlock
-                            Style="{ThemeResource SubtitleTextBlockStyle}"
-                            Text="История транзакций" />
+                    CornerRadius="8">
+                    <StackPanel Spacing="16">
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Погашение задолженности" />
 
-                        <ListView
-                            Margin="0,16,0,0"
-                            ItemsSource="{x:Bind ViewModel.Transactions, Mode=OneWay}">
+                        <NumberBox
+                            Header="Сумма погашения"
+                            LargeChange="1000"
+                            Minimum="0"
+                            PlaceholderText="Введите сумму"
+                            SmallChange="100"
+                            SpinButtonPlacementMode="Compact"
+                            Value="{x:Bind ViewModel.DebtPaymentAmount, Converter={StaticResource DecimalToDoubleConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBox
+                            Header="Комментарий"
+                            PlaceholderText="Необязательно"
+                            Text="{x:Bind ViewModel.DebtPaymentComment, Mode=TwoWay}" />
+
+                        <Button
+                            Command="{x:Bind ViewModel.PayDebtCommand}"
+                            Content="Погасить"
+                            IsEnabled="{x:Bind ViewModel.IsDebtPaymentLoading, Converter={StaticResource BooleanNegationConverter}, Mode=OneWay}"
+                            Style="{StaticResource AccentButtonStyle}" />
+
+                        <ProgressRing IsActive="{x:Bind ViewModel.IsDebtPaymentLoading, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsDebtPaymentLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    </StackPanel>
+                </Border>
+
+                <!--  Transactions History  -->
+                <Border
+                    Grid.Column="2"
+                    Padding="16"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="История транзакций" />
+
+                        <ListView Margin="0,16,0,0" ItemsSource="{x:Bind ViewModel.Transactions, Mode=OneWay}">
                             <ListView.Header>
                                 <Grid Margin="0,0,0,8">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Column="0" Text="Дата" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="1" Text="Тип" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="2" Text="Сумма" FontWeight="SemiBold"/>
-                                    <TextBlock Grid.Column="3" Text="Посещение" FontWeight="SemiBold"/>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        FontWeight="SemiBold"
+                                        Text="Дата" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        FontWeight="SemiBold"
+                                        Text="Тип" />
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        FontWeight="SemiBold"
+                                        Text="Сумма" />
+                                    <TextBlock
+                                        Grid.Column="3"
+                                        FontWeight="SemiBold"
+                                        Text="Посещение" />
                                 </Grid>
                             </ListView.Header>
 
@@ -199,30 +240,30 @@
                                 <DataTemplate>
                                     <Grid Margin="0,4">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock 
-                                            Grid.Column="0" 
-                                            Text="{Binding TransactionDate, Converter={StaticResource DateTimeFormatConverter}}" 
-                                            VerticalAlignment="Center"/>
-                                        <TextBlock 
-                                            Grid.Column="1" 
-                                            Text="{Binding TransactionType.TransactionTypeName}" 
-                                            VerticalAlignment="Center"/>
-                                        <TextBlock 
-                                            Grid.Column="2" 
-                                            Text="{Binding Amount, Converter={StaticResource PriceConverter}}" 
+                                        <TextBlock
+                                            Grid.Column="0"
                                             VerticalAlignment="Center"
-                                            Foreground="{Binding TransactionTypeId, Converter={StaticResource StatusColorConverter}, ConverterParameter=Transaction}"/>
-                                        <TextBlock 
-                                            Grid.Column="3" 
-                                            Text="{Binding VisitId}" 
+                                            Text="{Binding TransactionDate, Converter={StaticResource DateTimeFormatConverter}}" />
+                                        <TextBlock
+                                            Grid.Column="1"
                                             VerticalAlignment="Center"
-                                            Visibility="{Binding VisitId, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                            Text="{Binding TransactionType.TransactionTypeName}" />
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            VerticalAlignment="Center"
+                                            Foreground="{Binding TransactionTypeId, Converter={StaticResource StatusColorConverter}, ConverterParameter=Transaction}"
+                                            Text="{Binding Amount, Converter={StaticResource PriceConverter}}" />
+                                        <TextBlock
+                                            Grid.Column="3"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding VisitId}"
+                                            Visibility="{Binding VisitId, Converter={StaticResource NullToVisibilityConverter}}" />
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

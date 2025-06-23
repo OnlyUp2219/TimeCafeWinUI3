@@ -6,6 +6,7 @@ using TimeCafeWinUI3.Core.Contracts.Services;
 using TimeCafeWinUI3.Core.Models;
 using TimeCafeWinUI3.Contracts.Services;
 using TimeCafeWinUI3.Contracts.ViewModels;
+using TimeCafeWinUI3.Models;
 using TimeCafeWinUI3.Views;
 
 namespace TimeCafeWinUI3.ViewModels;
@@ -47,15 +48,24 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
             IsLoading = true;
             ErrorMessage = string.Empty;
 
-            var clients = await _financialService.GetAllClientsBalancesAsync();
+            var clientsData = await _financialService.GetAllClientsBalancesAsync();
             
             AllClients.Clear();
-            foreach (var client in clients)
+            foreach (dynamic clientData in clientsData)
             {
-                AllClients.Add(client);
+                var clientInfo = new ClientBalanceInfo
+                {
+                    ClientId = clientData.ClientId,
+                    FullName = clientData.FullName,
+                    PhoneNumber = clientData.PhoneNumber,
+                    Balance = clientData.Balance,
+                    Debt = clientData.Debt,
+                    LastTransactionDate = clientData.LastTransactionDate,
+                    IsActive = clientData.IsActive
+                };
+                AllClients.Add(clientInfo);
             }
 
-            // Рассчитываем общую статистику
             TotalDebt = AllClients.Sum(c => c.Debt);
             DebtorsCount = AllClients.Count(c => c.Debt > 0);
 
@@ -82,7 +92,7 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
     {
         if (client != null)
         {
-            _navigationService.NavigateTo(typeof(UserGridDetailPage), client.ClientId);
+            _navigationService.NavigateTo(typeof(UserGridDetailViewModel).FullName, client.ClientId);
         }
     }
 
@@ -100,7 +110,6 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
     {
         var filtered = AllClients.AsEnumerable();
 
-        // Применяем фильтр по поиску
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             filtered = filtered.Where(c =>
@@ -108,7 +117,6 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
                 c.PhoneNumber.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
         }
 
-        // Применяем фильтр по задолженности
         if (ShowOnlyDebtors)
         {
             filtered = filtered.Where(c => c.Debt > 0);

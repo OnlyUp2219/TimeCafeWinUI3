@@ -72,20 +72,17 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         _countdownTimer.Stop();
         ClearData();
     }
-
     private async Task LoadDataAsync()
     {
         try
         {
-            // Load tariffs
             var tariffs = await _tariffService.GetAllTariffsAsync();
             Tariffs.Clear();
-            foreach (var tariff in tariffs.Take(10)) // Take first 10 tariffs
+            foreach (var tariff in tariffs.Take(10)) 
             {
                 Tariffs.Add(tariff);
             }
 
-            // Load genders
             var genders = await _clientService.GetGendersAsync();
             Genders.Clear();
             foreach (var gender in genders)
@@ -117,14 +114,11 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         _isRegistrationPath = false;
     }
 
-    // State properties
     public bool IsWelcomeState => CurrentState == EntryState.Welcome;
     public bool IsCardInputState => CurrentState == EntryState.CardInput;
     public bool IsRegistrationState => CurrentState == EntryState.Registration;
     public bool IsTariffSelectionState => CurrentState == EntryState.TariffSelection;
     public bool IsSuccessState => CurrentState == EntryState.Success;
-
-    // Navigation properties
     public bool CanGoBack => CurrentState != EntryState.Welcome;
     public bool CanGoNext => CanProceedToNext();
 
@@ -132,11 +126,11 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     {
         return CurrentState switch
         {
-            EntryState.Welcome => false, // No next button on welcome
-            EntryState.CardInput => !string.IsNullOrWhiteSpace(CardNumber), // Show button when card number is entered
+            EntryState.Welcome => false, 
+            EntryState.CardInput => !string.IsNullOrWhiteSpace(CardNumber),
             EntryState.Registration => IsRegistrationValidSync(),
             EntryState.TariffSelection => SelectedTariff != null,
-            EntryState.Success => true, // Always can skip wait
+            EntryState.Success => true, 
             _ => false
         };
     }
@@ -292,13 +286,12 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
             else if (result == ContentDialogResult.Secondary)
             {
                 await CreateClient(false);
-                // Show error for draft status
                 await ShowErrorAsync("Клиент не в статусе активный");
-                return; // Don't proceed to tariff selection
+                return;
             }
             else
             {
-                return; // User cancelled
+                return;
             }
 
             ErrorMessage = string.Empty;
@@ -369,35 +362,30 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
         try
         {
-            // Проверяем, что клиент активен
             if (!await _visitService.IsClientActiveAsync(CurrentClient.ClientId))
             {
                 await ShowErrorAsync("Клиент не имеет активного статуса");
                 return;
             }
 
-            // Проверяем, что клиент еще не вошел
             if (await _visitService.IsClientAlreadyEnteredAsync(CurrentClient.ClientId))
             {
                 await ShowErrorAsync("Ошибка. Вход уже осуществлен");
                 return;
             }
 
-            // Проверяем рабочие часы
             if (!await _workingHoursService.IsWorkingHoursAsync())
             {
                 await ShowErrorAsync("Регистрация невозможна в нерабочее время");
                 return;
             }
 
-            // Создаем посещение
             await _visitService.EnterClientAsync(CurrentClient.ClientId, SelectedTariff.TariffId);
 
             CurrentState = EntryState.Success;
             ErrorMessage = string.Empty;
             UpdateStateProperties();
 
-            // Start countdown
             CountdownSeconds = 15;
             _countdownTimer.Start();
         }
@@ -477,6 +465,8 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
     partial void OnSelectedTariffChanged(Tariff value)
     {
+        System.Diagnostics.Debug.WriteLine($"SelectedTariff changed to: {value?.TariffName}");
+        OnPropertyChanged(nameof(SelectedTariff));
         OnPropertyChanged(nameof(CanGoNext));
         UpdateStateProperties();
     }
@@ -498,4 +488,6 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         OnPropertyChanged(nameof(CanGoNext));
         UpdateStateProperties();
     }
+
+
 }

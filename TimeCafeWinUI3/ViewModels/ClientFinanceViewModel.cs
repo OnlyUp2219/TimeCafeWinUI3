@@ -1,9 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
-using System.Text;
 using TimeCafeWinUI3.Core.Contracts.Services;
 using TimeCafeWinUI3.Core.Models;
 using TimeCafeWinUI3.Contracts.Services;
@@ -14,29 +12,43 @@ namespace TimeCafeWinUI3.ViewModels;
 public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAware
 {
     private readonly IFinancialService _financialService;
+    private readonly IClientService _clientService;
     private readonly INavigationService _navigationService;
+    private int _clientId;
 
-    [ObservableProperty] private Client currentClient;
+    [ObservableProperty] private string clientName;
     [ObservableProperty] private decimal currentBalance;
-    [ObservableProperty] private decimal debtAmount;
+    [ObservableProperty] private decimal currentDebt;
     [ObservableProperty] private decimal depositAmount;
+    [ObservableProperty] private decimal debtPaymentAmount;
+    [ObservableProperty] private string depositComment;
+    [ObservableProperty] private string debtPaymentComment;
+    [ObservableProperty] private ObservableCollection<FinancialTransaction> transactions = new();
+    [ObservableProperty] private bool isLoading;
     [ObservableProperty] private string errorMessage;
     [ObservableProperty] private string successMessage;
-    [ObservableProperty] private bool isLoading;
-    [ObservableProperty] private ObservableCollection<FinancialTransaction> transactions = new();
+    [ObservableProperty] private bool isDepositLoading;
+    [ObservableProperty] private bool isDebtPaymentLoading;
 
-    public ClientFinanceViewModel(IFinancialService financialService, INavigationService navigationService)
+    public ClientFinanceViewModel(IFinancialService financialService, IClientService clientService, INavigationService navigationService)
     {
         _financialService = financialService;
+        _clientService = clientService;
         _navigationService = navigationService;
+    }
+
+    public void Initialize(int clientId)
+    {
+        _clientId = clientId;
+        _ = LoadDataAsync();
     }
 
     public async void OnNavigatedTo(object parameter)
     {
         if (parameter is Client client)
         {
-            CurrentClient = client;
-            await LoadFinanceDataAsync();
+            _clientId = client.ClientId;
+            await LoadDataAsync();
         }
     }
 
@@ -45,30 +57,33 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
         ClearData();
     }
 
-    private async Task LoadFinanceDataAsync()
+    private async Task LoadDataAsync()
     {
-        if (CurrentClient == null) return;
-
         try
         {
             IsLoading = true;
             ErrorMessage = string.Empty;
 
-            // Загружаем баланс и задолженность
-            CurrentBalance = await _financialService.GetClientBalanceAsync(CurrentClient.ClientId);
-            DebtAmount = await _financialService.GetClientDebtAsync(CurrentClient.ClientId);
+            var client = await _clientService.GetClientByIdAsync(_clientId);
+            if (client != null)
+            {
+                ClientName = $"{client.LastName} {client.FirstName} {client.MiddleName}".Trim();
+            }
 
-            // Загружаем историю транзакций
-            var transactions = await _financialService.GetClientTransactionsAsync(CurrentClient.ClientId, 50);
+            CurrentBalance = await _financialService.GetClientBalanceAsync(_clientId);
+            CurrentDebt = CurrentBalance < 0 ? Math.Abs(CurrentBalance) : 0;
+
+            var transactionsList = await _financialService.GetClientTransactionsAsync(_clientId, 50);
             Transactions.Clear();
-            foreach (var transaction in transactions)
+            foreach (var transaction in transactionsList)
             {
                 Transactions.Add(transaction);
             }
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Ошибка при загрузке финансовых данных: {ex.Message}";
+            var msg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+            ErrorMessage = $"Ошибка при загрузке данных: {msg}";
         }
         finally
         {
@@ -79,66 +94,99 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
     [RelayCommand]
     private async Task DepositAsync()
     {
-        if (CurrentClient == null) return;
-
-        var validationResult = ValidateDeposit();
-        if (!string.IsNullOrEmpty(validationResult))
+        if (DepositAmount <= 0)
         {
-            ErrorMessage = validationResult;
+            ErrorMessage = "Сумма пополнения должна быть больше 0";
             return;
         }
 
         try
         {
-            IsLoading = true;
+            IsDepositLoading = true;
             ErrorMessage = string.Empty;
 
-            await _financialService.DepositAsync(CurrentClient.ClientId, DepositAmount, "Пополнение депозита");
+            await _financialService.DepositAsync(_clientId, DepositAmount, DepositComment);
             
-            SuccessMessage = $"Депозит успешно пополнен на сумму {DepositAmount:C}";
+            SuccessMessage = $"Баланс пополнен на {DepositAmount:C}";
             DepositAmount = 0;
+            DepositComment = string.Empty;
 
-            // Обновляем данные
-            await LoadFinanceDataAsync();
+            await LoadDataAsync();
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Ошибка при пополнении депозита: {ex.Message}";
+            var msg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+            ErrorMessage = $"Ошибка при пополнении: {msg}";
         }
         finally
         {
-            IsLoading = false;
+            IsDepositLoading = false;
         }
     }
 
     [RelayCommand]
-    private async Task DepositFullAsync()
+    private async Task PayDebtAsync()
     {
-        if (CurrentClient == null) return;
+        if (DebtPaymentAmount <= 0)
+        {
+            ErrorMessage = "Сумма погашения должна быть больше 0";
+            return;
+        }
+
+        if (DebtPaymentAmount > CurrentDebt)
+        {
+            ErrorMessage = "Сумма погашения не может превышать задолженность";
+            return;
+        }
 
         try
         {
-            IsLoading = true;
+            IsDebtPaymentLoading = true;
             ErrorMessage = string.Empty;
 
-            var fullAmount = await _financialService.GetFullReplenishmentAmountAsync(CurrentClient.ClientId);
-            if (fullAmount <= 0)
-            {
-                ErrorMessage = "У клиента нет задолженности для погашения";
-                return;
-            }
+            await _financialService.DepositAsync(_clientId, DebtPaymentAmount, DebtPaymentComment);
+            
+            DebtPaymentAmount = 0;
+            DebtPaymentComment = string.Empty;
 
-            DepositAmount = fullAmount;
-            await DepositAsync();
+            await LoadDataAsync();
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Ошибка при расчете суммы погашения: {ex.Message}";
+            var msg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+            ErrorMessage = $"Ошибка при погашении задолженности: {msg}";
         }
         finally
         {
-            IsLoading = false;
+            IsDebtPaymentLoading = false;
         }
+    }
+
+    [RelayCommand]
+    private async Task PayFullDebtAsync()
+    {
+        if (CurrentDebt <= 0)
+        {
+            ErrorMessage = "У клиента нет задолженности";
+            return;
+        }
+
+        DebtPaymentAmount = CurrentDebt;
+        try
+        {
+            await PayDebtAsync();
+        }
+        catch (Exception ex)
+        {
+            var msg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+            ErrorMessage = $"Ошибка при полном погашении задолженности: {msg}";
+        }
+    }
+
+    [RelayCommand]
+    private void RefreshData()
+    {
+        _ = LoadDataAsync();
     }
 
     [RelayCommand]
@@ -148,33 +196,23 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
         SuccessMessage = string.Empty;
     }
 
-    private string ValidateDeposit()
-    {
-        var sb = new StringBuilder();
-
-        if (DepositAmount <= 0)
-            sb.AppendLine("Сумма пополнения должна быть больше 0");
-
-        if (DepositAmount > 100000) // Максимальная сумма пополнения
-            sb.AppendLine("Сумма пополнения не может превышать 100,000 ₽");
-
-        return sb.ToString();
-    }
-
     private void ClearData()
     {
-        CurrentClient = null;
+        _clientId = 0;
+        ClientName = string.Empty;
         CurrentBalance = 0;
-        DebtAmount = 0;
+        CurrentDebt = 0;
         DepositAmount = 0;
+        DebtPaymentAmount = 0;
+        DepositComment = string.Empty;
+        DebtPaymentComment = string.Empty;
+        Transactions.Clear();
         ErrorMessage = string.Empty;
         SuccessMessage = string.Empty;
-        Transactions.Clear();
     }
 
     partial void OnDepositAmountChanged(decimal value)
     {
-        // Форматируем сумму для отображения
         DepositAmount = Math.Round(value, 2);
     }
 } 

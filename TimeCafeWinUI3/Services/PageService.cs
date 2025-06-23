@@ -16,6 +16,9 @@ public class PageService : IPageService
         Configure<CreateTariffViewModel, CreateTariffPage>();
         Configure<VisitorManagementViewModel, VisitorManagementPage>();
         Configure<EntryViewModel, EntryPage>();
+        Configure<FinanceManagementViewModel, FinanceManagementPage>();
+        Configure<ClientFinanceViewModel, ClientFinancePage>();
+
     }
 
     public Type GetPageType(string key)

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Dynamic;
 using TimeCafeWinUI3.Core.Contracts.Services;
 using TimeCafeWinUI3.Core.Models;
 
@@ -31,7 +32,7 @@ public class FinancialService : IFinancialService
         {
             ClientId = clientId,
             Amount = amount,
-            TransactionTypeId = 1, // Пополнение
+            TransactionTypeId = 1,
             TransactionDate = DateTime.Now
         };
 
@@ -50,7 +51,7 @@ public class FinancialService : IFinancialService
         {
             ClientId = clientId,
             Amount = amount,
-            TransactionTypeId = 2, // Списание
+            TransactionTypeId = 2,
             TransactionDate = DateTime.Now,
             VisitId = visitId
         };
@@ -95,14 +96,14 @@ public class FinancialService : IFinancialService
         return debt;
     }
 
-    public async Task<IEnumerable<ClientBalanceInfo>> GetAllClientsBalancesAsync()
+    public async Task<IEnumerable<object>> GetAllClientsBalancesAsync()
     {
         var clients = await _context.Clients
             .Include(c => c.Status)
             .Include(c => c.FinancialTransactions)
             .ToListAsync();
 
-        var result = new List<ClientBalanceInfo>();
+        var result = new List<object>();
 
         foreach (var client in clients)
         {
@@ -111,24 +112,24 @@ public class FinancialService : IFinancialService
                 .OrderByDescending(t => t.TransactionDate)
                 .FirstOrDefault();
 
-            result.Add(new ClientBalanceInfo
-            {
-                ClientId = client.ClientId,
-                FullName = $"{client.LastName} {client.FirstName} {client.MiddleName}".Trim(),
-                PhoneNumber = client.PhoneNumber,
-                Balance = balance,
-                Debt = balance < 0 ? Math.Abs(balance) : 0,
-                LastTransactionDate = lastTransaction?.TransactionDate ?? client.CreatedAt,
-                IsActive = client.Status?.StatusName == "Активный"
-            });
+            dynamic clientInfo = new ExpandoObject();
+            clientInfo.ClientId = client.ClientId;
+            clientInfo.FullName = $"{client.LastName} {client.FirstName} {client.MiddleName}".Trim();
+            clientInfo.PhoneNumber = client.PhoneNumber;
+            clientInfo.Balance = balance;
+            clientInfo.Debt = balance < 0 ? Math.Abs(balance) : 0;
+            clientInfo.LastTransactionDate = lastTransaction?.TransactionDate ?? client.CreatedAt;
+            clientInfo.IsActive = client.Status?.StatusName == "Активный";
+
+            result.Add(clientInfo);
         }
 
-        return result.OrderByDescending(c => c.Debt).ThenBy(c => c.FullName);
+        return result.OrderByDescending(c => ((dynamic)c).Debt).ThenBy(c => ((dynamic)c).FullName);
     }
 
-    public async Task<IEnumerable<ClientBalanceInfo>> GetClientsWithDebtAsync()
+    public async Task<IEnumerable<object>> GetClientsWithDebtAsync()
     {
         var allClients = await GetAllClientsBalancesAsync();
-        return allClients.Where(c => c.Debt > 0);
+        return allClients.Where(c => ((dynamic)c).Debt > 0);
     }
 } 
