@@ -64,12 +64,10 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty] private string email;
     [ObservableProperty] private DateOnly? birthDate = DateOnly.FromDateTime(DateTime.Now);
     [ObservableProperty] private string phoneNumber;
-    [ObservableProperty] private string accessCardNumber;
     [ObservableProperty] private string additionalInfo;
     [ObservableProperty] private string errorMessage;
     [ObservableProperty] private ObservableCollection<Gender> genders = new();
     [ObservableProperty] private ObservableCollection<ClientStatus> clientStatuses = new();
-    [ObservableProperty] private int? statusId;
 
     private readonly IClientService _clientService;
     private readonly INavigationService _navigationService;
@@ -141,7 +139,6 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
         Email = string.Empty;
         BirthDate = null;
         PhoneNumber = string.Empty;
-        AccessCardNumber = string.Empty;
         AdditionalInfo = string.Empty;
         ErrorMessage = string.Empty;
     }
@@ -212,14 +209,11 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 Email = Email,
                 BirthDate = BirthDate,
                 PhoneNumber = PhoneNumber,
-                AccessCardNumber = AccessCardNumber,
-                StatusId = (int)ClientStatusType.Draft,
                 CreatedAt = DateTime.Now
             };
 
             if (isActive)
             {
-                client.AccessCardNumber = await _clientService.GenerateAccessCardNumberAsync();
                 client.StatusId = (int)ClientStatusType.Active;
             }
 
@@ -263,7 +257,6 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
         Email = fakeClient.Email;
         BirthDate = fakeClient.BirthDate;
         PhoneNumber = fakeClient.PhoneNumber;
-        AccessCardNumber = fakeClient.AccessCardNumber;
     }
 
     public async Task SetCurrentPage(int page)

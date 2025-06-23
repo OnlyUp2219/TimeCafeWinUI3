@@ -224,50 +224,6 @@
                     PlaceholderText="Дополнительная информация"
                     Text="{Binding AdditionalInfo, Mode=TwoWay}"
                     ToolTipService.ToolTip="{Binding Header, RelativeSource={RelativeSource Mode=Self}}" />
-                <ComboBox
-                    HorizontalAlignment="Stretch"
-                    DisplayMemberPath="StatusName"
-                    Header="Выберите статус:"
-                    IsEnabled="False"
-                    ItemsSource="{Binding ClientStatuses}"
-                    PlaceholderText="Статус клиента"
-                    SelectedValue="{Binding StatusId, Mode=TwoWay}"
-                    SelectedValuePath="StatusId"
-                    ToolTipService.ToolTip="{Binding Header, RelativeSource={RelativeSource Mode=Self}}" />
-
-                <Grid>
-                    <Rectangle
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        RadiusX="8"
-                        RadiusY="8"
-                        Stroke="{StaticResource SurfaceStrokeColorDefaultBrush}"
-                        StrokeThickness="2">
-                        <Rectangle.StrokeDashArray>
-                            <DoubleCollection>
-                                <x:Double>4</x:Double>
-                                <x:Double>2</x:Double>
-                            </DoubleCollection>
-                        </Rectangle.StrokeDashArray>
-                    </Rectangle>
-                    <Grid Margin="20" VerticalAlignment="Center">
-                        <TextBox
-                            IsEnabled="False"
-                            PlaceholderText="Номер карты СКУД"
-                            Text="{Binding AccessCardNumber, Mode=TwoWay}" />
-
-                        <customControls:CopyButton
-                            Margin="0,0,1,0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            Opacity="1">
-                            <customControls:CopyButton.Content>
-                                <FontIcon Glyph="&#xE8C8;" />
-                            </customControls:CopyButton.Content>
-                        </customControls:CopyButton>
-                    </Grid>
-                </Grid>
 
                 <TextBlock
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
