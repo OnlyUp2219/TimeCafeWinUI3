@@ -253,15 +253,14 @@
                             ScrollViewer.IsScrollInertiaEnabled="True"
                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
                             ScrollViewer.VerticalScrollMode="Disabled"
-                            SelectedItem="{Binding SelectedTariff}"
-                            SelectionChanged="TariffsItemsView_SelectionChanged"
+                            SelectedItem="{Binding SelectedTariff, Mode=TwoWay}"
                             SelectionMode="Single">
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Tariff">
                                     <Border
                                         x:Name="TariffBorder"
-                                        Width="600"
-                                        Height="400"
+                                        Width="500"
+                                        Height="350"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         BorderThickness="1"
@@ -464,19 +463,17 @@
 
                         <TextBlock
                             HorizontalAlignment="Center"
-                            FontSize="24"
-                            FontWeight="Bold"
+                            Style="{StaticResource TitleLargeTextBlockStyle}"
                             Text="Успешно!" />
 
                         <TextBlock
                             HorizontalAlignment="Center"
-                            FontSize="16"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
                             Text="Возврат к началу через:" />
 
                         <TextBlock
                             HorizontalAlignment="Center"
-                            FontSize="48"
-                            FontWeight="Bold"
+                            Style="{StaticResource DisplayTextBlockStyle}"
                             Text="{Binding CountdownSeconds}" />
 
                         <Button

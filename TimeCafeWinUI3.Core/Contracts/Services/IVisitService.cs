@@ -4,7 +4,7 @@ namespace TimeCafeWinUI3.Core.Contracts.Services;
 
 public interface IVisitService
 {
-    Task<Visit> EnterClientAsync(int clientId, int tariffId);
+    Task<Visit> EnterClientAsync(int clientId, int tariffId, int minimumEntryMinutes);
     Task<Visit> ExitClientAsync(int visitId);
     Task<IEnumerable<Visit>> GetActiveVisitsAsync();
     Task<Visit?> GetActiveVisitByClientAsync(int clientId);

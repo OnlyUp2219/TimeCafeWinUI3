@@ -93,7 +93,7 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
         SelectedThemeStyle = null;
     }
 
-    public async Task<string> ValidateAsync()
+    public Task<string> ValidateAsync()
     {
         var sb = new StringBuilder();
 
@@ -106,7 +106,7 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
         if (BillingTypeId <= 0)
             sb.AppendLine("Тип тарифа обязателен для выбора");
 
-        return sb.ToString();
+        return Task.FromResult(sb.ToString());
     }
 
     [RelayCommand]

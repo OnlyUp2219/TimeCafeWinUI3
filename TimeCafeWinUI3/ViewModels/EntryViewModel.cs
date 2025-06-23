@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.ObjectModel;
 using System.Text;
+using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -24,6 +25,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     private readonly IWorkingHoursService _workingHoursService;
     private readonly INavigationService _navigationService;
     private readonly DispatcherTimer _countdownTimer;
+    private readonly ILocalSettingsService _localSettingsService;
 
     [ObservableProperty] private EntryState currentState = EntryState.Welcome;
     [ObservableProperty] private string cardNumber;
@@ -47,13 +49,14 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     // Track the path user took
     private bool _isRegistrationPath = false;
 
-    public EntryViewModel(INavigationService navigationService, IClientService clientService, ITariffService tariffService, IVisitService visitService, IWorkingHoursService workingHoursService)
+    public EntryViewModel(INavigationService navigationService, IClientService clientService, ITariffService tariffService, IVisitService visitService, IWorkingHoursService workingHoursService, ILocalSettingsService localSettingsService)
     {
         _navigationService = navigationService;
         _clientService = clientService;
         _tariffService = tariffService;
         _visitService = visitService;
         _workingHoursService = workingHoursService;
+        _localSettingsService = localSettingsService;
 
         _countdownTimer = new DispatcherTimer
         {
@@ -380,7 +383,9 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
                 return;
             }
 
-            await _visitService.EnterClientAsync(CurrentClient.ClientId, SelectedTariff.TariffId);
+            var minMinutes = await _localSettingsService.ReadSettingAsync<int>("MinimumEntryMinutes");
+            if (minMinutes <= 0) minMinutes = 20;
+            await _visitService.EnterClientAsync(CurrentClient.ClientId, SelectedTariff.TariffId, minMinutes);
 
             CurrentState = EntryState.Success;
             ErrorMessage = string.Empty;

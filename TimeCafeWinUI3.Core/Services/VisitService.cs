@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TimeCafeWinUI3.Core.Contracts.Services;
 using TimeCafeWinUI3.Core.Models;
 
+
 namespace TimeCafeWinUI3.Core.Services;
 
 public class VisitService : IVisitService
@@ -17,13 +18,11 @@ public class VisitService : IVisitService
         _financialService = financialService;
     }
 
-    public async Task<Visit> EnterClientAsync(int clientId, int tariffId)
+    public async Task<Visit> EnterClientAsync(int clientId, int tariffId, int minimumEntryMinutes)
     {
-        // Проверяем, что клиент активен
         if (!await IsClientActiveAsync(clientId))
             throw new InvalidOperationException("Клиент не имеет активного статуса");
 
-        // Проверяем, что клиент еще не вошел
         if (await IsClientAlreadyEnteredAsync(clientId))
             throw new InvalidOperationException("Ошибка. Вход уже осуществлен");
 
@@ -37,12 +36,11 @@ public class VisitService : IVisitService
         if (tariff.BillingType == null)
             throw new InvalidOperationException($"У тарифа {tariff.TariffName} не указан тип тарификации");
 
-        // Проверяем минимальный баланс для входа
-        var minRequiredAmount = await CalculateMinimumRequiredAmountAsync(tariff);
+        var minRequiredAmount = await CalculateMinimumRequiredAmountAsync(tariff, minimumEntryMinutes);
         if (!await _financialService.HasSufficientBalanceAsync(clientId, minRequiredAmount))
         {
             var currentBalance = await _financialService.GetClientBalanceAsync(clientId);
-            throw new InvalidOperationException($"Недостаточно средств для входа. Требуется минимум {minRequiredAmount:C}, доступно {currentBalance:C}");
+            throw new InvalidOperationException($"Недостаточно средств для входа. Требуется минимум {minRequiredAmount:C} (стоимость {minimumEntryMinutes} минут), доступно {currentBalance:C}");
         }
 
         var visit = new Visit
@@ -134,11 +132,10 @@ public class VisitService : IVisitService
             return 0;
 
         var duration = await GetVisitDurationAsync(visit);
-        
-        // Проверяем, что BillingTypeId не null
+
         if (!visit.BillingTypeId.HasValue)
             return 0;
-            
+
         var billingType = await _billingTypeService.GetBillingTypeByIdAsync(visit.BillingTypeId.Value);
 
         if (billingType == null)
@@ -146,13 +143,11 @@ public class VisitService : IVisitService
 
         switch (billingType.BillingTypeId)
         {
-            case 1: // Почасовая тарификация
-                // Почасовая тарификация с округлением вверх
+            case 1:
                 var hours = Math.Ceiling(duration.TotalHours);
                 return visit.Tariff.Price * (decimal)hours;
 
-            case 2: // Поминутная тарификация
-                // Поминутная тарификация
+            case 2:
                 var minutes = duration.TotalMinutes;
                 return visit.Tariff.Price * (decimal)minutes;
 
@@ -170,21 +165,17 @@ public class VisitService : IVisitService
     /// <summary>
     /// Рассчитать минимальную требуемую сумму для входа
     /// </summary>
-    private async Task<decimal> CalculateMinimumRequiredAmountAsync(Tariff tariff)
+    private async Task<decimal> CalculateMinimumRequiredAmountAsync(Tariff tariff, int minMinutes)
     {
         if (tariff.BillingType == null)
             return 0;
 
         switch (tariff.BillingType.BillingTypeId)
         {
-            case 1: // Почасовая тарификация
-                // Минимум на 1 час
-                return tariff.Price;
-
-            case 2: // Поминутная тарификация
-                // Минимум на 1 час (60 минут)
-                return tariff.Price * 60;
-
+            case 1:
+                return tariff.Price * minMinutes / 60m;
+            case 2:
+                return tariff.Price * minMinutes;
             default:
                 return 0;
         }

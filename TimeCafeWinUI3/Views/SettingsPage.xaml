@@ -66,6 +66,21 @@
                     </StackPanel>
                 </controls:SettingsCard>
 
+                <controls:SettingsCard Description="Минимальное время для входа (в минутах)" Header="Минимальное время входа">
+                    <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                        <TextBlock Text="Минимальное время (минут):" />
+                        <NumberBox
+                            Minimum="1"
+                            Maximum="120"
+                            Value="{x:Bind ViewModel.MinimumEntryMinutes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button
+                            Margin="{StaticResource XSmallTopMargin}"
+                            Command="{x:Bind ViewModel.SaveMinimumEntryMinutesCommand}"
+                            Content="Сохранить"
+                            Style="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </controls:SettingsCard>
+
                 <controls:SettingsCard Description="Информация о версии и лицензии" Header="О приложении">
                     <StackPanel Margin="{StaticResource XSmallTopMargin}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />

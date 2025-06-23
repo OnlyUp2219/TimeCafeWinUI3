@@ -10,6 +10,7 @@ public partial class SettingsViewModel : ObservableRecipient
 {
     private readonly IThemeSelectorService _themeSelectorService;
     private readonly IWorkingHoursService _workingHoursService;
+    private readonly ILocalSettingsService _localSettingsService;
 
     [ObservableProperty]
     private ElementTheme _elementTheme;
@@ -23,6 +24,9 @@ public partial class SettingsViewModel : ObservableRecipient
     [ObservableProperty]
     private TimeSpan _closeTime;
 
+    [ObservableProperty]
+    private int _minimumEntryMinutes = 20;
+
     public ICommand SwitchThemeCommand
     {
         get;
@@ -33,10 +37,11 @@ public partial class SettingsViewModel : ObservableRecipient
         get;
     }
 
-    public SettingsViewModel(IThemeSelectorService themeSelectorService, IWorkingHoursService workingHoursService)
+    public SettingsViewModel(IThemeSelectorService themeSelectorService, IWorkingHoursService workingHoursService, ILocalSettingsService localSettingsService)
     {
         _themeSelectorService = themeSelectorService;
         _workingHoursService = workingHoursService;
+        _localSettingsService = localSettingsService;
         _elementTheme = _themeSelectorService.Theme;
         _versionDescription = GetVersionDescription();
 
@@ -58,6 +63,8 @@ public partial class SettingsViewModel : ObservableRecipient
 
         // Загружаем настройки рабочего времени
         _ = LoadWorkingHoursAsync();
+        // Загружаем минимальное время входа
+        _ = LoadMinimumEntryMinutesAsync();
     }
 
     private async Task LoadWorkingHoursAsync()
@@ -98,6 +105,19 @@ public partial class SettingsViewModel : ObservableRecipient
         {
             ElementTheme = _themeSelectorService.Theme;
         }
+    }
+
+    private async Task LoadMinimumEntryMinutesAsync()
+    {
+        var value = await _localSettingsService.ReadSettingAsync<int?>("MinimumEntryMinutes");
+        if (value.HasValue && value.Value > 0)
+            MinimumEntryMinutes = value.Value;
+    }
+
+    [RelayCommand]
+    private async Task SaveMinimumEntryMinutesAsync()
+    {
+        await _localSettingsService.SaveSettingAsync("MinimumEntryMinutes", MinimumEntryMinutes);
     }
 
     private static string GetVersionDescription()

@@ -25,11 +25,11 @@ public sealed partial class EntryPage : Page
         ErrorTeachingTip.IsOpen = true;
     }
 
-    private void TariffsItemsView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (sender is ListView listView)
-        {
-            ViewModel.SelectedTariff = listView.SelectedItem as Tariff;
-        }
-    }
+    // private void TariffsItemsView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    // {
+    //     if (ViewModel != null && sender is ListView listView)
+    //     {
+    //         ViewModel.SelectedTariff = listView.SelectedItem as Tariff;
+    //     }
+    // }
 }
