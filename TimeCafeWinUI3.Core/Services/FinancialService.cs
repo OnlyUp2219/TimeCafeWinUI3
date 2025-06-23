@@ -33,7 +33,8 @@ public class FinancialService : IFinancialService
             ClientId = clientId,
             Amount = amount,
             TransactionTypeId = 1,
-            TransactionDate = DateTime.Now
+            TransactionDate = DateTime.Now,
+            Comment = comment
         };
 
         _context.FinancialTransactions.Add(transaction);
@@ -53,7 +54,8 @@ public class FinancialService : IFinancialService
             Amount = amount,
             TransactionTypeId = 2,
             TransactionDate = DateTime.Now,
-            VisitId = visitId
+            VisitId = visitId,
+            Comment = comment
         };
 
         _context.FinancialTransactions.Add(transaction);

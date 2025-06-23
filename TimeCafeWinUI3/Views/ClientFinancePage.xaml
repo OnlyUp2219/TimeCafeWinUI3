@@ -33,7 +33,11 @@
         </StackPanel>
 
         <!--  Balance Cards  -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="16" HorizontalAlignment="Stretch">
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            Orientation="Horizontal"
+            Spacing="16">
 
             <!--  Current Balance  -->
             <Border
@@ -70,8 +74,7 @@
             </Border>
 
             <!--  Actions  -->
-            <StackPanel
-                Spacing="8">
+            <StackPanel Spacing="8">
                 <Button
                     Command="{x:Bind ViewModel.PayFullDebtCommand}"
                     Content="Погасить полностью"
@@ -112,9 +115,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="25" />
                 </Grid.RowDefinitions>
 
                 <!--  Deposit Form  -->
@@ -155,8 +158,8 @@
 
                 <!--  Debt Payment Form  -->
                 <Border
-                    Grid.Column="0"
                     Grid.Row="1"
+                    Grid.Column="0"
                     Margin="0,16,16,0"
                     Padding="16"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -192,8 +195,8 @@
 
                 <!--  Transactions History  -->
                 <Border
-                    Grid.Column="2"
                     Grid.RowSpan="2"
+                    Grid.Column="2"
                     Padding="16"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -205,12 +208,23 @@
                         <ListView Margin="0,16,0,0" ItemsSource="{x:Bind ViewModel.Transactions, Mode=OneWay}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Margin="0,0,0,8" Padding="12" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8">
+                                    <Border
+                                        Margin="0,0,0,8"
+                                        Padding="12"
+                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="8">
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Text="{Binding TransactionDate, Converter={StaticResource DateTimeFormatConverter}}" />
                                             <TextBlock Text="{Binding TransactionType.TransactionTypeName}" />
                                             <TextBlock Foreground="{Binding TransactionTypeId, Converter={StaticResource StatusColorConverter}, ConverterParameter=Transaction}" Text="{Binding Amount, Converter={StaticResource PriceConverter}}" />
-                                            <TextBlock Text="Посещение: {Binding VisitId}" Visibility="{Binding VisitId, Converter={StaticResource NullToVisibilityConverter}}" />
+                                            <TextBlock Text="{Binding VisitId}" Visibility="{Binding VisitId, Converter={StaticResource NullToVisibilityConverter}}" />
+                                            <TextBlock
+                                                FontStyle="Italic"
+                                                Foreground="Gray"
+                                                Text="{Binding Comment}"
+                                                Visibility="{Binding Comment, Converter={StaticResource StringToVisibilityConverter}}" />
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>
