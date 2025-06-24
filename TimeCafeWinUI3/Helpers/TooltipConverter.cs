@@ -9,7 +9,7 @@ namespace TimeCafeWinUI3.Helpers
             var client = value as Client;
             if (client != null)
             {
-                return $"ФИО: {client.LastName} {client.FirstName} {client.MiddleName}\nТелефон: {client.PhoneNumber}\nСтатус: {client.Status.StatusName}";
+                return $"ФИО: {client.LastName ?? ""} {client.FirstName ?? ""} {client.MiddleName ?? ""}\nТелефон: {client.PhoneNumber ?? ""}\nСтатус: {client.Status?.StatusName ?? ""}";
             }
             return string.Empty;
         }

@@ -92,7 +92,7 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
     {
         if (client != null)
         {
-            _navigationService.NavigateTo(typeof(UserGridDetailViewModel).FullName, client.ClientId);
+            _navigationService.NavigateTo(typeof(UserGridDetailViewModel).FullName!, client.ClientId);
         }
     }
 

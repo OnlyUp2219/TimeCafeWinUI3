@@ -124,7 +124,7 @@
     <value>TimeCafeWinUI3</value>
   </data>
   <data name="Shell_Main.Content" xml:space="preserve">
-    <value>Главный экран</value>
+    <value>Создание клиента</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>Персонализация</value>
@@ -184,5 +184,8 @@
   </data>
   <data name="VisitorManagement.Content" xml:space="preserve">
     <value>Управление посетителями</value>
+  </data>
+  <data name="FinanceManagement.Content" xml:space="preserve">
+    <value>Финансы </value>
   </data>
 </root>

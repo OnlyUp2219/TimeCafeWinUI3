@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace TimeCafeWinUI3.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNewFields : Migration
+    public partial class InitialSync : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -230,7 +232,8 @@ namespace TimeCafeWinUI3.Core.Migrations
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     TransactionTypeId = table.Column<int>(type: "int", nullable: true),
-                    VisitId = table.Column<int>(type: "int", nullable: true)
+                    VisitId = table.Column<int>(type: "int", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -251,6 +254,44 @@ namespace TimeCafeWinUI3.Core.Migrations
                         column: x => x.VisitId,
                         principalTable: "Visits",
                         principalColumn: "VisitId");
+                });
+
+            migrationBuilder.InsertData(
+                table: "BillingTypes",
+                columns: new[] { "BillingTypeId", "BillingTypeName" },
+                values: new object[,]
+                {
+                    { 1, "Почасовая" },
+                    { 2, "Поминутная" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ClientStatuses",
+                columns: new[] { "StatusId", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, "Черновик" },
+                    { 2, "Активный" },
+                    { 3, "Отказ от услуг" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Genders",
+                columns: new[] { "GenderId", "GenderName" },
+                values: new object[,]
+                {
+                    { 1, "Мужской" },
+                    { 2, "Женский" },
+                    { 3, "Не указан" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TransactionTypes",
+                columns: new[] { "TransactionTypeId", "TransactionTypeName" },
+                values: new object[,]
+                {
+                    { 1, "Пополнение" },
+                    { 2, "Списание" }
                 });
 
             migrationBuilder.CreateIndex(

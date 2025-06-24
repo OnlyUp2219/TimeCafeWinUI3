@@ -46,6 +46,17 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
                 OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
             }
         }
+        else if (parameter is int clientId)
+        {
+            var clients = await _clientService.GetAllClientsAsync();
+            Item = clients.FirstOrDefault(c => c.ClientId == clientId);
+            if (Item != null)
+            {
+                var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
+                Item.ClientAdditionalInfos = additionalInfos.ToList();
+                OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
+            }
+        }
     }
 
     public void OnNavigatedFrom()

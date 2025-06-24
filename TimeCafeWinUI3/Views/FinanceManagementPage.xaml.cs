@@ -12,6 +12,7 @@ public sealed partial class FinanceManagementPage : Page
     public FinanceManagementPage()
     {
         ViewModel = App.GetService<FinanceManagementViewModel>();
+        DataContext = ViewModel;
         this.InitializeComponent();
     }
 
@@ -22,4 +23,12 @@ public sealed partial class FinanceManagementPage : Page
             ViewModel.NavigateToClientDetailCommand.Execute(clientInfo);
         }
     }
-} 
+
+    private void ListViewContainer_SizeChanged(object sender, Microsoft.UI.Xaml.SizeChangedEventArgs e)
+    {
+        if (ClientsListView != null)
+        {
+            ClientsListView.MaxHeight = e.NewSize.Height;
+        }
+    }
+}

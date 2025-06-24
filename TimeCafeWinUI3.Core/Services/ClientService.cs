@@ -39,7 +39,7 @@ public class ClientService : IClientService
             .ToListAsync()
             .ConfigureAwait(false);
 
-        var totalCount = items.Count;
+        var totalCount = await _context.Clients.CountAsync();
 
         return (items, totalCount);
     }

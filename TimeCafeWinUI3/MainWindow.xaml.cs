@@ -23,8 +23,8 @@ public sealed partial class MainWindow : WindowEx
         settings = new UISettings();
         settings.ColorValuesChanged += Settings_ColorValuesChanged; // cannot use FrameworkElement.ActualThemeChanged event
 
-        //AppWindow.Closing += AppWindow_Closing;
-        //AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit!;
+        AppWindow.Closing += AppWindow_Closing;
+        AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit!;
     }
 
     private void CurrentDomain_ProcessExit(object sender, EventArgs e)
@@ -98,7 +98,18 @@ public sealed partial class MainWindow : WindowEx
                 //     await visitService.ExitAllVisitorsAsync("Закрытие приложения");
                 // }
 
-                AppWindow.Hide();
+                // Принудительно закрываем соединение с БД
+                try
+                {
+                    var db = App.GetService<TimeCafeWinUI3.Core.Models.TimeCafeContext>();
+                    db.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Ошибка при закрытии БД: {ex.Message}");
+                }
+
+                // AppWindow.Hide();
                 Environment.Exit(0);
             }
             else
@@ -114,7 +125,7 @@ public sealed partial class MainWindow : WindowEx
 
             try
             {
-                AppWindow.Hide();
+                // AppWindow.Hide();
                 Environment.Exit(0);
             }
             catch (Exception exitEx)
@@ -124,11 +135,8 @@ public sealed partial class MainWindow : WindowEx
         }
     }
 
-    // this handles updating the caption button colors correctly when indows system theme is changed
-    // while the app is open
     private void Settings_ColorValuesChanged(UISettings sender, object args)
     {
-        // This calls comes off-thread, hence we will need to dispatch it to current app's thread
         dispatcherQueue.TryEnqueue(() =>
         {
             TitleBarHelper.ApplySystemThemeToCaptionButtons();

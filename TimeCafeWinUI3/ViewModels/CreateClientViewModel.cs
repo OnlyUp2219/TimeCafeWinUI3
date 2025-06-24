@@ -209,6 +209,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 Email = Email,
                 BirthDate = BirthDate,
                 PhoneNumber = PhoneNumber,
+                StatusId = (int)ClientStatusType.Draft,
                 CreatedAt = DateTime.Now
             };
 

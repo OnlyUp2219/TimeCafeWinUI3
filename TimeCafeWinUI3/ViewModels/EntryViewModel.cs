@@ -4,18 +4,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.ObjectModel;
 using System.Text;
-using TimeCafeWinUI3.Contracts.Services;
 
 namespace TimeCafeWinUI3.ViewModels;
-
-public enum EntryState
-{
-    Welcome,
-    CardInput,
-    Registration,
-    TariffSelection,
-    Success
-}
 
 public partial class EntryViewModel : ObservableRecipient, INavigationAware
 {

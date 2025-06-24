@@ -12,8 +12,8 @@ using TimeCafeWinUI3.Core.Models;
 namespace TimeCafeWinUI3.Core.Migrations
 {
     [DbContext(typeof(TimeCafeContext))]
-    [Migration("20250615111214_AddNewFields")]
-    partial class AddNewFields
+    [Migration("20250624062535_SyncAfterManualCommentField")]
+    partial class SyncAfterManualCommentField
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,18 @@ namespace TimeCafeWinUI3.Core.Migrations
                         .HasFilter("([BillingTypeName] IS NOT NULL)");
 
                     b.ToTable("BillingTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            BillingTypeId = 1,
+                            BillingTypeName = "Почасовая"
+                        },
+                        new
+                        {
+                            BillingTypeId = 2,
+                            BillingTypeName = "Поминутная"
+                        });
                 });
 
             modelBuilder.Entity("TimeCafeWinUI3.Core.Models.Client", b =>
@@ -171,6 +183,23 @@ namespace TimeCafeWinUI3.Core.Migrations
                         .HasName("PK__ClientSt__C8EE2063B82E1A46");
 
                     b.ToTable("ClientStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusId = 1,
+                            StatusName = "Черновик"
+                        },
+                        new
+                        {
+                            StatusId = 2,
+                            StatusName = "Активный"
+                        },
+                        new
+                        {
+                            StatusId = 3,
+                            StatusName = "Отказ от услуг"
+                        });
                 });
 
             modelBuilder.Entity("TimeCafeWinUI3.Core.Models.FinancialTransaction", b =>
@@ -186,6 +215,9 @@ namespace TimeCafeWinUI3.Core.Migrations
 
                     b.Property<int?>("ClientId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime");
@@ -230,6 +262,23 @@ namespace TimeCafeWinUI3.Core.Migrations
                         .IsUnique();
 
                     b.ToTable("Genders");
+
+                    b.HasData(
+                        new
+                        {
+                            GenderId = 1,
+                            GenderName = "Мужской"
+                        },
+                        new
+                        {
+                            GenderId = 2,
+                            GenderName = "Женский"
+                        },
+                        new
+                        {
+                            GenderId = 3,
+                            GenderName = "Не указан"
+                        });
                 });
 
             modelBuilder.Entity("TimeCafeWinUI3.Core.Models.PhoneConfirmation", b =>
@@ -382,6 +431,18 @@ namespace TimeCafeWinUI3.Core.Migrations
                         .HasFilter("([TransactionTypeName] IS NOT NULL)");
 
                     b.ToTable("TransactionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            TransactionTypeId = 1,
+                            TransactionTypeName = "Пополнение"
+                        },
+                        new
+                        {
+                            TransactionTypeId = 2,
+                            TransactionTypeName = "Списание"
+                        });
                 });
 
             modelBuilder.Entity("TimeCafeWinUI3.Core.Models.Visit", b =>
