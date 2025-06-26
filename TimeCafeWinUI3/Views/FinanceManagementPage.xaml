@@ -17,7 +17,7 @@
     xmlns:vm="using:TimeCafeWinUI3.ViewModels"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
+    <Grid x:Name="ContentArea" Padding="0,0,0,8">
         <Grid.BackgroundTransition>
             <BrushTransition />
         </Grid.BackgroundTransition>
@@ -103,21 +103,24 @@
                 TextWrapping="Wrap"
                 Visibility="{x:Bind ViewModel.ErrorMessage, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" />
 
-            <Grid x:Name="ListViewContainer" Grid.Row="1" SizeChanged="ListViewContainer_SizeChanged">
+            <Grid
+                x:Name="ListViewContainer"
+                Grid.Row="1"
+                SizeChanged="ListViewContainer_SizeChanged">
                 <!--  Loading  -->
                 <ProgressRing IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                 <!--  Data Table  -->
                 <ListView
                     x:Name="ClientsListView"
-                    ItemsSource="{Binding FilteredClients}"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Stretch"
+                    MinWidth="720"
                     MinHeight="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    ItemsSource="{Binding FilteredClients}"
                     ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                    ScrollViewer.HorizontalScrollMode="Auto"
-                    ScrollViewer.IsHorizontalRailEnabled="True"
-                    ScrollViewer.IsScrollInertiaEnabled="True">
+                    ScrollViewer.HorizontalScrollMode="Enabled"
+                    ScrollViewer.IsHorizontalRailEnabled="True">
                     <ListView.Header>
                         <Border
                             Padding="8,4,0,4"
@@ -127,12 +130,12 @@
                                 <behaviors:StickyHeaderBehavior />
                             </interactivity:Interaction.Behaviors>
                             <controls:DataTable ColumnSpacing="16">
-                                <controls:DataColumn CanResize="True" Content="Клиент" />
-                                <controls:DataColumn CanResize="True" Content="Телефон" />
-                                <controls:DataColumn CanResize="True" Content="Баланс" />
-                                <controls:DataColumn CanResize="True" Content="Задолженность" />
-                                <controls:DataColumn CanResize="True" Content="Статус" />
-                                <controls:DataColumn CanResize="True" Content="Действия" />
+                                <controls:DataColumn Content="Клиент" />
+                                <controls:DataColumn Content="Телефон" />
+                                <controls:DataColumn Content="Баланс" />
+                                <controls:DataColumn Content="Задолженность" />
+                                <controls:DataColumn Content="Статус" />
+                                <controls:DataColumn Content="Действия" />
                             </controls:DataTable>
                         </Border>
                     </ListView.Header>
@@ -161,6 +164,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                 </ListView>
+
             </Grid>
 
         </Grid>

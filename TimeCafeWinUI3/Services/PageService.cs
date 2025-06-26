@@ -18,7 +18,7 @@ public class PageService : IPageService
         Configure<EntryViewModel, EntryPage>();
         Configure<FinanceManagementViewModel, FinanceManagementPage>();
         Configure<ClientFinanceViewModel, ClientFinancePage>();
-
+        Configure<HelpViewModel, HelpPage>();
     }
 
     public Type GetPageType(string key)

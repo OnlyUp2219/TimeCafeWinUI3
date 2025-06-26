@@ -1,13 +1,6 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
-using TimeCafeWinUI3.Core.Contracts.Services;
-using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Contracts.Services;
-using TimeCafeWinUI3.Contracts.ViewModels;
-using TimeCafeWinUI3.Models;
-using TimeCafeWinUI3.Views;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -33,11 +26,13 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
 
     public async void OnNavigatedTo(object parameter)
     {
+        WeakReferenceMessenger.Default.Send(new ShellScrollViewerVisibilityMessage(ShellScrollViewerMode.Disabled));
         await LoadDataAsync();
     }
 
     public void OnNavigatedFrom()
     {
+        WeakReferenceMessenger.Default.Send(new ShellScrollViewerVisibilityMessage(ShellScrollViewerMode.Default));
         ClearData();
     }
 
@@ -49,7 +44,7 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
             ErrorMessage = string.Empty;
 
             var clientsData = await _financialService.GetAllClientsBalancesAsync();
-            
+
             AllClients.Clear();
             foreach (dynamic clientData in clientsData)
             {
@@ -139,4 +134,5 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
         DebtorsCount = 0;
         ErrorMessage = string.Empty;
     }
-} 
+}
+
