@@ -7,8 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:TimeCafeWinUI3.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xaml="using:Microsoft.UI.Xaml"
     xmlns:services="using:TimeCafeWinUI3.Services"
+    xmlns:xaml="using:Microsoft.UI.Xaml"
     mc:Ignorable="d">
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
@@ -49,14 +49,10 @@
                 <controls:SettingsCard Description="Настройте рабочие часы заведения" Header="Рабочие часы">
                     <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                         <TextBlock Text="Время открытия:" />
-                        <TimePicker
-                            Margin="{StaticResource XSmallTopMargin}"
-                            Time="{x:Bind ViewModel.OpenTime, Mode=TwoWay}" />
+                        <TimePicker Margin="{StaticResource XSmallTopMargin}" Time="{x:Bind ViewModel.OpenTime, Mode=TwoWay}" />
 
                         <TextBlock Margin="{StaticResource XSmallTopMargin}" Text="Время закрытия:" />
-                        <TimePicker
-                            Margin="{StaticResource XSmallTopMargin}"
-                            Time="{x:Bind ViewModel.CloseTime, Mode=TwoWay}" />
+                        <TimePicker Margin="{StaticResource XSmallTopMargin}" Time="{x:Bind ViewModel.CloseTime, Mode=TwoWay}" />
 
                         <Button
                             Margin="{StaticResource XSmallTopMargin}"
@@ -70,8 +66,8 @@
                     <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                         <TextBlock Text="Минимальное время (минут):" />
                         <NumberBox
-                            Minimum="1"
                             Maximum="120"
+                            Minimum="1"
                             Value="{x:Bind ViewModel.MinimumEntryMinutes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Button
                             Margin="{StaticResource XSmallTopMargin}"
@@ -81,17 +77,16 @@
                     </StackPanel>
                 </controls:SettingsCard>
 
-                <controls:SettingsCard Description="Информация о версии и лицензии" Header="О приложении">
+                <controls:SettingsCard Description="Информация о версии и справочная система" Header="О приложении">
                     <StackPanel Margin="{StaticResource XSmallTopMargin}">
                         <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.VersionDescription, Mode=OneWay}" />
-
-                        <TextBlock
-                            x:Uid="Settings_AboutDescription"
-                            Margin="{StaticResource XSmallTopMargin}"
-                            Style="{ThemeResource BodyTextBlockStyle}" />
-                        <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+                        <Button
+                            Click="HelpButton_Click"
+                            Content="Открыть справку"
+                            Style="{StaticResource AccentButtonStyle}" />
                     </StackPanel>
                 </controls:SettingsCard>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

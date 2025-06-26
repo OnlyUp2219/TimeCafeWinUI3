@@ -1,7 +1,8 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-
+using Microsoft.UI.Xaml.Media;
 using Windows.System;
 
 namespace TimeCafeWinUI3.Views;
@@ -21,6 +22,24 @@ public sealed partial class ShellPage : Page
 
         ViewModel.NavigationService.Frame = NavigationFrame;
         ViewModel.NavigationViewService.Initialize(NavigationViewControl);
+        // Подписка на сообщения Messenger
+        WeakReferenceMessenger.Default.Register<ShellScrollViewerVisibilityMessage>(this, (r, m) =>
+        {
+            var scrollViewer = this.FindName("MainScrollViewer") as ScrollViewer;
+            if (scrollViewer != null)
+            {
+                if (m.Value == ShellScrollViewerMode.Disabled)
+                {
+                    scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                    scrollViewer.VerticalScrollMode = ScrollMode.Disabled;
+                }
+                else
+                {
+                    scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                    scrollViewer.VerticalScrollMode = ScrollMode.Auto;
+                }
+            }
+        });
 
         // TODO: Set the title bar icon by updating /Assets/WindowIcon.ico.
         // A custom title bar is required for full window theme and Mica support.
@@ -95,6 +114,19 @@ public sealed partial class ShellPage : Page
         args.Handled = true;
     }
 
-
-
+    // Универсальный метод поиска потомка нужного типа
+    private static T? FindDescendant<T>(DependencyObject parent) where T : DependencyObject
+    {
+        int count = VisualTreeHelper.GetChildrenCount(parent);
+        for (int i = 0; i < count; i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is T t)
+                return t;
+            var result = FindDescendant<T>(child);
+            if (result != null)
+                return result;
+        }
+        return null;
+    }
 }

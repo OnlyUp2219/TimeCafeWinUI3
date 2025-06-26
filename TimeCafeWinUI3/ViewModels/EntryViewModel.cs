@@ -71,7 +71,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         {
             var tariffs = await _tariffService.GetAllTariffsAsync();
             Tariffs.Clear();
-            foreach (var tariff in tariffs.Take(10)) 
+            foreach (var tariff in tariffs.Take(10))
             {
                 Tariffs.Add(tariff);
             }
@@ -119,11 +119,11 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     {
         return CurrentState switch
         {
-            EntryState.Welcome => false, 
+            EntryState.Welcome => false,
             EntryState.CardInput => !string.IsNullOrWhiteSpace(CardNumber),
             EntryState.Registration => IsRegistrationValidSync(),
             EntryState.TariffSelection => SelectedTariff != null,
-            EntryState.Success => true, 
+            EntryState.Success => true,
             _ => false
         };
     }

@@ -1,11 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
 using System.Collections.ObjectModel;
-using TimeCafeWinUI3.Core.Contracts.Services;
-using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Contracts.Services;
-using TimeCafeWinUI3.Contracts.ViewModels;
 
 namespace TimeCafeWinUI3.ViewModels;
 
@@ -106,7 +100,7 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
             ErrorMessage = string.Empty;
 
             await _financialService.DepositAsync(_clientId, DepositAmount, DepositComment);
-            
+
             SuccessMessage = $"Баланс пополнен на {DepositAmount:C}";
             DepositAmount = 0;
             DepositComment = string.Empty;
@@ -145,7 +139,7 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
             ErrorMessage = string.Empty;
 
             await _financialService.DepositAsync(_clientId, DebtPaymentAmount, DebtPaymentComment);
-            
+
             DebtPaymentAmount = 0;
             DebtPaymentComment = string.Empty;
 
@@ -215,4 +209,4 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
     {
         DepositAmount = Math.Round(value, 2);
     }
-} 
+}

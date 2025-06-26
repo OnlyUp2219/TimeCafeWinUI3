@@ -9,4 +9,4 @@ public class ClientBalanceInfo
     public decimal Debt { get; set; }
     public DateTime LastTransactionDate { get; set; }
     public bool IsActive { get; set; }
-} 
+}

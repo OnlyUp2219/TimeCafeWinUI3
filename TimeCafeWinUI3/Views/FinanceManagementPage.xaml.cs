@@ -1,7 +1,4 @@
 using Microsoft.UI.Xaml.Controls;
-using TimeCafeWinUI3.ViewModels;
-using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Models;
 
 namespace TimeCafeWinUI3.Views;
 
@@ -28,7 +25,7 @@ public sealed partial class FinanceManagementPage : Page
     {
         if (ClientsListView != null)
         {
-            ClientsListView.MaxHeight = e.NewSize.Height;
+            ClientsListView.Height = e.NewSize.Height;
         }
     }
 }
