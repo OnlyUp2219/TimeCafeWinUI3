@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using TimeCafeWinUI3.ViewModels;
+using TimeCafeWinUI3.Views;
 
 namespace TimeCafeWinUI3;
 
@@ -26,7 +28,7 @@ public partial class App : Application
         return service;
     }
 
-    public static WindowEx MainWindow { get; set; } 
+    public static WindowEx MainWindow { get; set; }
         = new MainWindow();
     public static UIElement? AppTitlebar { get; set; }
 
@@ -95,6 +97,8 @@ public partial class App : Application
             services.AddTransient<FinanceManagementViewModel>();
             services.AddTransient<FinanceManagementPage>();
             services.AddTransient<ClientFinancePage>();
+            services.AddTransient<HelpViewModel>();
+            services.AddTransient<HelpPage>();
 
             // Register ContentDialogs
             services.AddTransient<EditClientContentDialog>();
@@ -121,6 +125,7 @@ public partial class App : Application
             var db = scope.ServiceProvider.GetRequiredService<TimeCafeContext>();
             db.Database.EnsureCreated();
         }
+
     }
 
     private async void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
