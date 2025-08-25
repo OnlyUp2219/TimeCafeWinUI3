@@ -3,12 +3,12 @@ using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Core.Services;
 
-public class FakeDataGenerator
+public class BogusDataGenerator
 {
     private readonly Faker<Client> _clientFaker;
     private readonly Faker<Tariff> _tariffFaker;
 
-    public FakeDataGenerator()
+    public BogusDataGenerator()
     {
         _clientFaker = new Faker<Client>("ru")
             .RuleFor(c => c.FirstName, f => f.Name.FirstName())

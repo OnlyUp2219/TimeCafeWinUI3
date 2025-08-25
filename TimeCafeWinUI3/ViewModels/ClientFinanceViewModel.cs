@@ -5,9 +5,9 @@ namespace TimeCafeWinUI3.ViewModels;
 
 public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly IFinancialService _financialService;
-    private readonly IClientService _clientService;
-    private readonly INavigationService _navigationService;
+    private readonly IFinancialCommands _financialCommands;
+    private readonly IFinancialQueries _financialQueries;
+    private readonly IClientQueries _clientQueries;
     private int _clientId;
 
     [ObservableProperty] private string clientName;
@@ -24,11 +24,13 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
     [ObservableProperty] private bool isDepositLoading;
     [ObservableProperty] private bool isDebtPaymentLoading;
 
-    public ClientFinanceViewModel(IFinancialService financialService, IClientService clientService, INavigationService navigationService)
+    public ClientFinanceViewModel(IFinancialCommands financialCommands,
+        IFinancialQueries financialQueries,
+        IClientQueries clientQueries)
     {
-        _financialService = financialService;
-        _clientService = clientService;
-        _navigationService = navigationService;
+        _financialCommands = financialCommands;
+        _financialQueries = financialQueries;
+        _clientQueries = clientQueries;
     }
 
     public void Initialize(int clientId)
@@ -58,16 +60,16 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
             IsLoading = true;
             ErrorMessage = string.Empty;
 
-            var client = await _clientService.GetClientByIdAsync(_clientId);
+            var client = await _clientQueries.GetClientByIdAsync(_clientId);
             if (client != null)
             {
                 ClientName = $"{client.LastName} {client.FirstName} {client.MiddleName}".Trim();
             }
 
-            CurrentBalance = await _financialService.GetClientBalanceAsync(_clientId);
+            CurrentBalance = await _financialQueries.GetClientBalanceAsync(_clientId);
             CurrentDebt = CurrentBalance < 0 ? Math.Abs(CurrentBalance) : 0;
 
-            var transactionsList = await _financialService.GetClientTransactionsAsync(_clientId, 50);
+            var transactionsList = await _financialQueries.GetClientTransactionsAsync(_clientId, 50);
             Transactions.Clear();
             foreach (var transaction in transactionsList)
             {
@@ -99,7 +101,7 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
             IsDepositLoading = true;
             ErrorMessage = string.Empty;
 
-            await _financialService.DepositAsync(_clientId, DepositAmount, DepositComment);
+            await _financialCommands.DepositAsync(_clientId, DepositAmount, DepositComment);
 
             SuccessMessage = $"Баланс пополнен на {DepositAmount:C}";
             DepositAmount = 0;
@@ -138,7 +140,7 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
             IsDebtPaymentLoading = true;
             ErrorMessage = string.Empty;
 
-            await _financialService.DepositAsync(_clientId, DebtPaymentAmount, DebtPaymentComment);
+            await _financialCommands.DepositAsync(_clientId, DebtPaymentAmount, DebtPaymentComment);
 
             DebtPaymentAmount = 0;
             DebtPaymentComment = string.Empty;

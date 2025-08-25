@@ -6,7 +6,7 @@ namespace TimeCafeWinUI3.ViewModels;
 
 public partial class FinanceManagementViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly IFinancialService _financialService;
+    private readonly IFinancialQueries _financialQueries;
     private readonly INavigationService _navigationService;
 
     [ObservableProperty] private ObservableCollection<ClientBalanceInfo> allClients = new();
@@ -18,9 +18,11 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
     [ObservableProperty] private decimal totalDebt;
     [ObservableProperty] private int debtorsCount;
 
-    public FinanceManagementViewModel(IFinancialService financialService, INavigationService navigationService)
+    public FinanceManagementViewModel(
+        IFinancialQueries financialQueries,
+        INavigationService navigationService)
     {
-        _financialService = financialService;
+        _financialQueries = financialQueries;
         _navigationService = navigationService;
     }
 
@@ -43,7 +45,7 @@ public partial class FinanceManagementViewModel : ObservableRecipient, INavigati
             IsLoading = true;
             ErrorMessage = string.Empty;
 
-            var clientsData = await _financialService.GetAllClientsBalancesAsync();
+            var clientsData = await _financialQueries.GetAllClientsBalancesAsync();
 
             AllClients.Clear();
             foreach (dynamic clientData in clientsData)

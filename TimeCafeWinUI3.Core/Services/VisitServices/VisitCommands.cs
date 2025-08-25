@@ -1,29 +1,39 @@
 using Microsoft.EntityFrameworkCore;
-using TimeCafeWinUI3.Core.Contracts.Services;
+using TimeCafeWinUI3.Core.Contracts.Services.BillingTypeServices;
+using TimeCafeWinUI3.Core.Contracts.Services.FinancialServices;
+using TimeCafeWinUI3.Core.Contracts.Services.VisitServices;
 using TimeCafeWinUI3.Core.Models;
 
 
-namespace TimeCafeWinUI3.Core.Services;
+namespace TimeCafeWinUI3.Core.Services.VisitServices;
 
-public class VisitService : IVisitService
+public class VisitCommands : IVisitCommands
 {
     private readonly TimeCafeContext _context;
-    private readonly IBillingTypeService _billingTypeService;
-    private readonly IFinancialService _financialService;
+    private readonly IBillingTypeQueries _billingTypeService;
+    private readonly IFinancialCommands _financialSCommands;
+    private readonly IFinancialQueries _financialQueries;
+    private readonly IVisitQueries _visitQueries;
 
-    public VisitService(TimeCafeContext context, IBillingTypeService billingTypeService, IFinancialService financialService)
+    public VisitCommands(TimeCafeContext context,
+        IBillingTypeQueries billingTypeService,
+        IFinancialCommands financialSCommands,
+        IFinancialQueries financialQueries,
+        IVisitQueries visitQueries)
     {
         _context = context;
         _billingTypeService = billingTypeService;
-        _financialService = financialService;
+        _financialSCommands = financialSCommands;
+        _financialQueries = financialQueries;
+        _visitQueries = visitQueries;
     }
 
     public async Task<Visit> EnterClientAsync(int clientId, int tariffId, int minimumEntryMinutes)
     {
-        if (!await IsClientActiveAsync(clientId))
+        if (!await _visitQueries.IsClientActiveAsync(clientId))
             throw new InvalidOperationException("Клиент не имеет активного статуса");
 
-        if (await IsClientAlreadyEnteredAsync(clientId))
+        if (await _visitQueries.IsClientAlreadyEnteredAsync(clientId))
             throw new InvalidOperationException("Ошибка. Вход уже осуществлен");
 
         var tariff = await _context.Tariffs
@@ -36,10 +46,10 @@ public class VisitService : IVisitService
         if (tariff.BillingType == null)
             throw new InvalidOperationException($"У тарифа {tariff.TariffName} не указан тип тарификации");
 
-        var minRequiredAmount = await CalculateMinimumRequiredAmountAsync(tariff, minimumEntryMinutes);
-        if (!await _financialService.HasSufficientBalanceAsync(clientId, minRequiredAmount))
+        var minRequiredAmount = CalculateMinimumRequiredAmount(tariff, minimumEntryMinutes);
+        if (!await _financialQueries.HasSufficientBalanceAsync(clientId, minRequiredAmount))
         {
-            var currentBalance = await _financialService.GetClientBalanceAsync(clientId);
+            var currentBalance = await _financialQueries.GetClientBalanceAsync(clientId);
             throw new InvalidOperationException($"Недостаточно средств для входа. Требуется минимум {minRequiredAmount:C} (стоимость {minimumEntryMinutes} минут), доступно {currentBalance:C}");
         }
 
@@ -85,45 +95,10 @@ public class VisitService : IVisitService
         visit.ExitTime = DateTime.Now;
         visit.VisitCost = await CalculateVisitCostAsync(visit);
 
-        // Списание с баланса клиента
-        await _financialService.DeductAsync(visit.ClientId.Value, visit.VisitCost.Value, visit.VisitId, "Оплата посещения");
+        await _financialSCommands.DeductAsync(visit.ClientId.Value, visit.VisitCost.Value, visit.VisitId, "Оплата посещения");
 
         await _context.SaveChangesAsync();
         return visit;
-    }
-
-    public async Task<IEnumerable<Visit>> GetActiveVisitsAsync()
-    {
-        return await _context.Visits
-            .Include(v => v.Client)
-            .Include(v => v.Tariff)
-            .Include(v => v.BillingType)
-            .Where(v => v.ExitTime == null)
-            .OrderByDescending(v => v.EntryTime)
-            .ToListAsync();
-    }
-
-    public async Task<Visit?> GetActiveVisitByClientAsync(int clientId)
-    {
-        return await _context.Visits
-            .Include(v => v.Tariff)
-            .Include(v => v.BillingType)
-            .FirstOrDefaultAsync(v => v.ClientId == clientId && v.ExitTime == null);
-    }
-
-    public async Task<bool> IsClientActiveAsync(int clientId)
-    {
-        var client = await _context.Clients
-            .Include(c => c.Status)
-            .FirstOrDefaultAsync(c => c.ClientId == clientId);
-
-        return client?.Status?.StatusName == "Активный";
-    }
-
-    public async Task<bool> IsClientAlreadyEnteredAsync(int clientId)
-    {
-        return await _context.Visits
-            .AnyAsync(v => v.ClientId == clientId && v.ExitTime == null);
     }
 
     public async Task<decimal> CalculateVisitCostAsync(Visit visit)
@@ -131,7 +106,7 @@ public class VisitService : IVisitService
         if (visit.Tariff == null)
             return 0;
 
-        var duration = await GetVisitDurationAsync(visit);
+        var duration = GetVisitDuration(visit);
 
         if (!visit.BillingTypeId.HasValue)
             return 0;
@@ -156,16 +131,13 @@ public class VisitService : IVisitService
         }
     }
 
-    public async Task<TimeSpan> GetVisitDurationAsync(Visit visit)
+    public TimeSpan GetVisitDuration(Visit visit)
     {
         var endTime = visit.ExitTime ?? DateTime.Now;
         return endTime - visit.EntryTime;
     }
 
-    /// <summary>
-    /// Рассчитать минимальную требуемую сумму для входа
-    /// </summary>
-    private async Task<decimal> CalculateMinimumRequiredAmountAsync(Tariff tariff, int minMinutes)
+    private decimal CalculateMinimumRequiredAmount(Tariff tariff, int minMinutes)
     {
         if (tariff.BillingType == null)
             return 0;
@@ -205,4 +177,4 @@ public class VisitService : IVisitService
         await _context.SaveChangesAsync();
     }
     */
-} 
+}

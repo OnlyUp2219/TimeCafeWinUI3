@@ -6,8 +6,10 @@ namespace TimeCafeWinUI3.ViewModels;
 
 public partial class UserGridDetailViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly IClientService _clientService;
-    private readonly IClientAdditionalInfoService _additionalInfoService;
+    private readonly IClientQueries _clientQueries;
+    private readonly IClientCommands _clientCommands;
+    private readonly IClientAdditionalInfoQueries _additionalInfoQueries;
+    private readonly IClientAdditionalInfoCommands _additionalInfoCommands;
     private readonly INavigationService _navigationService;
 
     [ObservableProperty]
@@ -16,11 +18,17 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
 
     public bool HasAdditionalInfo => Item?.ClientAdditionalInfos?.Any() ?? false;
 
-    public UserGridDetailViewModel(IClientService clientService, IClientAdditionalInfoService additionalInfoService, INavigationService navigationService)
+    public UserGridDetailViewModel(IClientQueries clientQueries,
+        IClientAdditionalInfoQueries additionalInfoQueries,
+        INavigationService navigationService,
+        IClientAdditionalInfoCommands additionalInfoCommands,
+        IClientCommands clientCommands)
     {
-        _clientService = clientService;
-        _additionalInfoService = additionalInfoService;
+        _clientQueries = clientQueries;
+        _additionalInfoQueries = additionalInfoQueries;
         _navigationService = navigationService;
+        _additionalInfoCommands = additionalInfoCommands;
+        _clientCommands = clientCommands;
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -30,29 +38,29 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
             Item = client;
             if (client.ClientAdditionalInfos == null)
             {
-                var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(client.ClientId);
+                var additionalInfos = await _additionalInfoQueries.GetClientAdditionalInfosAsync(client.ClientId);
                 client.ClientAdditionalInfos = additionalInfos.ToList();
                 OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
             }
         }
         else if (parameter is string phoneNumber)
         {
-            var clients = await _clientService.GetAllClientsAsync();
+            var clients = await _clientQueries.GetAllClientsAsync();
             Item = clients.FirstOrDefault(c => c.PhoneNumber == phoneNumber);
             if (Item != null)
             {
-                var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
+                var additionalInfos = await _additionalInfoQueries.GetClientAdditionalInfosAsync(Item.ClientId);
                 Item.ClientAdditionalInfos = additionalInfos.ToList();
                 OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
             }
         }
         else if (parameter is int clientId)
         {
-            var clients = await _clientService.GetAllClientsAsync();
+            var clients = await _clientQueries.GetAllClientsAsync();
             Item = clients.FirstOrDefault(c => c.ClientId == clientId);
             if (Item != null)
             {
-                var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
+                var additionalInfos = await _additionalInfoQueries.GetClientAdditionalInfosAsync(Item.ClientId);
                 Item.ClientAdditionalInfos = additionalInfos.ToList();
                 OnPropertyChanged(nameof(Item.ClientAdditionalInfos));
             }
@@ -88,12 +96,12 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
                 CreatedAt = DateTime.Now
             };
 
-            await _additionalInfoService.CreateAdditionalInfoAsync(additionalInfo);
-            await _clientService.SetClientRejectedAsync(Item.ClientId, reason);
+            await _additionalInfoCommands.CreateAdditionalInfoAsync(additionalInfo);
+            await _clientCommands.SetClientRejectedAsync(Item.ClientId, reason);
 
             // Обновляем клиента и его дополнительную информацию
-            Item = await _clientService.GetClientByIdAsync(Item.ClientId);
-            var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
+            Item = await _clientQueries.GetClientByIdAsync(Item.ClientId);
+            var additionalInfos = await _additionalInfoQueries.GetClientAdditionalInfosAsync(Item.ClientId);
             Item.ClientAdditionalInfos = additionalInfos.ToList();
 
             OnPropertyChanged(nameof(Item));
@@ -110,8 +118,8 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
         var isPhoneVerified = await VerifyPhoneNumberAsync(Item.PhoneNumber);
         if (isPhoneVerified)
         {
-            await _clientService.SetClientActiveAsync(Item.ClientId);
-            Item = await _clientService.GetClientByIdAsync(Item.ClientId);
+            await _clientCommands.SetClientActiveAsync(Item.ClientId);
+            Item = await _clientQueries.GetClientByIdAsync(Item.ClientId);
             OnPropertyChanged(nameof(Item));
             OnPropertyChanged(nameof(HasAdditionalInfo));
         }
@@ -134,25 +142,25 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
         {
             var editClient = (EditClientContentDialog)((ContentDialog)dialog).Content;
             var updatedClient = editClient.ViewModel.GetUpdatedClient();
-            await _clientService.UpdateClientAsync(updatedClient);
+            await _clientCommands.UpdateClientAsync(updatedClient);
 
             if (editClient.ViewModel.IsPhoneNumberChanged())
             {
                 var isPhoneVerified = await VerifyPhoneNumberAsync(updatedClient.PhoneNumber);
                 if (isPhoneVerified)
                 {
-                    await _clientService.SetClientActiveAsync(updatedClient.ClientId);
+                    await _clientCommands.SetClientActiveAsync(updatedClient.ClientId);
                 }
                 else
                 {
-                    await _clientService.SetClientDraftAsync(updatedClient.ClientId);
+                    await _clientCommands.SetClientDraftAsync(updatedClient.ClientId);
                 }
             }
 
 
             Item = null;
             OnPropertyChanged(nameof(Item));
-            Item = await _clientService.GetClientByIdAsync(updatedClient.ClientId);
+            Item = await _clientQueries.GetClientByIdAsync(updatedClient.ClientId);
             OnPropertyChanged(nameof(Item));
             OnPropertyChanged(nameof(HasAdditionalInfo));
         }
@@ -204,7 +212,7 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
         var result = await dialog.ShowAsync();
         if (result == ContentDialogResult.Primary && Item != null)
         {
-            await _clientService.DeleteClientAsync(Item.ClientId);
+            await _clientCommands.DeleteClientAsync(Item.ClientId);
             _navigationService.GoBack();
         }
     }
@@ -243,9 +251,9 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
                 CreatedAt = DateTime.Now
             };
 
-            await _additionalInfoService.CreateAdditionalInfoAsync(additionalInfo);
+            await _additionalInfoCommands.CreateAdditionalInfoAsync(additionalInfo);
 
-            var additionalInfos = await _additionalInfoService.GetClientAdditionalInfosAsync(Item.ClientId);
+            var additionalInfos = await _additionalInfoQueries.GetClientAdditionalInfosAsync(Item.ClientId);
             Item.ClientAdditionalInfos = additionalInfos.ToList();
 
             OnPropertyChanged(nameof(Item));

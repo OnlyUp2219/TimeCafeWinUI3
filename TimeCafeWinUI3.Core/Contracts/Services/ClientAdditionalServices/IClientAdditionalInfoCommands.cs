@@ -1,12 +1,10 @@
 using TimeCafeWinUI3.Core.Models;
 
-namespace TimeCafeWinUI3.Core.Contracts.Services;
+namespace TimeCafeWinUI3.Core.Contracts.Services.ClientAdditionalServices;
 
-public interface IClientAdditionalInfoService
+public interface IClientAdditionalInfoCommands
 {
-    Task<IEnumerable<ClientAdditionalInfo>> GetClientAdditionalInfosAsync(int clientId);
     Task<ClientAdditionalInfo> CreateAdditionalInfoAsync(ClientAdditionalInfo info);
     Task<ClientAdditionalInfo> UpdateAdditionalInfoAsync(ClientAdditionalInfo info);
     Task<bool> DeleteAdditionalInfoAsync(int infoId);
-    Task<ClientAdditionalInfo> GetAdditionalInfoByIdAsync(int infoId);
-} 
+}

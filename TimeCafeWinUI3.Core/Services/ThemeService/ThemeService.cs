@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using TimeCafeWinUI3.Core.Contracts.Services;
+using TimeCafeWinUI3.Core.Contracts.Services.ThemeService;
 using TimeCafeWinUI3.Core.Models;
 
-namespace TimeCafeWinUI3.Core.Services;
+namespace TimeCafeWinUI3.Core.Services.ThemeService;
 
-public class ThemeService : IThemeService
+public class ThemeQueries : IThemeQueries
 {
     private readonly TimeCafeContext _context;
 
-    public ThemeService(TimeCafeContext context)
+    public ThemeQueries(TimeCafeContext context)
     {
         _context = context;
     }
@@ -18,4 +18,4 @@ public class ThemeService : IThemeService
         return await _context.Themes
             .ToListAsync();
     }
-} 
+}

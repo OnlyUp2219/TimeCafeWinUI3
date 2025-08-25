@@ -1,14 +1,10 @@
 using TimeCafeWinUI3.Core.Models;
 
-namespace TimeCafeWinUI3.Core.Contracts.Services;
+namespace TimeCafeWinUI3.Core.Contracts.Services.FinancialServices;
 
-public interface IFinancialService
+public interface IFinancialQueries
 {
     Task<decimal> GetClientBalanceAsync(int clientId);
-
-    Task<FinancialTransaction> DepositAsync(int clientId, decimal amount, string? comment = null);
-
-    Task<FinancialTransaction> DeductAsync(int clientId, decimal amount, int? visitId = null, string? comment = null);
 
     Task<IEnumerable<FinancialTransaction>> GetClientTransactionsAsync(int clientId, int? limit = null);
 
@@ -21,4 +17,6 @@ public interface IFinancialService
     Task<IEnumerable<object>> GetAllClientsBalancesAsync();
 
     Task<IEnumerable<object>> GetClientsWithDebtAsync();
-} 
+
+  
+}

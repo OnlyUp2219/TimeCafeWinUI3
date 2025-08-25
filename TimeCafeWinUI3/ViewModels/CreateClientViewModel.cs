@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Text;
 
+
 namespace TimeCafeWinUI3.ViewModels;
 
 public partial class CreateClientViewModel : ObservableRecipient, INavigationAware
@@ -69,15 +70,23 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty] private ObservableCollection<Gender> genders = new();
     [ObservableProperty] private ObservableCollection<ClientStatus> clientStatuses = new();
 
-    private readonly IClientService _clientService;
+    private readonly IClientCommands _clientCommands;
+    private readonly IClientQueries _clientQueries;
+    private readonly IClientValidation _clientValidation;
     private readonly INavigationService _navigationService;
-    private readonly FakeDataGenerator _fakeDataGenerator;
+    private readonly BogusDataGenerator _fakeDataGenerator;
 
-    public CreateClientViewModel(INavigationService navigationService, IClientService clientService)
+    public CreateClientViewModel(IClientCommands clientCommands,
+        IClientQueries clientQueries,
+        IClientValidation clientValidation,
+        INavigationService navigationService,
+        BogusDataGenerator fakeDataGenerator)
     {
+        _clientCommands = clientCommands;
+        _clientQueries = clientQueries;
+        _clientValidation = clientValidation;
         _navigationService = navigationService;
-        _clientService = clientService;
-        _fakeDataGenerator = new FakeDataGenerator();
+        _fakeDataGenerator = fakeDataGenerator;
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -99,19 +108,19 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             Genders.Clear();
             ClientStatuses.Clear();
 
-            var genders = await _clientService.GetGendersAsync();
+            var genders = await _clientQueries.GetGendersAsync();
             foreach (var gender in genders)
             {
                 Genders.Add(gender);
             }
 
-            var statuses = await _clientService.GetClientStatusesAsync();
+            var statuses = await _clientQueries.GetClientStatusesAsync();
             foreach (var status in statuses)
             {
                 ClientStatuses.Add(status);
             }
 
-            var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
+            var (items, total) = await _clientQueries.GetClientsPageAsync(_currentPage, PageSize);
             TotalItems = total;
 
             foreach (var client in items)
@@ -152,12 +161,12 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
 
         if (!string.IsNullOrWhiteSpace(Email))
         {
-            var validMail = await _clientService.ValidateEmailAsync(Email);
+            var validMail = await _clientValidation.ValidateEmailAsync(Email);
             if (!validMail)
                 sb.AppendLine("Неверный формат email");
         }
 
-        var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
+        var validPhone = await _clientValidation.ValidatePhoneNumberAsync(PhoneNumber);
         if (!validPhone)
             sb.AppendLine("Номер телефона не валиден");
 
@@ -230,7 +239,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             try
             {
 
-                await _clientService.CreateClientAsync(client);
+                await _clientCommands.CreateClientAsync(client);
                 ClearData();
                 await LoadDataAsync();
                 ErrorMessage = string.Empty;
@@ -270,7 +279,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 _currentPage = page;
                 Source.Clear();
 
-                var (items, total) = await _clientService.GetClientsPageAsync(_currentPage, PageSize);
+                var (items, total) = await _clientQueries.GetClientsPageAsync(_currentPage, PageSize);
                 TotalItems = total;
 
                 foreach (var client in items)

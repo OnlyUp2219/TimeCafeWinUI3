@@ -5,8 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using TimeCafeWinUI3.ViewModels;
-using TimeCafeWinUI3.Views;
+
 
 namespace TimeCafeWinUI3;
 
@@ -59,15 +58,29 @@ public partial class App : Application
 
             // Core Services
             services.AddTransient<IFileService, FileService>();
-            services.AddTransient<IClientService, ClientService>();
-            services.AddTransient<IClientAdditionalInfoService, ClientAdditionalInfoService>();
-            services.AddTransient<ITariffService, TariffService>();
-            services.AddTransient<IThemeService, ThemeService>();
+            services.AddTransient<IClientCommands, ClientCommands>();
+            services.AddTransient<IClientQueries, ClientQueries>();
+            services.AddTransient<IClientUtilities, ClientUtilities>();
+            services.AddTransient<IClientValidation, ClientValidation>();
+            services.AddTransient<IClientAdditionalInfoCommands, ClientAdditionalInfoCommands>();
+            services.AddTransient<IClientAdditionalInfoQueries, ClientAdditionalInfoQueries>();
+            services.AddTransient<ITariffCommands, TariffCommands>();
+            services.AddTransient<ITariffQueries, TariffQueries>();
+            services.AddTransient<IThemeQueries, ThemeQueries>();
             services.AddTransient<IThemeColorService, ThemeColorService>();
-            services.AddTransient<IBillingTypeService, BillingTypeService>();
-            services.AddTransient<IVisitService, VisitService>();
+            services.AddTransient<IBillingTypeQueries, BillingTypeQueries>();
+            services.AddTransient<IVisitQueries, VisitQueries>();
+            services.AddTransient<IVisitCommands, VisitCommands>();
             services.AddTransient<IWorkingHoursService, WorkingHoursService>();
-            services.AddTransient<IFinancialService, FinancialService>();
+            services.AddTransient<IFinancialCommands, FinancialCommands>();
+            services.AddTransient<IFinancialQueries, FinancialQueries>();
+            services.AddTransient<BogusDataGenerator>();
+
+
+
+
+
+
             services.AddDbContext<TimeCafeContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
             // Views and ViewModels

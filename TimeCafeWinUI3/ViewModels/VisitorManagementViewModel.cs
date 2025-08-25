@@ -6,9 +6,9 @@ namespace TimeCafeWinUI3.ViewModels;
 
 public partial class VisitorManagementViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly IClientService _clientService;
-    private readonly ITariffService _tariffService;
-    private readonly IVisitService _visitService;
+    private readonly ITariffQueries _tariffQueries;
+    private readonly IVisitQueries _visitQueries;
+    private readonly IVisitCommands _visitCommands;
     private readonly DispatcherTimer _updateTimer;
 
     [ObservableProperty] private ObservableCollection<Visit> visitors = new();
@@ -18,12 +18,13 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
     [ObservableProperty] private Tariff selectedTariffFilter;
     [ObservableProperty] private bool isLoading;
 
-    public VisitorManagementViewModel(IClientService clientService, ITariffService tariffService, IVisitService visitService)
+    public VisitorManagementViewModel(ITariffQueries tariffQueries,
+        IVisitQueries visitQueries,
+        IVisitCommands visitCommands)
     {
-        _clientService = clientService;
-        _tariffService = tariffService;
-        _visitService = visitService;
-
+        _tariffQueries = tariffQueries;
+        _visitQueries = visitQueries;
+        _visitCommands = visitCommands;
         _updateTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromSeconds(1)
@@ -48,13 +49,11 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
         {
             IsLoading = true;
 
-            // Load active visits (visits without exit time)
             await LoadActiveVisits();
 
-            // Load available tariffs for filtering
-            var tariffs = await _tariffService.GetAllTariffsAsync();
+            var tariffs = await _tariffQueries.GetAllTariffsAsync();
             AvailableTariffs.Clear();
-            AvailableTariffs.Add(new Tariff { TariffId = 0, TariffName = "Все тарифы" }); // Add "All" option
+            AvailableTariffs.Add(new Tariff { TariffId = 0, TariffName = "Все тарифы" });
             foreach (var tariff in tariffs)
             {
                 AvailableTariffs.Add(tariff);
@@ -77,7 +76,7 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
     {
         try
         {
-            var activeVisits = await _visitService.GetActiveVisitsAsync();
+            var activeVisits = await _visitQueries.GetActiveVisitsAsync();
             Visitors.Clear();
             foreach (var visit in activeVisits)
             {
@@ -92,7 +91,6 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
 
     private void UpdateTimer_Tick(object sender, object e)
     {
-        // Update duration and cost for all visitors
         foreach (var visit in Visitors)
         {
             UpdateVisitInfo(visit);
@@ -143,7 +141,6 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
     {
         var filtered = Visitors.AsEnumerable();
 
-        // Apply search filter
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             filtered = filtered.Where(v =>
@@ -151,7 +148,6 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
                 v.Client?.LastName?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true);
         }
 
-        // Apply tariff filter
         if (SelectedTariffFilter != null && SelectedTariffFilter.TariffId != 0)
         {
             filtered = filtered.Where(v => v.Tariff?.TariffId == SelectedTariffFilter.TariffId);
@@ -182,13 +178,12 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
         {
             try
             {
-                await _visitService.ExitClientAsync(visit.VisitId);
-                await LoadActiveVisits(); // Перезагружаем список
+                await _visitCommands.ExitClientAsync(visit.VisitId);
+                await LoadActiveVisits();
                 ApplyFilters();
             }
             catch (Exception ex)
             {
-                // Показываем ошибку пользователю
                 var errorDialog = new ContentDialog
                 {
                     Title = "Ошибка",

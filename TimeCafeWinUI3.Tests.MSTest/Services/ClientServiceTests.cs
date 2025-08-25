@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Core.Services;
+using TimeCafeWinUI3.Core.Services.Client;
 
 namespace TimeCafeWinUI3.Tests.MSTest.Services;
 
@@ -9,7 +9,7 @@ namespace TimeCafeWinUI3.Tests.MSTest.Services;
 public class ClientServiceTests
 {
     private TimeCafeContext _context;
-    private ClientService _service;
+    private ClientUtilities _service;
 
     [TestInitialize]
     public void Initialize()

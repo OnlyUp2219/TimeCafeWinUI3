@@ -1,24 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using TimeCafeWinUI3.Core.Contracts.Services;
+using TimeCafeWinUI3.Core.Contracts.Services.ClientAdditionalServices;
 using TimeCafeWinUI3.Core.Models;
 
-namespace TimeCafeWinUI3.Core.Services;
+namespace TimeCafeWinUI3.Core.Services.ClientAdditionalServices;
 
-public class ClientAdditionalInfoService : IClientAdditionalInfoService
+public class ClientAdditionalInfoCommands : IClientAdditionalInfoCommands
 {
     private readonly TimeCafeContext _context;
 
-    public ClientAdditionalInfoService(TimeCafeContext context)
+    public ClientAdditionalInfoCommands(TimeCafeContext context)
     {
         _context = context;
-    }
-
-    public async Task<IEnumerable<ClientAdditionalInfo>> GetClientAdditionalInfosAsync(int clientId)
-    {
-        return await _context.ClientAdditionalInfos
-            .Where(i => i.ClientId == clientId)
-            .OrderByDescending(i => i.CreatedAt)
-            .ToListAsync();
     }
 
     public async Task<ClientAdditionalInfo> CreateAdditionalInfoAsync(ClientAdditionalInfo info)
@@ -50,11 +41,4 @@ public class ClientAdditionalInfoService : IClientAdditionalInfoService
         await _context.SaveChangesAsync();
         return true;
     }
-
-    public async Task<ClientAdditionalInfo> GetAdditionalInfoByIdAsync(int infoId)
-    {
-        return await _context.ClientAdditionalInfos
-            .Include(i => i.Client)
-            .FirstOrDefaultAsync(i => i.InfoId == infoId);
-    }
-} 
+}

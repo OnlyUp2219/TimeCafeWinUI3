@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using System.Dynamic;
-using TimeCafeWinUI3.Core.Contracts.Services;
+using TimeCafeWinUI3.Core.Contracts.Services.FinancialServices;
 using TimeCafeWinUI3.Core.Models;
 
-namespace TimeCafeWinUI3.Core.Services;
+namespace TimeCafeWinUI3.Core.Services.FinancialServices;
 
-public class FinancialService : IFinancialService
+public class FinancialQueries : IFinancialQueries
 {
     private readonly TimeCafeContext _context;
 
-    public FinancialService(TimeCafeContext context)
+    public FinancialQueries(TimeCafeContext context)
     {
         _context = context;
     }
@@ -21,47 +21,6 @@ public class FinancialService : IFinancialService
             .ToListAsync();
 
         return transactions.Sum(t => t.TransactionTypeId == 1 ? t.Amount : -t.Amount);
-    }
-
-    public async Task<FinancialTransaction> DepositAsync(int clientId, decimal amount, string? comment = null)
-    {
-        if (amount <= 0)
-            throw new ArgumentException("Сумма пополнения должна быть больше 0");
-
-        var transaction = new FinancialTransaction
-        {
-            ClientId = clientId,
-            Amount = amount,
-            TransactionTypeId = 1,
-            TransactionDate = DateTime.Now,
-            Comment = comment
-        };
-
-        _context.FinancialTransactions.Add(transaction);
-        await _context.SaveChangesAsync();
-
-        return transaction;
-    }
-
-    public async Task<FinancialTransaction> DeductAsync(int clientId, decimal amount, int? visitId = null, string? comment = null)
-    {
-        if (amount <= 0)
-            throw new ArgumentException("Сумма списания должна быть больше 0");
-
-        var transaction = new FinancialTransaction
-        {
-            ClientId = clientId,
-            Amount = amount,
-            TransactionTypeId = 2,
-            TransactionDate = DateTime.Now,
-            VisitId = visitId,
-            Comment = comment
-        };
-
-        _context.FinancialTransactions.Add(transaction);
-        await _context.SaveChangesAsync();
-
-        return transaction;
     }
 
     public async Task<IEnumerable<FinancialTransaction>> GetClientTransactionsAsync(int clientId, int? limit = null)
@@ -134,4 +93,4 @@ public class FinancialService : IFinancialService
         var allClients = await GetAllClientsBalancesAsync();
         return allClients.Where(c => ((dynamic)c).Debt > 0);
     }
-} 
+}

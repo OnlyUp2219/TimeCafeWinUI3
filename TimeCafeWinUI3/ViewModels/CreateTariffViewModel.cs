@@ -10,11 +10,12 @@ namespace TimeCafeWinUI3.ViewModels;
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public partial class CreateTariffViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly ITariffService _tariffService;
-    private readonly IThemeService _themeService;
-    private readonly IBillingTypeService _billingTypeService;
+    private readonly ITariffCommands _tariffCommands;
+    private readonly ITariffQueries _tariffQueries;
+    private readonly IThemeQueries _themeQueries;
+    private readonly IBillingTypeQueries _billingTypeService;
     private readonly IThemeColorService _themeColorService;
-    private readonly FakeDataGenerator _fakeDataGenerator;
+    private readonly BogusDataGenerator _fakeDataGenerator;
 
     [ObservableProperty] private string tariffName;
     [ObservableProperty] private byte[] icon;
@@ -31,17 +32,19 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty] private ObservableCollection<Theme> themes = new();
     [ObservableProperty] private ObservableCollection<BillingType> billingTypes = new();
 
-    public CreateTariffViewModel(
-        ITariffService tariffService,
-        IThemeService themeService,
-        IBillingTypeService billingTypeService,
-        IThemeColorService themeColorService)
+    public CreateTariffViewModel(ITariffCommands tariffCommands,
+                                 ITariffQueries tariffQueries,
+                                 IThemeQueries themeQueries,
+                                 IBillingTypeQueries billingTypeService,
+                                 IThemeColorService themeColorService,
+                                 BogusDataGenerator fakeDataGenerator)
     {
-        _tariffService = tariffService;
-        _themeService = themeService;
+        _tariffCommands = tariffCommands;
+        _tariffQueries = tariffQueries;
+        _themeQueries = themeQueries;
         _billingTypeService = billingTypeService;
         _themeColorService = themeColorService;
-        _fakeDataGenerator = new FakeDataGenerator();
+        _fakeDataGenerator = fakeDataGenerator;
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -61,7 +64,7 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
             Themes.Clear();
             BillingTypes.Clear();
 
-            var themes = await _themeService.GetThemesAsync();
+            var themes = await _themeQueries.GetThemesAsync();
             foreach (var theme in themes)
             {
                 Themes.Add(theme);
@@ -134,7 +137,7 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
                 LastModified = DateTime.Now
             };
 
-            await _tariffService.CreateTariffAsync(tariff);
+            await _tariffCommands.CreateTariffAsync(tariff);
             ClearData();
             ErrorMessage = string.Empty;
         }

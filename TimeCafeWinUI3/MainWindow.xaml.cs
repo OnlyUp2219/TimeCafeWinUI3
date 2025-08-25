@@ -1,6 +1,5 @@
 ﻿using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
-
 using Windows.UI.ViewManagement;
 
 namespace TimeCafeWinUI3;
@@ -60,8 +59,8 @@ public sealed partial class MainWindow : WindowEx
             var currentTheme = themeSelectorService.Theme;
 
             // Проверяем, есть ли активные посетители
-            var visitService = App.GetService<IVisitService>();
-            var activeVisits = await visitService.GetActiveVisitsAsync();
+            var visitQueries = App.GetService<IVisitQueries>();
+            var activeVisits = await visitQueries.GetActiveVisitsAsync();
             var activeVisitorsCount = activeVisits.Count();
 
             string dialogContent;

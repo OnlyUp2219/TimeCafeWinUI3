@@ -6,7 +6,7 @@ namespace TimeCafeWinUI3.ViewModels;
 public partial class UserGridViewModel : ObservableRecipient, INavigationAware
 {
     private readonly INavigationService _navigationService;
-    private readonly IClientService _clientService;
+    private readonly IClientQueries _clientQueries;
     private static int _currentPage = 1;
     private const int PageSize = 16;
 
@@ -32,10 +32,10 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public UserGridViewModel(INavigationService navigationService, IClientService clientService)
+    public UserGridViewModel(INavigationService navigationService, IClientQueries clientQueries)
     {
         _navigationService = navigationService;
-        _clientService = clientService;
+        _clientQueries = clientQueries;
     }
 
     [RelayCommand]
@@ -69,7 +69,7 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
             IsLoading = true;
             Source.Clear();
 
-            var (items, total) = await _clientService.GetClientsPageAsync(CurrentPage, PageSize);
+            var (items, total) = await _clientQueries.GetClientsPageAsync(CurrentPage, PageSize);
             TotalItems = total;
 
             foreach (var client in items)
@@ -94,7 +94,7 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
                 CurrentPage = pageNumber;
                 Source.Clear();
 
-                var (items, total) = await _clientService.GetClientsPageAsync(CurrentPage, PageSize);
+                var (items, total) = await _clientQueries.GetClientsPageAsync(CurrentPage, PageSize);
                 TotalItems = total;
 
                 foreach (var client in items)

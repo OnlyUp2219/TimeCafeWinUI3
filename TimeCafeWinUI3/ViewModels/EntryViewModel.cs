@@ -9,11 +9,14 @@ namespace TimeCafeWinUI3.ViewModels;
 
 public partial class EntryViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly IClientService _clientService;
-    private readonly ITariffService _tariffService;
-    private readonly IVisitService _visitService;
+    private readonly IClientUtilities _clientUtilities;
+    private readonly IClientValidation _clientValidation;
+    private readonly IClientQueries _clientQueries;
+    private readonly ITariffQueries _tariffQueries;
+    private readonly IVisitQueries _visitQueries;
+    private readonly IClientCommands _clientCommands;
+    private readonly IVisitCommands _visitCommands;
     private readonly IWorkingHoursService _workingHoursService;
-    private readonly INavigationService _navigationService;
     private readonly DispatcherTimer _countdownTimer;
     private readonly ILocalSettingsService _localSettingsService;
 
@@ -26,7 +29,6 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty] private ObservableCollection<Tariff> tariffs = new();
     [ObservableProperty] private ObservableCollection<Gender> genders = new();
 
-    // Registration properties
     [ObservableProperty] private string firstName;
     [ObservableProperty] private string lastName;
     [ObservableProperty] private string middleName;
@@ -36,15 +38,21 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     [ObservableProperty] private string phoneNumber;
     [ObservableProperty] private string additionalInfo;
 
-    // Track the path user took
     private bool _isRegistrationPath = false;
 
-    public EntryViewModel(INavigationService navigationService, IClientService clientService, ITariffService tariffService, IVisitService visitService, IWorkingHoursService workingHoursService, ILocalSettingsService localSettingsService)
+    public EntryViewModel(IClientQueries clientQueries, 
+        ITariffQueries tariffQueries,
+        IVisitQueries visitQueries, 
+        IClientCommands clientCommands,
+        IVisitCommands visitCommands, 
+        IWorkingHoursService workingHoursService, 
+        ILocalSettingsService localSettingsService)
     {
-        _navigationService = navigationService;
-        _clientService = clientService;
-        _tariffService = tariffService;
-        _visitService = visitService;
+        _clientQueries = clientQueries;
+        _tariffQueries = tariffQueries;
+        _visitQueries = visitQueries;
+        _clientCommands = clientCommands;
+        _visitCommands = visitCommands;
         _workingHoursService = workingHoursService;
         _localSettingsService = localSettingsService;
 
@@ -69,14 +77,14 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     {
         try
         {
-            var tariffs = await _tariffService.GetAllTariffsAsync();
+            var tariffs = await _tariffQueries.GetAllTariffsAsync();
             Tariffs.Clear();
             foreach (var tariff in tariffs.Take(10))
             {
                 Tariffs.Add(tariff);
             }
 
-            var genders = await _clientService.GetGendersAsync();
+            var genders = await _clientQueries.GetGendersAsync();
             Genders.Clear();
             foreach (var gender in genders)
             {
@@ -140,7 +148,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         return !string.IsNullOrWhiteSpace(FirstName) &&
                !string.IsNullOrWhiteSpace(LastName) &&
                !string.IsNullOrWhiteSpace(PhoneNumber) &&
-               await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
+               await _clientValidation.ValidatePhoneNumberAsync(PhoneNumber);
     }
 
     [RelayCommand]
@@ -172,7 +180,6 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
                 ClearData();
                 break;
             case EntryState.TariffSelection:
-                // Return to the correct previous state based on path
                 if (_isRegistrationPath)
                 {
                     CurrentState = EntryState.Registration;
@@ -224,7 +231,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         {
             // TODO: Implement card validation logic
             // For now, simulate finding a client
-            var clients = await _clientService.GetAllClientsAsync();
+            var clients = await _clientQueries.GetAllClientsAsync();
             CurrentClient = clients.FirstOrDefault(c => c.AccessCardNumber == CardNumber);
 
             if (CurrentClient == null)
@@ -260,7 +267,6 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
         try
         {
-            // Show phone verification dialog
             var dialog = PhoneVerificationDialogFactory.Create(
                 PhoneNumber,
                 App.MainWindow.Content.XamlRoot,
@@ -307,14 +313,14 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
             sb.AppendLine("Номер телефона обязателен для заполнения");
         else
         {
-            var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
+            var validPhone = await _clientValidation.ValidatePhoneNumberAsync(PhoneNumber);
             if (!validPhone)
                 sb.AppendLine("Неверный формат номера телефона или такой номер уже существует");
         }
 
         if (!string.IsNullOrWhiteSpace(Email))
         {
-            var validMail = await _clientService.ValidateEmailAsync(Email);
+            var validMail = await _clientValidation.ValidateEmailAsync(Email);
             if (!validMail)
                 sb.AppendLine("Неверный формат email");
         }
@@ -339,10 +345,10 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
         if (isActive)
         {
-            client.AccessCardNumber = await _clientService.GenerateAccessCardNumberAsync();
+            client.AccessCardNumber = await _clientUtilities.GenerateAccessCardNumberAsync();
         }
 
-        CurrentClient = await _clientService.CreateClientAsync(client);
+        CurrentClient = await _clientCommands.CreateClientAsync(client);
     }
 
     private async Task ProcessTariffSelection()
@@ -355,13 +361,13 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
         try
         {
-            if (!await _visitService.IsClientActiveAsync(CurrentClient.ClientId))
+            if (!await _visitQueries.IsClientActiveAsync(CurrentClient.ClientId))
             {
                 await ShowErrorAsync("Клиент не имеет активного статуса");
                 return;
             }
 
-            if (await _visitService.IsClientAlreadyEnteredAsync(CurrentClient.ClientId))
+            if (await _visitQueries.IsClientAlreadyEnteredAsync(CurrentClient.ClientId))
             {
                 await ShowErrorAsync("Ошибка. Вход уже осуществлен");
                 return;
@@ -375,7 +381,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
             var minMinutes = await _localSettingsService.ReadSettingAsync<int>("MinimumEntryMinutes");
             if (minMinutes <= 0) minMinutes = 20;
-            await _visitService.EnterClientAsync(CurrentClient.ClientId, SelectedTariff.TariffId, minMinutes);
+            await _visitCommands.EnterClientAsync(CurrentClient.ClientId, SelectedTariff.TariffId, minMinutes);
 
             CurrentState = EntryState.Success;
             ErrorMessage = string.Empty;
@@ -394,10 +400,8 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     {
         ErrorMessage = message;
 
-        // Показываем TeachingTip с ошибкой через code-behind
         if (App.MainWindow?.Content is FrameworkElement rootElement)
         {
-            // Находим EntryPage в дереве элементов
             var entryPage = FindEntryPage(rootElement);
             if (entryPage != null)
             {

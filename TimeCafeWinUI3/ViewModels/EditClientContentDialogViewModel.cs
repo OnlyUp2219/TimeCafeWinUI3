@@ -33,18 +33,20 @@ public partial class EditClientContentDialogViewModel : ObservableObject
     private string errorMessage;
 
     private Client _client;
-    private readonly IClientService _clientService;
+    private readonly IClientValidation _clientValidation;
+    private readonly IClientQueries _clientQueries;
     private string _originalPhoneNumber;
 
-    public EditClientContentDialogViewModel(IClientService clientService)
+    public EditClientContentDialogViewModel(IClientQueries clientService, IClientValidation clientValidation)
     {
-        _clientService = clientService;
+        _clientQueries = clientService;
+        _clientValidation = clientValidation;
         LoadGendersAsync();
     }
 
     private async void LoadGendersAsync()
     {
-        var genders = await _clientService.GetGendersAsync();
+        var genders = await _clientQueries.GetGendersAsync();
         Genders.Clear();
         foreach (var gender in genders)
         {
@@ -79,7 +81,7 @@ public partial class EditClientContentDialogViewModel : ObservableObject
 
         if (!string.IsNullOrWhiteSpace(Email))
         {
-            var validMail = await _clientService.ValidateEmailAsync(Email);
+            var validMail = await _clientValidation.ValidateEmailAsync(Email);
             if (validMail)
                 sb.AppendLine("Неверный формат email");
         }
@@ -88,13 +90,13 @@ public partial class EditClientContentDialogViewModel : ObservableObject
         {
             if (IsPhoneNumberChanged())
             {
-                var validPhone = await _clientService.ValidatePhoneNumberAsync(PhoneNumber);
+                var validPhone = await _clientValidation.ValidatePhoneNumberAsync(PhoneNumber);
                 if (!validPhone)
                     sb.AppendLine("Неверный формат номера телефона или такой номер уже существует");
             }
             else
             {
-                var validPhoneFormat = await _clientService.ValidatePhoneNumberFormatAsync(PhoneNumber);
+                var validPhoneFormat = await _clientValidation.ValidatePhoneNumberFormatAsync(PhoneNumber);
                 if (!validPhoneFormat)
                     sb.AppendLine("Неверный формат номера телефона");
             }
