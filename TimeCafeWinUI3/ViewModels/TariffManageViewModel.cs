@@ -78,7 +78,7 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
     }
 
     [RelayCommand]
-    private async Task DeleteTariffAsync(Tariff tariff)
+    public async Task DeleteTariffAsync(Tariff tariff)
     {
         if (tariff == null) return;
 

@@ -13,7 +13,7 @@
   <Identity
     Name="ba83e89d-c149-4540-b94c-0244e0ca9ff0"
     Publisher="CN=Asus"
-    Version="1.0.0.0" />
+    Version="1.0.4.0" />
     
   <mp:PhoneIdentity PhoneProductId="ba83e89d-c149-4540-b94c-0244e0ca9ff0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
     

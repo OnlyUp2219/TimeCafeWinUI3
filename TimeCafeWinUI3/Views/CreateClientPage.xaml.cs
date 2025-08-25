@@ -43,6 +43,7 @@ public sealed partial class CreateClientPage : Page
             MediaSource = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/HelpContent/sample2.mp4"))
         });
 
+
         Console.WriteLine($"MediaSource: {TooltipItems[0].MediaSource}");
     }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Views;
 
@@ -109,6 +110,14 @@ public sealed partial class TariffManagePage : Page
                 // вне экрана — очистим и вернём в пул
                 CrossBlockPool.ReleaseAll(canvas);
             }
+        }
+    }
+
+    private async void DeleteTariff_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button btn && btn.DataContext is Tariff tariff)
+        {
+            await ViewModel.DeleteTariffAsync(tariff);
         }
     }
 }

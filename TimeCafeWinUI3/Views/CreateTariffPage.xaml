@@ -93,7 +93,8 @@
                 <Button
                     HorizontalAlignment="Stretch"
                     Click="SelectIcon_Click"
-                    Content="Выбрать иконку" />
+                    Content="Выбрать иконку" 
+                    Visibility="Collapsed"/>
                 <Button
                     Margin="0,8,0,0"
                     Command="{x:Bind ViewModel.GenerateFakeDataCommand}"

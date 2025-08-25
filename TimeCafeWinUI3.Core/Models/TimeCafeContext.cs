@@ -252,6 +252,32 @@ public partial class TimeCafeContext : DbContext
             entity.HasIndex(e => e.TechnicalName, "IX_Themes_TechnicalName")
                 .IsUnique()
                 .HasFilter("([TechnicalName] IS NOT NULL)");
+
+            // Сидирование цветовых тем
+            entity.HasData(
+                new Theme { ThemeId = 1, ThemeName = "Красный", TechnicalName = "Red" },
+                new Theme { ThemeId = 2, ThemeName = "Оранжевый", TechnicalName = "Orange" },
+                new Theme { ThemeId = 3, ThemeName = "Янтарный", TechnicalName = "Amber" },
+                new Theme { ThemeId = 4, ThemeName = "Желтый", TechnicalName = "Yellow" },
+                new Theme { ThemeId = 5, ThemeName = "Лаймовый", TechnicalName = "Lime" },
+                new Theme { ThemeId = 6, ThemeName = "Зеленый", TechnicalName = "Green" },
+                new Theme { ThemeId = 7, ThemeName = "Изумрудный", TechnicalName = "Emerald" },
+                new Theme { ThemeId = 8, ThemeName = "Бирюзовый", TechnicalName = "Teal" },
+                new Theme { ThemeId = 9, ThemeName = "Голубой", TechnicalName = "Cyan" },
+                new Theme { ThemeId = 10, ThemeName = "Небесный", TechnicalName = "Sky" },
+                new Theme { ThemeId = 11, ThemeName = "Синий", TechnicalName = "Blue" },
+                new Theme { ThemeId = 12, ThemeName = "Индиго", TechnicalName = "Indigo" },
+                new Theme { ThemeId = 13, ThemeName = "Фиолетовый", TechnicalName = "Violet" },
+                new Theme { ThemeId = 14, ThemeName = "Пурпурный", TechnicalName = "Purple" },
+                new Theme { ThemeId = 15, ThemeName = "Фуксия", TechnicalName = "Fuchsia" },
+                new Theme { ThemeId = 16, ThemeName = "Розовый", TechnicalName = "Pink" },
+                new Theme { ThemeId = 17, ThemeName = "Роза", TechnicalName = "Rose" },
+                new Theme { ThemeId = 18, ThemeName = "Сланец", TechnicalName = "Slate" },
+                new Theme { ThemeId = 19, ThemeName = "Серый", TechnicalName = "Gray" },
+                new Theme { ThemeId = 20, ThemeName = "Цинк", TechnicalName = "Zinc" },
+                new Theme { ThemeId = 21, ThemeName = "Нейтральный", TechnicalName = "Neutral" },
+                new Theme { ThemeId = 22, ThemeName = "Камень", TechnicalName = "Stone" }
+            );
         });
 
         modelBuilder.Entity<TransactionType>(entity =>

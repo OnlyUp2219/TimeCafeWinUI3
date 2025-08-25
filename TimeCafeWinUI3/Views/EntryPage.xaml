@@ -100,7 +100,7 @@
                             Style="{StaticResource TitleTextBlockStyle}"
                             Text="Выберите действие" />
 
-                        <StackPanel Orientation="Horizontal" Spacing="20">
+                        <controls:AdaptiveGridView >
                             <Button
                                 Width="250"
                                 Height="150"
@@ -125,7 +125,7 @@
                                         Text="Зарегистрироваться" />
                                 </StackPanel>
                             </Button>
-                        </StackPanel>
+                        </controls:AdaptiveGridView>
                     </StackPanel>
                 </Grid>
 
@@ -189,7 +189,7 @@
                             <DatePicker
                                 HorizontalAlignment="Stretch"
                                 Date="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateOnlyConverter}}"
-                                DayFormat="{}{dayofweek.solo.full}"
+                             
                                 Header="Выберите дату рождения:" />
                             <TextBox
                                 ui:TextBoxExtensions.Mask="+\375 (99) 999 9999"
@@ -399,16 +399,6 @@
                                                     Style="{StaticResource TitleTextBlockStyle}"
                                                     Text="{x:Bind TariffName}"
                                                     TextWrapping="WrapWholeWords" />
-
-                                                <Viewbox
-                                                    Name="TitleIcon"
-                                                    Height="50"
-                                                    Margin="0,10,0,20"
-                                                    Stretch="Uniform">
-                                                    <Border>
-                                                        <FontIcon Foreground="White" Glyph="&#xE700;" />
-                                                    </Border>
-                                                </Viewbox>
 
                                                 <Grid>
                                                     <TextBlock

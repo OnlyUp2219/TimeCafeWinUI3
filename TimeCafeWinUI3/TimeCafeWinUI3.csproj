@@ -188,6 +188,15 @@
     <WebView2UseWinRT>False</WebView2UseWinRT>
     <WebView2LoaderPreference>Dynamic</WebView2LoaderPreference>
     <WebView2EnableCsWinRTProjection>True</WebView2EnableCsWinRTProjection>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateKeyFile>TimeCafeWinUI3_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <AppInstallerUri>C:\Users\Asus\Desktop\Установщик</AppInstallerUri>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
@@ -204,7 +213,6 @@
   
   <ItemGroup>
     <Folder Include="Views\UserGridContentDialogs\" />
-    <Folder Include="Views\Новая папка\" />
   </ItemGroup>
   
   <ItemGroup>

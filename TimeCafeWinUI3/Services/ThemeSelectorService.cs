@@ -45,10 +45,20 @@ public class ThemeSelectorService : IThemeSelectorService
 
         if (Enum.TryParse(themeName, out ElementTheme cacheTheme))
         {
+            // Если тема Default, определяем системную тему и сохраняем её
+            if (cacheTheme == ElementTheme.Default)
+            {
+                var systemTheme = Application.Current.RequestedTheme == ApplicationTheme.Light ? ElementTheme.Light : ElementTheme.Dark;
+                await _localSettingsService.SaveSettingAsync(SettingsKey, systemTheme.ToString());
+                return systemTheme;
+            }
             return cacheTheme;
         }
 
-        return ElementTheme.Default;
+        // Если настройка не найдена (первый запуск), определяем системную тему
+        var defaultTheme = Application.Current.RequestedTheme == ApplicationTheme.Light ? ElementTheme.Light : ElementTheme.Dark;
+        await _localSettingsService.SaveSettingAsync(SettingsKey, defaultTheme.ToString());
+        return defaultTheme;
     }
 
     private async Task SaveThemeInSettingsAsync(ElementTheme theme)

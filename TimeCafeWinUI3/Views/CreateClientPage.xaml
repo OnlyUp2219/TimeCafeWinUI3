@@ -100,7 +100,8 @@
             <StackPanel
                 Grid.Row="0"
                 Orientation="Horizontal"
-                Spacing="8">
+                Spacing="8"
+                Visibility="Collapsed">
                 <TextBlock
                     VerticalAlignment="Bottom"
                     FontSize="24"
@@ -208,7 +209,6 @@
                 <DatePicker
                     HorizontalAlignment="Stretch"
                     Date="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateOnlyConverter}}"
-                    DayFormat="{}{dayofweek.solo.full}"
                     Header="Выберите дату рождения:"
                     ToolTipService.ToolTip="{Binding Header, RelativeSource={RelativeSource Mode=Self}}" />
                 <TextBox
@@ -275,7 +275,8 @@
                         Padding="{StaticResource IconInfoBadgeIconMargin}"
                         VerticalAlignment="Bottom"
                         Background="Transparent"
-                        BorderThickness="0">
+                        BorderThickness="0"
+                        Visibility="Collapsed">
                         <Button.Content>
                             <Grid VerticalAlignment="Center">
                                 <FontIcon

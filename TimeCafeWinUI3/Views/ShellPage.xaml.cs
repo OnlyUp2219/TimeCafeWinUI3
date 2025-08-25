@@ -58,6 +58,15 @@ public sealed partial class ShellPage : Page
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
 
+        // Добавляем акселератор для переключения темы без подсказки
+        var themeAccelerator = new KeyboardAccelerator
+        {
+            Key = VirtualKey.T,
+            Modifiers = VirtualKeyModifiers.Control
+        };
+        themeAccelerator.Invoked += OnThemeSwitchAcceleratorInvoked;
+        KeyboardAccelerators.Add(themeAccelerator);
+
         //UpdateCanvasShapes();
     }
 
@@ -105,10 +114,9 @@ public sealed partial class ShellPage : Page
         var settingsViewModel = App.GetService<SettingsViewModel>();
         var nextTheme = settingsViewModel.ElementTheme switch
         {
-            ElementTheme.Default => ElementTheme.Dark,
             ElementTheme.Light => ElementTheme.Dark,
             ElementTheme.Dark => ElementTheme.Light,
-            _ => ElementTheme.Dark,
+            _ => ElementTheme.Light,
         };
         settingsViewModel.SwitchThemeCommand.Execute(nextTheme);
         args.Handled = true;
