@@ -6,8 +6,9 @@ public interface IClientQueries
 {
     Task<IEnumerable<Client>> GetAllClientsAsync();
     Task<Client?> GetClientByIdAsync(int clientId);
-    Task<(IEnumerable<Client> Items, int TotalCount)> GetClientsPageAsync(int pageNumber, int pageSize);
+    Task<IEnumerable<Client>> GetClientsPageAsync(int pageNumber, int pageSize);
     Task<IEnumerable<ClientStatus>> GetClientStatusesAsync();
     Task<IEnumerable<Gender>> GetGendersAsync();
     Task<bool> IsPhoneConfirmedAsync(int clientId);
+    Task<int> GetTotalPageAsync();
 }

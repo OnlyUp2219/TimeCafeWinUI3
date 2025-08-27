@@ -69,8 +69,10 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
             IsLoading = true;
             Source.Clear();
 
-            var (items, total) = await _clientQueries.GetClientsPageAsync(CurrentPage, PageSize);
+            var items = await _clientQueries.GetClientsPageAsync(CurrentPage, PageSize);
+            var total = await _clientQueries.GetTotalPageAsync();
             TotalItems = total;
+
 
             foreach (var client in items)
             {
@@ -94,7 +96,8 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
                 CurrentPage = pageNumber;
                 Source.Clear();
 
-                var (items, total) = await _clientQueries.GetClientsPageAsync(CurrentPage, PageSize);
+                var items = await _clientQueries.GetClientsPageAsync(CurrentPage, PageSize);
+                var total = await _clientQueries.GetTotalPageAsync();
                 TotalItems = total;
 
                 foreach (var client in items)

@@ -120,7 +120,8 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 ClientStatuses.Add(status);
             }
 
-            var (items, total) = await _clientQueries.GetClientsPageAsync(_currentPage, PageSize);
+            var items = await _clientQueries.GetClientsPageAsync(_currentPage, PageSize);
+            var total = await _clientQueries.GetTotalPageAsync();
             TotalItems = total;
 
             foreach (var client in items)
@@ -279,7 +280,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 _currentPage = page;
                 Source.Clear();
 
-                var (items, total) = await _clientQueries.GetClientsPageAsync(_currentPage, PageSize);
+                var items = await _clientQueries.GetClientsPageAsync(_currentPage, PageSize); var total = await _clientQueries.GetTotalPageAsync();
                 TotalItems = total;
 
                 foreach (var client in items)

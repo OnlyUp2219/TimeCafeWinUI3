@@ -1,4 +1,7 @@
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using TimeCafeWinUI3.Core.Contracts.Services.FinancialServices;
+using TimeCafeWinUI3.Core.Helpers;
 using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Core.Services.FinancialServices;
@@ -6,11 +9,15 @@ namespace TimeCafeWinUI3.Core.Services.FinancialServices;
 public class FinancialCommands : IFinancialCommands
 {
     private readonly TimeCafeContext _context;
-
-    public FinancialCommands(TimeCafeContext context)
+    private readonly IDistributedCache _cache;
+    private readonly ILogger<FinancialCommands> _logger;
+    public FinancialCommands(TimeCafeContext context, IDistributedCache cache, ILogger<FinancialCommands> logger)
     {
         _context = context;
+        _cache = cache;
+        _logger = logger;
     }
+
     public async Task<FinancialTransaction> DepositAsync(int clientId, decimal amount, string comment = null)
     {
         if (amount <= 0)
@@ -27,6 +34,13 @@ public class FinancialCommands : IFinancialCommands
 
         _context.FinancialTransactions.Add(transaction);
         await _context.SaveChangesAsync();
+
+        await CacheHelper.RemoveKeysAsync(
+            _cache,
+            _logger,
+            CacheKeys.FinancialTransaction_All,
+            CacheKeys.FinancialTransaction_ById(transaction.TransactionId),
+            CacheKeys.FinancialTransaction_ByClientId(clientId));
 
         return transaction;
     }
@@ -48,6 +62,13 @@ public class FinancialCommands : IFinancialCommands
 
         _context.FinancialTransactions.Add(transaction);
         await _context.SaveChangesAsync();
+
+        await CacheHelper.RemoveKeysAsync(
+          _cache,
+          _logger,
+          CacheKeys.FinancialTransaction_All,
+          CacheKeys.FinancialTransaction_ById(transaction.TransactionId),
+          CacheKeys.FinancialTransaction_ByClientId(clientId));
 
         return transaction;
     }

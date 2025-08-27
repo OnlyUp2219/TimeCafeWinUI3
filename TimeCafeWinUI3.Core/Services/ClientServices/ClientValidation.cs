@@ -30,7 +30,6 @@ public class ClientValidation : IClientValidation
         if (string.IsNullOrWhiteSpace(phoneNumber))
             return false;
 
-        // Регулярное выражение проверяет формат и что все символы - это цифры (не подчеркивания)
         var phoneRegex = new Regex(@"^\+375 \([0-9]{2}\) [0-9]{3} [0-9]{4}$|^\+375-[0-9]{2}-[0-9]{7}$");
         return phoneRegex.IsMatch(phoneNumber);
     }

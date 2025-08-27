@@ -1,4 +1,7 @@
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using TimeCafeWinUI3.Core.Contracts.Services.ClientServices;
+using TimeCafeWinUI3.Core.Helpers;
 using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Core.Services.ClientServices;
@@ -7,11 +10,14 @@ public class ClientCommands : IClientCommands
 {
     private readonly TimeCafeContext _context;
     private readonly IClientUtilities _clientUtilities;
-
-    public ClientCommands(TimeCafeContext context, IClientUtilities clientUtilities)
+    private readonly IDistributedCache _cache;
+    private readonly ILogger<ClientCommands> _logger;
+    public ClientCommands(TimeCafeContext context, IClientUtilities clientUtilities, IDistributedCache cache, ILogger<ClientCommands> logger)
     {
         _context = context;
         _clientUtilities = clientUtilities;
+        _cache = cache;
+        _logger = logger;
     }
 
     public async Task<Client> CreateClientAsync(Client client)
@@ -19,6 +25,15 @@ public class ClientCommands : IClientCommands
         client.CreatedAt = DateTime.Now;
         _context.Clients.Add(client);
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+            _cache,
+            _logger,
+            CacheKeys.Client_All);
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.ClientPagesVersion());
+
+        await Task.WhenAll(removeAll, removePage);
+
         return client;
     }
 
@@ -30,6 +45,16 @@ public class ClientCommands : IClientCommands
 
         _context.Entry(existingClient).CurrentValues.SetValues(client);
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+                   _cache,
+                   _logger,
+                   CacheKeys.Client_All,
+                   CacheKeys.Client_ById(client.ClientId));
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.ClientPagesVersion());
+
+        await Task.WhenAll(removeAll, removePage);
+
         return client;
     }
 
@@ -41,6 +66,16 @@ public class ClientCommands : IClientCommands
 
         _context.Clients.Remove(client);
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+                   _cache,
+                   _logger,
+                   CacheKeys.Client_All,
+                   CacheKeys.Client_ById(client.ClientId));
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.ClientPagesVersion());
+
+        await Task.WhenAll(removeAll, removePage);
+
         return true;
     }
 
@@ -52,6 +87,16 @@ public class ClientCommands : IClientCommands
 
         client.StatusId = statusId;
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+                   _cache,
+                   _logger,
+                   CacheKeys.Client_All,
+                   CacheKeys.Client_ById(client.ClientId));
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.ClientPagesVersion());
+
+        await Task.WhenAll(removeAll, removePage);
+
         return true;
     }
 
@@ -67,6 +112,16 @@ public class ClientCommands : IClientCommands
             client.AccessCardNumber = await _clientUtilities.GenerateAccessCardNumberAsync();
         }
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+                   _cache,
+                   _logger,
+                   CacheKeys.Client_All,
+                   CacheKeys.Client_ById(client.ClientId));
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.ClientPagesVersion());
+
+        await Task.WhenAll(removeAll, removePage);
+
         return true;
     }
 
@@ -79,6 +134,16 @@ public class ClientCommands : IClientCommands
         client.StatusId = (int)ClientStatusType.Draft;
         client.AccessCardNumber = null;
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+                   _cache,
+                   _logger,
+                   CacheKeys.Client_All,
+                   CacheKeys.Client_ById(client.ClientId));
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.ClientPagesVersion());
+
+        await Task.WhenAll(removeAll, removePage);
+
         return true;
     }
 
@@ -92,7 +157,19 @@ public class ClientCommands : IClientCommands
         client.RefusalReason = reason;
         client.AccessCardNumber = null;
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+            _cache,
+            _logger,
+            CacheKeys.Client_All,
+            CacheKeys.Client_ById(client.ClientId));
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.ClientPagesVersion());
+
+        await Task.WhenAll(removeAll, removePage);
+
         return true;
     }
+
+
 
 }

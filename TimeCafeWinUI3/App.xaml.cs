@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Serilog;
+using StackExchange.Redis;
 
 
 namespace TimeCafeWinUI3;
@@ -34,6 +36,13 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
 
         Host = Microsoft.Extensions.Hosting.Host.
         CreateDefaultBuilder().
@@ -76,12 +85,25 @@ public partial class App : Application
             services.AddTransient<IFinancialQueries, FinancialQueries>();
             services.AddTransient<BogusDataGenerator>();
 
+            //Register Redis distributed cache
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = context.Configuration.GetConnectionString("Redis") ?? "127.0.0.1:6379";
+                options.InstanceName = "TimeCafe:";
+            });
 
 
+            var options = ConfigurationOptions.Parse(context.Configuration.GetConnectionString("Redis") ?? "127.0.0.1:6379");
+            options.AllowAdmin = true;
+            var redis = ConnectionMultiplexer.Connect(options);
+            var db = redis.GetDatabase();
 
-
+#if DEBUG
+            //db.Execute("FLUSHDB"); 
+#endif
 
             services.AddDbContext<TimeCafeContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
+
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();

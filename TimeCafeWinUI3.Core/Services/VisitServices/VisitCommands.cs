@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using TimeCafeWinUI3.Core.Contracts.Services.BillingTypeServices;
 using TimeCafeWinUI3.Core.Contracts.Services.FinancialServices;
 using TimeCafeWinUI3.Core.Contracts.Services.VisitServices;
+using TimeCafeWinUI3.Core.Helpers;
 using TimeCafeWinUI3.Core.Models;
 
 
@@ -14,18 +17,25 @@ public class VisitCommands : IVisitCommands
     private readonly IFinancialCommands _financialSCommands;
     private readonly IFinancialQueries _financialQueries;
     private readonly IVisitQueries _visitQueries;
+    private readonly IDistributedCache _cache;
+    private readonly ILogger<VisitCommands> _logger;
 
-    public VisitCommands(TimeCafeContext context,
+    public VisitCommands(
+        TimeCafeContext context,
         IBillingTypeQueries billingTypeService,
         IFinancialCommands financialSCommands,
         IFinancialQueries financialQueries,
-        IVisitQueries visitQueries)
+        IVisitQueries visitQueries,
+        IDistributedCache cache,
+        ILogger<VisitCommands> logger)
     {
         _context = context;
         _billingTypeService = billingTypeService;
         _financialSCommands = financialSCommands;
         _financialQueries = financialQueries;
         _visitQueries = visitQueries;
+        _cache = cache;
+        _logger = logger;
     }
 
     public async Task<Visit> EnterClientAsync(int clientId, int tariffId, int minimumEntryMinutes)
@@ -67,6 +77,12 @@ public class VisitCommands : IVisitCommands
         try
         {
             await _context.SaveChangesAsync();
+
+            await CacheHelper.RemoveKeysAsync(
+                 _cache,
+                 _logger,
+                 CacheKeys.Visit_All,
+                 CacheKeys.Visit_ByCliendId(clientId));
         }
         catch (Exception ex)
         {
@@ -98,6 +114,13 @@ public class VisitCommands : IVisitCommands
         await _financialSCommands.DeductAsync(visit.ClientId.Value, visit.VisitCost.Value, visit.VisitId, "Оплата посещения");
 
         await _context.SaveChangesAsync();
+
+        await CacheHelper.RemoveKeysAsync(
+                _cache,
+                _logger,
+                CacheKeys.Visit_All,
+                CacheKeys.Visit_ByCliendId(visit.ClientId ?? 0));
+
         return visit;
     }
 

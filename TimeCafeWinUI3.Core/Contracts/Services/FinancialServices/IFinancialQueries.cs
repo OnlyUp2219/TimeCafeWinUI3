@@ -1,4 +1,5 @@
 using TimeCafeWinUI3.Core.Models;
+using TimeCafeWinUI3.Core.Services.FinancialServices;
 
 namespace TimeCafeWinUI3.Core.Contracts.Services.FinancialServices;
 
@@ -12,11 +13,9 @@ public interface IFinancialQueries
 
     Task<bool> HasSufficientBalanceAsync(int clientId, decimal requiredAmount);
 
-    Task<decimal> GetFullReplenishmentAmountAsync(int clientId);
+    Task<IEnumerable<ClientBalanceDto>> GetAllClientsBalancesAsync();
 
-    Task<IEnumerable<object>> GetAllClientsBalancesAsync();
+    Task<IEnumerable<ClientBalanceDto>> GetClientsWithDebtAsync();
 
-    Task<IEnumerable<object>> GetClientsWithDebtAsync();
 
-  
 }

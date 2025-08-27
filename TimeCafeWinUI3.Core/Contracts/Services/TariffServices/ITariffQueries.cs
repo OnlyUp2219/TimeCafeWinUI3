@@ -5,7 +5,8 @@ namespace TimeCafeWinUI3.Core.Contracts.Services.TariffServices;
 public interface ITariffQueries
 {
     Task<IEnumerable<Tariff>> GetAllTariffsAsync();
-    Task<(IEnumerable<Tariff> Items, int TotalCount)> GetTariffsPageAsync(int pageNumber, int pageSize);
+    Task<IEnumerable<Tariff>> GetTariffsPageAsync(int pageNumber, int pageSize);
+    Task<int> GetTotalPageAsync();
     Task<Tariff> GetTariffByIdAsync(int tariffId);
 
 }

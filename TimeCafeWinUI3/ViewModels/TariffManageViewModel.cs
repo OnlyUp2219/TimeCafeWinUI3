@@ -48,7 +48,8 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
             IsLoading = true;
             Source.Clear();
 
-            var (items, total) = await _tariffQueries.GetTariffsPageAsync(_currentPage, PageSize);
+            var items = await _tariffQueries.GetTariffsPageAsync(_currentPage, PageSize);
+            var total = await _tariffQueries.GetTotalPageAsync();
             Debug.WriteLine($"Loaded {items.Count()} items, total: {total}");
 
             TotalItems = total;
@@ -111,7 +112,8 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
                 _currentPage = page;
                 Source.Clear();
 
-                var (items, total) = await _tariffQueries.GetTariffsPageAsync(_currentPage, PageSize);
+                var items = await _tariffQueries.GetTariffsPageAsync(_currentPage, PageSize);
+                var total = await _tariffQueries.GetTotalPageAsync();
                 TotalItems = total;
 
                 foreach (var tariff in items)

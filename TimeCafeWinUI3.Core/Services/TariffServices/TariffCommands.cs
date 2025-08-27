@@ -1,4 +1,7 @@
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using TimeCafeWinUI3.Core.Contracts.Services.TariffServices;
+using TimeCafeWinUI3.Core.Helpers;
 using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Core.Services.TariffServices;
@@ -6,10 +9,14 @@ namespace TimeCafeWinUI3.Core.Services.TariffServices;
 public class TariffCommands : ITariffCommands
 {
     private readonly TimeCafeContext _context;
+    private readonly IDistributedCache _cache;
+    private readonly ILogger<TariffCommands> _logger;
 
-    public TariffCommands(TimeCafeContext context)
+    public TariffCommands(TimeCafeContext context, IDistributedCache cache, ILogger<TariffCommands> logger)
     {
         _context = context;
+        _cache = cache;
+        _logger = logger;
     }
 
     public async Task<Tariff> CreateTariffAsync(Tariff tariff)
@@ -19,6 +26,15 @@ public class TariffCommands : ITariffCommands
 
         _context.Tariffs.Add(tariff);
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+            _cache,
+            _logger,
+            CacheKeys.Tariff_All);
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.TariffPagesVersion());
+
+        Task.WaitAll(removeAll, removePage);
+
         return tariff;
     }
 
@@ -31,6 +47,16 @@ public class TariffCommands : ITariffCommands
         tariff.LastModified = DateTime.Now;
         _context.Entry(existingTariff).CurrentValues.SetValues(tariff);
         await _context.SaveChangesAsync();
+
+        var removeAll = CacheHelper.RemoveKeysAsync(
+            _cache,
+            _logger,
+            CacheKeys.Tariff_All,
+            CacheKeys.Tariff_ById(tariff.TariffId));
+        var removePage = CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.TariffPagesVersion());
+
+        Task.WaitAll(removeAll, removePage);
+
         return tariff;
     }
 
@@ -42,6 +68,14 @@ public class TariffCommands : ITariffCommands
 
         _context.Tariffs.Remove(tariff);
         await _context.SaveChangesAsync();
+
+        await CacheHelper.RemoveKeysAsync(
+            _cache,
+            _logger,
+            CacheKeys.Tariff_All,
+            CacheKeys.Tariff_ById(tariffId));
+        await CacheHelper.InvalidatePagesCacheAsync(_cache, CacheKeys.TariffPagesVersion());
+
         return true;
     }
 }
