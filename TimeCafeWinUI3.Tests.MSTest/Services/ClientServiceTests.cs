@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TimeCafeWinUI3.Core.Enums;
 using TimeCafeWinUI3.Core.Models;
 using TimeCafeWinUI3.Core.Services.Client;
 
@@ -23,8 +24,8 @@ public class ClientServiceTests
 
         // Добавляем необходимые справочные данные
         _context.ClientStatuses.AddRange(
-            new ClientStatus { StatusId = (int)ClientStatusType.Draft, StatusName = "Черновик" },
-            new ClientStatus { StatusId = (int)ClientStatusType.Active, StatusName = "Активный" }
+            new ClientStatus { StatusId = (int)EClientStatusType.Draft, StatusName = "Черновик" },
+            new ClientStatus { StatusId = (int)EClientStatusType.Active, StatusName = "Активный" }
         );
         _context.Genders.AddRange(
             new Gender { GenderId = 1, GenderName = "Женский" },
@@ -36,7 +37,7 @@ public class ClientServiceTests
             FirstName = "Test",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Active,
+            StatusId = (int)EClientStatusType.Active,
             GenderId = 1,
             CreatedAt = DateTime.Now
         });
@@ -59,7 +60,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft
+            StatusId = (int)EClientStatusType.Draft
         };
 
         var result = await _service.CreateClientAsync(client);
@@ -80,7 +81,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft
+            StatusId = (int)EClientStatusType.Draft
         };
         _context.Clients.Add(client);
         await _context.SaveChangesAsync();
@@ -101,7 +102,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft
+            StatusId = (int)EClientStatusType.Draft
         };
         _context.Clients.Add(client);
         await _context.SaveChangesAsync();
@@ -121,7 +122,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft
+            StatusId = (int)EClientStatusType.Draft
         };
         _context.Clients.Add(client);
         await _context.SaveChangesAsync();
@@ -170,7 +171,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = existingPhone,
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft
+            StatusId = (int)EClientStatusType.Draft
         };
         _context.Clients.Add(client);
         await _context.SaveChangesAsync();
@@ -193,7 +194,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = existingPhone,
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft
+            StatusId = (int)EClientStatusType.Draft
         };
         _context.Clients.Add(client);
         await _context.SaveChangesAsync();
@@ -250,7 +251,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Active,
+            StatusId = (int)EClientStatusType.Active,
             AccessCardNumber = "TEST1234567890123456"
         };
         _context.Clients.Add(client);
@@ -262,7 +263,7 @@ public class ClientServiceTests
         // Assert
         Assert.IsTrue(result);
         var updatedClient = await _context.Clients.FindAsync(client.ClientId);
-        Assert.AreEqual((int)ClientStatusType.Draft, updatedClient.StatusId);
+        Assert.AreEqual((int)EClientStatusType.Draft, updatedClient.StatusId);
         Assert.IsNull(updatedClient.AccessCardNumber);
     }
 
@@ -276,7 +277,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Active,
+            StatusId = (int)EClientStatusType.Active,
             AccessCardNumber = "TEST1234567890123456"
         };
         _context.Clients.Add(client);
@@ -288,7 +289,7 @@ public class ClientServiceTests
         // Assert
         Assert.IsTrue(result);
         var updatedClient = await _context.Clients.FindAsync(client.ClientId);
-        Assert.AreEqual((int)ClientStatusType.Rejected, updatedClient.StatusId);
+        Assert.AreEqual((int)EClientStatusType.Rejected, updatedClient.StatusId);
         Assert.AreEqual("Test reason", updatedClient.RefusalReason);
         Assert.IsNull(updatedClient.AccessCardNumber);
     }
@@ -303,7 +304,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft,
+            StatusId = (int)EClientStatusType.Draft,
             AccessCardNumber = null
         };
         _context.Clients.Add(client);
@@ -315,7 +316,7 @@ public class ClientServiceTests
         // Assert
         Assert.IsTrue(result);
         var updatedClient = await _context.Clients.FindAsync(client.ClientId);
-        Assert.AreEqual((int)ClientStatusType.Active, updatedClient.StatusId);
+        Assert.AreEqual((int)EClientStatusType.Active, updatedClient.StatusId);
         Assert.IsNotNull(updatedClient.AccessCardNumber);
         Assert.AreEqual(20, updatedClient.AccessCardNumber.Length);
     }
@@ -331,7 +332,7 @@ public class ClientServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft,
+            StatusId = (int)EClientStatusType.Draft,
             AccessCardNumber = existingCardNumber
         };
         _context.Clients.Add(client);
@@ -343,7 +344,7 @@ public class ClientServiceTests
         // Assert
         Assert.IsTrue(result);
         var updatedClient = await _context.Clients.FindAsync(client.ClientId);
-        Assert.AreEqual((int)ClientStatusType.Active, updatedClient.StatusId);
+        Assert.AreEqual((int)EClientStatusType.Active, updatedClient.StatusId);
         Assert.AreEqual(existingCardNumber, updatedClient.AccessCardNumber);
     }
 

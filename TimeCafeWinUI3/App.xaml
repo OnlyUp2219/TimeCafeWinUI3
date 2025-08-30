@@ -1,14 +1,16 @@
 ﻿<Application
-    x:Class="TimeCafeWinUI3.App"
+    x:Class="TimeCafeWinUI3.UI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:helpers="using:TimeCafeWinUI3.Helpers"
-    xmlns:local="using:TimeCafeWinUI3">
+    xmlns:helpers="clr-namespace:TimeCafeWinUI3.UI.Utilities.Converters"
+    xmlns:local="using:TimeCafeWinUI3.UI"
+    xmlns:media="clr-namespace:Microsoft.UI.Xaml.Media;assembly=Microsoft.WinUI"
+    xmlns:xaml="clr-namespace:Microsoft.UI.Xaml;assembly=Microsoft.WinUI">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <ResourceDictionary Source="/Styles/FontSizes.xaml" />
+                <xaml:ResourceDictionary Source="/Styles/FontSizes.xaml" />
                 <ResourceDictionary Source="/Styles/Thickness.xaml" />
                 <ResourceDictionary Source="/Styles/TextBlock.xaml" />
                 <ResourceDictionary Source="/Styles/Controls/CopyButton.xaml" />
@@ -33,7 +35,7 @@
             <helpers:DateTimeFormatConverter x:Key="DateTimeFormatConverter" />
             <helpers:GenderConverters x:Key="GenderConverters" />
             <helpers:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter" />
-            <FontFamily x:Key="VAGRoundCyrillic">/Assets/Fonts/vagroundcyrillic.ttf#VAG Round Cyrillic</FontFamily>
+            <media:FontFamily x:Key="VAGRoundCyrillic">/Assets/Fonts/vagroundcyrillic.ttf#VAG Round Cyrillic</media:FontFamily>
             <helpers:ThemeToBrushConverter x:Key="ThemeToBrushConverter" />
             <helpers:ThemeToStyleConverter x:Key="ThemeToStyleConverter" />
             <helpers:PriceConverter x:Key="PriceConverter" />

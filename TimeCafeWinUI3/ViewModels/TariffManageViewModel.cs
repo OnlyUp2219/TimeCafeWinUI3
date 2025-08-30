@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace TimeCafeWinUI3.ViewModels;
+namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class TariffManageViewModel : ObservableRecipient, INavigationAware
 {

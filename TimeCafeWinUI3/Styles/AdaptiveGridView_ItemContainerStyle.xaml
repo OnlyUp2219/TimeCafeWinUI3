@@ -2,7 +2,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:TimeCafeWinUI3.Behaviors"
+    xmlns:behaviors="using:TimeCafeWinUI3.UI.Behaviors"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity">
 
     <Style x:Key="AdaptiveGridViewItemContainerStyle" TargetType="GridViewItem">

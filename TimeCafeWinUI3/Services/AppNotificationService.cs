@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Web;
 
-namespace TimeCafeWinUI3.Notifications;
+namespace TimeCafeWinUI3.UI.Services;
 
 public class AppNotificationService : IAppNotificationService
 {

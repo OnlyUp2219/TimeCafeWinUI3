@@ -2,8 +2,9 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.Diagnostics.CodeAnalysis;
+using TimeCafeWinUI3.UI.Utilities.Extensions;
 
-namespace TimeCafeWinUI3.Services;
+namespace TimeCafeWinUI3.UI.Services;
 
 // For more information on navigation between pages see
 // https://github.com/microsoft/TemplateStudio/blob/main/docs/WinUI/navigation.md

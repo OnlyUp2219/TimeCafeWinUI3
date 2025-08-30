@@ -1,4 +1,4 @@
-﻿namespace TimeCafeWinUI3.Activation;
+﻿namespace TimeCafeWinUI3.UI.Activation;
 
 // Extend this class to implement new ActivationHandlers. See DefaultActivationHandler for an example.
 // https://github.com/microsoft/TemplateStudio/blob/main/docs/WinUI/activation.md

@@ -1,9 +1,9 @@
 ﻿{
     "profiles": {
-      "TimeCafeWinUI3 (Package)": {
+      "TimeCafeWinUI3.UI (Package)": {
         "commandName": "MsixPackage"
       },
-      "TimeCafeWinUI3 (Unpackaged)": {
+      "TimeCafeWinUI3.UI (Unpackaged)": {
         "commandName": "Project"
       }
     }

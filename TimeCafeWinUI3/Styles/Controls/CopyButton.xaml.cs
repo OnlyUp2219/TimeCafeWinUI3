@@ -1,8 +1,9 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using TimeCafeWinUI3.UI.Utilities.Helpers;
 
-namespace TimeCafeWinUI3.Styles.Controls;
+namespace TimeCafeWinUI3.UI.Styles.Controls;
 
 public sealed class CopyButton : Button
 {

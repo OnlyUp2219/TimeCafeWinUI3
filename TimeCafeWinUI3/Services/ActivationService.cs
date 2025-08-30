@@ -1,7 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace TimeCafeWinUI3.Services;
+namespace TimeCafeWinUI3.UI.Services;
 
 public class ActivationService : IActivationService
 {

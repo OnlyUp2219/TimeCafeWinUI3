@@ -1,4 +1,4 @@
-﻿namespace TimeCafeWinUI3.Activation;
+﻿namespace TimeCafeWinUI3.UI.Activation;
 
 public interface IActivationHandler
 {

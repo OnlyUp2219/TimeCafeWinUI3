@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
-namespace TimeCafeWinUI3.ViewModels;
+namespace TimeCafeWinUI3.UI.UI.ViewModels;
 
 public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAware
 {

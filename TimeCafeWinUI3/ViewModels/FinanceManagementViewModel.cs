@@ -1,8 +1,9 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
+using TimeCafeWinUI3.UI.Utilities;
 
-namespace TimeCafeWinUI3.ViewModels;
+namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class FinanceManagementViewModel : ObservableRecipient, INavigationAware
 {

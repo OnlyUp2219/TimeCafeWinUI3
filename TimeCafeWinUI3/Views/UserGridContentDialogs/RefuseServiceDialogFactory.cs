@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace TimeCafeWinUI3.Views;
+namespace TimeCafeWinUI3.UI.Views.UserGridContentDialogs;
 
 public static class RefuseServiceDialogFactory
 {

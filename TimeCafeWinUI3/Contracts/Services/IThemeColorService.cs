@@ -1,11 +1,10 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace TimeCafeWinUI3.Contracts.Services
+namespace TimeCafeWinUI3.UI.Contracts.Services;
+
+public interface IThemeColorService
 {
-    public interface IThemeColorService
-    {
-        Style GetThemeBorderStyle(string technicalName);
-        LinearGradientBrush GetThemeGradientBrush(string technicalName);
-    }
+    Style GetThemeBorderStyle(string technicalName);
+    LinearGradientBrush GetThemeGradientBrush(string technicalName);
 }

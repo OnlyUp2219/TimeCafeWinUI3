@@ -1,6 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 
-namespace TimeCafeWinUI3.Activation;
+namespace TimeCafeWinUI3.UI.Activation;
 
 public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
 {

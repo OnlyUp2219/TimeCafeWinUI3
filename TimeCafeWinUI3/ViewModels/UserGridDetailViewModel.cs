@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using TimeCafeWinUI3.UI.Views.CreateClientPages;
+using TimeCafeWinUI3.UI.Views.UserGridContentDialogs;
 
-namespace TimeCafeWinUI3.ViewModels;
+namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class UserGridDetailViewModel : ObservableRecipient, INavigationAware
 {

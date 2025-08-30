@@ -1,8 +1,10 @@
 ﻿using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
+using TimeCafeWinUI3.UI.Utilities.Extensions;
+using TimeCafeWinUI3.UI.Utilities.Helpers;
 using Windows.UI.ViewManagement;
 
-namespace TimeCafeWinUI3;
+namespace TimeCafeWinUI3.UI;
 
 public sealed partial class MainWindow : WindowEx
 {
@@ -100,7 +102,7 @@ public sealed partial class MainWindow : WindowEx
                 // Принудительно закрываем соединение с БД
                 try
                 {
-                    var db = App.GetService<TimeCafeWinUI3.Core.Models.TimeCafeContext>();
+                    var db = App.GetService<TimeCafeWinUI3.UI.Core.Models.TimeCafeContext>();
                     db.Dispose();
                 }
                 catch (Exception ex)

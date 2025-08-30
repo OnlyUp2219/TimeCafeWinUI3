@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace TimeCafeWinUI3.ViewModels;
+namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class EditClientContentDialogViewModel : ObservableObject
 {

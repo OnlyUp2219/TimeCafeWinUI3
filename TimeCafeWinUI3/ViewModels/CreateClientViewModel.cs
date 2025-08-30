@@ -3,9 +3,11 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Text;
+using TimeCafeWinUI3.UI.Core.Enums;
+using TimeCafeWinUI3.UI.Views.CreateClientPages;
 
 
-namespace TimeCafeWinUI3.ViewModels;
+namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class CreateClientViewModel : ObservableRecipient, INavigationAware
 {
@@ -219,13 +221,13 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 Email = Email,
                 BirthDate = BirthDate,
                 PhoneNumber = PhoneNumber,
-                StatusId = (int)ClientStatusType.Draft,
+                StatusId = (int)EClientStatusType.Draft,
                 CreatedAt = DateTime.Now
             };
 
             if (isActive)
             {
-                client.StatusId = (int)ClientStatusType.Active;
+                client.StatusId = (int)EClientStatusType.Active;
             }
 
             if (!string.IsNullOrWhiteSpace(AdditionalInfo))

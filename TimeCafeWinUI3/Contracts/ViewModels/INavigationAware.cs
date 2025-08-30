@@ -1,4 +1,4 @@
-﻿namespace TimeCafeWinUI3.Contracts.ViewModels;
+﻿namespace TimeCafeWinUI3.UI.Contracts.ViewModels;
 
 public interface INavigationAware
 {

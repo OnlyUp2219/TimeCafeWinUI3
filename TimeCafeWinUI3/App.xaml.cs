@@ -9,7 +9,7 @@ using Serilog;
 using StackExchange.Redis;
 
 
-namespace TimeCafeWinUI3;
+namespace TimeCafeWinUI3.UI;
 
 public partial class App : Application
 {

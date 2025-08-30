@@ -18,7 +18,7 @@
   <mp:PhoneIdentity PhoneProductId="ba83e89d-c149-4540-b94c-0244e0ca9ff0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
     
   <Properties>
-    <DisplayName>TimeCafeWinUI3</DisplayName>
+    <DisplayName>TimeCafeWinUI3.UI</DisplayName>
     <PublisherDisplayName>Asus</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -53,7 +53,7 @@
 
           <com:Extension Category="windows.comServer">
               <com:ComServer>
-                  <com:ExeServer Executable="TimeCafeWinUI3.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
+                  <com:ExeServer Executable="TimeCafeWinUI3.UI.exe" Arguments="----AppNotificationActivated:" DisplayName="Toast activator">
                       <com:Class Id="cbe9b5d6-3f6a-4d2b-937d-dd6cd76e0fc9" DisplayName="Toast activator"/>
                   </com:ExeServer>
               </com:ComServer>

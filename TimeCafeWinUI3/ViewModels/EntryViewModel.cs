@@ -4,8 +4,11 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.ObjectModel;
 using System.Text;
+using TimeCafeWinUI3.UI.Core.Enums;
+using TimeCafeWinUI3.UI.Utilities;
+using TimeCafeWinUI3.UI.Views.CreateClientPages;
 
-namespace TimeCafeWinUI3.ViewModels;
+namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class EntryViewModel : ObservableRecipient, INavigationAware
 {
@@ -40,12 +43,12 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
     private bool _isRegistrationPath = false;
 
-    public EntryViewModel(IClientQueries clientQueries, 
+    public EntryViewModel(IClientQueries clientQueries,
         ITariffQueries tariffQueries,
-        IVisitQueries visitQueries, 
+        IVisitQueries visitQueries,
         IClientCommands clientCommands,
-        IVisitCommands visitCommands, 
-        IWorkingHoursService workingHoursService, 
+        IVisitCommands visitCommands,
+        IWorkingHoursService workingHoursService,
         ILocalSettingsService localSettingsService)
     {
         _clientQueries = clientQueries;
@@ -240,7 +243,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
                 return;
             }
 
-            if (CurrentClient.StatusId != (int)ClientStatusType.Active)
+            if (CurrentClient.StatusId != (int)EClientStatusType.Active)
             {
                 await ShowErrorAsync("Клиент не в статусе активный");
                 return;
@@ -339,7 +342,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
             Email = Email,
             BirthDate = BirthDate,
             PhoneNumber = PhoneNumber,
-            StatusId = isActive ? (int)ClientStatusType.Active : (int)ClientStatusType.Draft,
+            StatusId = isActive ? (int)EClientStatusType.Active : (int)EClientStatusType.Draft,
             CreatedAt = DateTime.Now
         };
 

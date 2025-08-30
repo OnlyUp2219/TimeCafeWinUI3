@@ -2,7 +2,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:TimeCafeWinUI3.Styles.Controls">
+    xmlns:local="using:TimeCafeWinUI3.UI.Styles.Controls">
 
 
     <Style BasedOn="{StaticResource DefaultButtonRadioStyle}" TargetType="local:ButtonRadio" />

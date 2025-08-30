@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Page
-    x:Class="TimeCafeWinUI3.Views.UserGridDetailPage"
+    x:Class="TimeCafeWinUI3.UI.Views.UserGridDetailPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
-    xmlns:behaviors="using:TimeCafeWinUI3.Behaviors"
+    xmlns:behaviors="using:TimeCafeWinUI3.UI.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:customControls="using:TimeCafeWinUI3.Styles.Controls"
+    xmlns:customControls="using:TimeCafeWinUI3.UI.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:TimeCafeWinUI3.Helpers"
+    xmlns:helpers="using:TimeCafeWinUI3.UI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:TimeCafeWinUI3.Views"
+    xmlns:local="using:TimeCafeWinUI3.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:TimeCafeWinUI3.Models"
+    xmlns:models="using:TimeCafeWinUI3.UI.Models"
     xmlns:ui="using:CommunityToolkit.WinUI"
-    xmlns:vm="using:TimeCafeWinUI3.ViewModels"
+    xmlns:vm="using:TimeCafeWinUI3.UI.ViewModels"
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
