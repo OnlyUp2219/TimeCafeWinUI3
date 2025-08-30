@@ -1,40 +1,29 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using TimeCafeWinUI3.Core.Contracts.Repositories;
-using TimeCafeWinUI3.Core.Models;
-
 namespace TimeCafeWinUI3.Persistence.Repositories;
 
 public class VisitRepository : IVisitRepository
 {
     private readonly TimeCafeContext _context;
-    private readonly IBillingTypeQueries _billingTypeService;
-    private readonly IFinancialCommands _financialSCommands;
-    private readonly IFinancialQueries _financialQueries;
-    private readonly IVisitQueries _visitQueries;
+    private readonly IBillingTypeRepository _billingTypeRepository;
+    private readonly IFinancialRepository _financialRepository;
+    private readonly IVisitRepository _visitRepository;
     private readonly IDistributedCache _cache;
     private readonly ILogger<VisitRepository> _logger;
-
     public VisitRepository(
         TimeCafeContext context,
-        IBillingTypeQueries billingTypeService,
-        IFinancialCommands financialSCommands,
-        IFinancialQueries financialQueries,
-        IVisitQueries visitQueries,
+        IBillingTypeRepository billingTypeRepository,
+        IFinancialRepository financialRepository,
+        IVisitRepository visitRepository,
         IDistributedCache cache,
         ILogger<VisitRepository> logger)
     {
         _context = context;
-        _billingTypeService = billingTypeService;
-        _financialSCommands = financialSCommands;
-        _financialQueries = financialQueries;
-        _visitQueries = visitQueries;
+        _billingTypeRepository = billingTypeRepository;
+        _financialRepository = financialRepository;
+        _visitRepository = visitRepository;
         _cache = cache;
         _logger = logger;
     }
 
-    // IVisitQueries implementation
     public async Task<IEnumerable<Visit>> GetActiveVisitsAsync()
     {
         var cached = await CacheHelper.GetAsync<IEnumerable<Visit>>(
@@ -99,13 +88,13 @@ public class VisitRepository : IVisitRepository
             .AnyAsync(v => v.ClientId == clientId && v.ExitTime == null);
     }
 
-    // IVisitCommands implementation
+
     public async Task<Visit> EnterClientAsync(int clientId, int tariffId, int minimumEntryMinutes)
     {
-        if (!await _visitQueries.IsClientActiveAsync(clientId))
+        if (!await _visitRepository.IsClientActiveAsync(clientId))
             throw new InvalidOperationException("Клиент не имеет активного статуса");
 
-        if (await _visitQueries.IsClientAlreadyEnteredAsync(clientId))
+        if (await _visitRepository.IsClientAlreadyEnteredAsync(clientId))
             throw new InvalidOperationException("Ошибка. Вход уже осуществлен");
 
         var tariff = await _context.Tariffs
@@ -119,9 +108,9 @@ public class VisitRepository : IVisitRepository
             throw new InvalidOperationException($"У тарифа {tariff.TariffName} не указан тип тарификации");
 
         var minRequiredAmount = CalculateMinimumRequiredAmount(tariff, minimumEntryMinutes);
-        if (!await _financialQueries.HasSufficientBalanceAsync(clientId, minRequiredAmount))
+        if (!await _financialRepository.HasSufficientBalanceAsync(clientId, minRequiredAmount))
         {
-            var currentBalance = await _financialQueries.GetClientBalanceAsync(clientId);
+            var currentBalance = await _financialRepository.GetClientBalanceAsync(clientId);
             throw new InvalidOperationException($"Недостаточно средств для входа. Требуется минимум {minRequiredAmount:C} (стоимость {minimumEntryMinutes} минут), доступно {currentBalance:C}");
         }
 
@@ -173,7 +162,7 @@ public class VisitRepository : IVisitRepository
         visit.ExitTime = DateTime.Now;
         visit.VisitCost = await CalculateVisitCostAsync(visit);
 
-        await _financialSCommands.DeductAsync(visit.ClientId.Value, visit.VisitCost.Value, visit.VisitId, "Оплата посещения");
+        await _financialRepository.DeductAsync(visit.ClientId.Value, visit.VisitCost.Value, visit.VisitId, "Оплата посещения");
 
         await _context.SaveChangesAsync();
 
@@ -196,7 +185,7 @@ public class VisitRepository : IVisitRepository
         if (!visit.BillingTypeId.HasValue)
             return 0;
 
-        var billingType = await _billingTypeService.GetBillingTypeByIdAsync(visit.BillingTypeId.Value);
+        var billingType = await _billingTypeRepository.GetBillingTypeByIdAsync(visit.BillingTypeId.Value);
 
         if (billingType == null)
             return 0;

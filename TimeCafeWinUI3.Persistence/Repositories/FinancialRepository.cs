@@ -1,9 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using TimeCafeWinUI3.Core.Contracts.Repositories;
-using TimeCafeWinUI3.Core.Models;
-
 namespace TimeCafeWinUI3.Persistence.Repositories;
 
 public class FinancialRepository : IFinancialRepository
@@ -19,7 +13,6 @@ public class FinancialRepository : IFinancialRepository
         _logger = logger;
     }
 
-    // IFinancialQueries implementation
     public async Task<decimal> GetClientBalanceAsync(int clientId)
     {
         var cached = await CacheHelper.GetAsync<decimal?>(
@@ -89,7 +82,7 @@ public class FinancialRepository : IFinancialRepository
         return balance >= requiredAmount;
     }
 
-    // IFinancialCommands implementation
+
     public async Task<FinancialTransaction> DepositAsync(int clientId, decimal amount, string comment = null)
     {
         if (amount <= 0)

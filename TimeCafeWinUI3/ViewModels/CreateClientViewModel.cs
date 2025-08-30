@@ -3,7 +3,6 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Text;
-using TimeCafeWinUI3.UI.Core.Enums;
 using TimeCafeWinUI3.UI.Views.CreateClientPages;
 
 

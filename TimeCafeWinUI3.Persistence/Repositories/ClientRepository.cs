@@ -1,9 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using TimeCafeWinUI3.Core.Contracts.Repositories;
+using TimeCafeWinUI3.Core.Contracts.Services.Clients;
 using TimeCafeWinUI3.Core.Enums;
-using TimeCafeWinUI3.Core.Models;
 
 namespace TimeCafeWinUI3.Persistence.Repositories;
 
@@ -23,7 +19,6 @@ public class ClientRepository : IClientRepository
         _logger = logger;
     }
 
-    // IClientQueries implementation
     public async Task<IEnumerable<Client>> GetAllClientsAsync()
     {
         var cached = await CacheHelper.GetAsync<IEnumerable<Client>>(
@@ -136,7 +131,7 @@ public class ClientRepository : IClientRepository
         return isConfirmed;
     }
 
-    // IClientCommands implementation
+
     public async Task<Client> CreateClientAsync(Client client)
     {
         client.CreatedAt = DateTime.Now;

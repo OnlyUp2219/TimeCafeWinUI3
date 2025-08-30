@@ -1,4 +1,4 @@
-﻿namespace TimeCafeWinUI3.Application.Contracts.Clients;
+﻿namespace TimeCafeWinUI3.Core.Contracts.Services.Clients;
 
 public interface IClientValidation
 {

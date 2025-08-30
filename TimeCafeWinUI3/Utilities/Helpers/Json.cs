@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TimeCafeWinUI3.Infrastructure.Helpers;
+namespace TimeCafeWinUI3.UI.Utilities.Helpers;
 
 public static class Json
 {

@@ -1,4 +1,4 @@
-namespace TimeCafeWinUI3.Application.Dtos;
+namespace TimeCafeWinUI3.Core.Models;
 
 public record class ClientBalanceDto(
     int ClientId,

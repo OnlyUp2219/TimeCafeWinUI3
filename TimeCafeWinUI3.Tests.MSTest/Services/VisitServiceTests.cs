@@ -100,14 +100,14 @@ public class VisitServiceTests
     [TestMethod]
     public async Task CalculateVisitCostAsync_ShouldReturnCorrectCost()
     {
-var now = DateTime.Now;
-var visit = new Visit
-{
-Tariff = _tariff,
-BillingTypeId = _billingType.BillingTypeId,
-EntryTime = now,
-ExitTime = now.AddHours(2)
-};
+        var now = DateTime.Now;
+        var visit = new Visit
+        {
+            Tariff = _tariff,
+            BillingTypeId = _billingType.BillingTypeId,
+            EntryTime = now,
+            ExitTime = now.AddHours(2)
+        };
         var cost = await _service.CalculateVisitCostAsync(visit);
         Assert.AreEqual(200, cost); // 2 часа * 100
     }

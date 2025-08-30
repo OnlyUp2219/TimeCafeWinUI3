@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TimeCafeWinUI3.Infrastructure.Helpers;
+namespace TimeCafeWinUI3.Infrastructure.Utilities;
 
 public static class CacheHelper
 {

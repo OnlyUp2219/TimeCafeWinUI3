@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TimeCafeWinUI3.Core.Models;
-
-namespace TimeCafeWinUI3.Persistence;
+﻿namespace TimeCafeWinUI3.Persistence;
 
 public partial class TimeCafeContext : DbContext
 {

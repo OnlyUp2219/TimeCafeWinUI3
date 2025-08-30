@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using TimeCafeWinUI3.Core.Contracts.Services.Clients;
 
-namespace TimeCafeWinUI3.Infrastructure.Services.ClientServices;
+namespace TimeCafeWinUI3.Persistence.Services.ClientServices;
 
 public class ClientValidation : IClientValidation
 {

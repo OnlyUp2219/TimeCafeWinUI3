@@ -39,4 +39,4 @@ public class BogusDataGenerator
     {
         return _tariffFaker.Generate();
     }
-} 
+}

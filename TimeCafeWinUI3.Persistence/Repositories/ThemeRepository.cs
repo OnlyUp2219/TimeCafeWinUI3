@@ -1,9 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using TimeCafeWinUI3.Core.Contracts.Repositories;
-using TimeCafeWinUI3.Core.Models;
-
 namespace TimeCafeWinUI3.Persistence.Repositories;
 
 public class ThemeRepository : IThemeRepository

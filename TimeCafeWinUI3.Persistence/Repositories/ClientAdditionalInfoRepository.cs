@@ -1,10 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using TimeCafeWinUI3.Core.Contracts.Repositories;
-using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Infrastructure.Helpers;
-
 namespace TimeCafeWinUI3.Persistence.Repositories;
 
 public class ClientAdditionalInfoRepository : IClientAdditionalInfoRepository
@@ -20,7 +13,6 @@ public class ClientAdditionalInfoRepository : IClientAdditionalInfoRepository
         _logger = logger;
     }
 
-    // IClientAdditionalInfoQueries implementation
     public async Task<IEnumerable<ClientAdditionalInfo>> GetClientAdditionalInfosAsync(int clientId)
     {
         var cached = await CacheHelper.GetAsync<IEnumerable<ClientAdditionalInfo>>(
@@ -66,7 +58,7 @@ public class ClientAdditionalInfoRepository : IClientAdditionalInfoRepository
         return entity;
     }
 
-    // IClientAdditionalInfoCommands implementation
+
     public async Task<ClientAdditionalInfo> CreateAdditionalInfoAsync(ClientAdditionalInfo info)
     {
         info.CreatedAt = DateTime.Now;

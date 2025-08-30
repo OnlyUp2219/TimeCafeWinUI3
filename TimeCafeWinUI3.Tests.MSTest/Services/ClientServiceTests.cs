@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TimeCafeWinUI3.Core.Enums;
 using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Core.Services.Client;
 
 namespace TimeCafeWinUI3.Tests.MSTest.Services;
 
@@ -348,4 +346,4 @@ public class ClientServiceTests
         Assert.AreEqual(existingCardNumber, updatedClient.AccessCardNumber);
     }
 
-} 
+}

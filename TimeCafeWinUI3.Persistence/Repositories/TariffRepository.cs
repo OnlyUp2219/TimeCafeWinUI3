@@ -1,9 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using TimeCafeWinUI3.Core.Contracts.Repositories;
-using TimeCafeWinUI3.Core.Models;
-
 namespace TimeCafeWinUI3.Persistence.Repositories;
 
 public class TariffRepository : ITariffRepository
@@ -19,7 +13,6 @@ public class TariffRepository : ITariffRepository
         _logger = logger;
     }
 
-    // ITariffQueries implementation
     public async Task<IEnumerable<Tariff>> GetAllTariffsAsync()
     {
         var cached = await CacheHelper.GetAsync<IEnumerable<Tariff>>(
@@ -109,7 +102,7 @@ public class TariffRepository : ITariffRepository
         return entity;
     }
 
-    // ITariffCommands implementation
+
     public async Task<Tariff> CreateTariffAsync(Tariff tariff)
     {
         tariff.CreatedAt = DateTime.Now;

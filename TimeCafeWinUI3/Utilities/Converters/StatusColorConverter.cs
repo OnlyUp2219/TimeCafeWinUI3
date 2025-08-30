@@ -1,7 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
-using TimeCafeWinUI3.UI.Core.Enums;
 using Windows.UI;
 
 namespace TimeCafeWinUI3.UI.Utilities.Converters;

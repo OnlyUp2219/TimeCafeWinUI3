@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System.Collections.ObjectModel;
 using System.Text;
-using TimeCafeWinUI3.UI.Core.Enums;
 using TimeCafeWinUI3.UI.Utilities;
 using TimeCafeWinUI3.UI.Views.CreateClientPages;
 

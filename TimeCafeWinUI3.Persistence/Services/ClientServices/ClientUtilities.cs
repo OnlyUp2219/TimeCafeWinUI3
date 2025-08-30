@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+using TimeCafeWinUI3.Core.Contracts.Services.Clients;
 using TimeCafeWinUI3.Core.Enums;
 
-namespace TimeCafeWinUI3.Infrastructure.Services.ClientServices;
+namespace TimeCafeWinUI3.Persistence.Services.ClientServices;
 
 public class ClientUtilities : IClientUtilities
 {
