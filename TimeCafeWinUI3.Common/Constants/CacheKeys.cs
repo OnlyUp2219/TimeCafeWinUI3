@@ -1,4 +1,4 @@
-namespace TimeCafeWinUI3.Persistence;
+namespace TimeCafeWinUI3.Common.Constants;
 
 public static class CacheKeys
 {

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Persistence"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Application", "TimeCafeWinUI3.Application\TimeCafeWinUI3.Application.csproj", "{28926F84-952B-46D2-9014-4A6C271A306C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Common", "TimeCafeWinUI3.Common\TimeCafeWinUI3.Common.csproj", "{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|arm64 = Debug|arm64
@@ -100,6 +102,18 @@ Global
 		{28926F84-952B-46D2-9014-4A6C271A306C}.Release|x64.Build.0 = Release|Any CPU
 		{28926F84-952B-46D2-9014-4A6C271A306C}.Release|x86.ActiveCfg = Release|Any CPU
 		{28926F84-952B-46D2-9014-4A6C271A306C}.Release|x86.Build.0 = Release|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Debug|arm64.Build.0 = Debug|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Debug|x64.Build.0 = Debug|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Debug|x86.Build.0 = Debug|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Release|arm64.ActiveCfg = Release|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Release|arm64.Build.0 = Release|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Release|x64.ActiveCfg = Release|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Release|x64.Build.0 = Release|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Release|x86.ActiveCfg = Release|Any CPU
+		{0AE2D81F-7E92-45EE-ADC3-4FF708A2F31C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

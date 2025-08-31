@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace TimeCafeWinUI3.Infrastructure.Utilities;
+namespace TimeCafeWinUI3.Common.Utilities;
 
 public class NullableDateOnlyJsonConverter : JsonConverter<DateOnly?>
 {

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeCafeWinUI3.Common\TimeCafeWinUI3.Common.csproj" />
     <ProjectReference Include="..\TimeCafeWinUI3.Core\TimeCafeWinUI3.Core.csproj" />
     <ProjectReference Include="..\TimeCafeWinUI3.Infrastructure\TimeCafeWinUI3.Infrastructure.csproj" />
   </ItemGroup>
