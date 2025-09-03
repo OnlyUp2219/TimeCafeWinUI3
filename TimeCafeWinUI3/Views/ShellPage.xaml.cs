@@ -3,9 +3,12 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using TimeCafeWinUI3.UI.Utilities;
+using TimeCafeWinUI3.UI.Utilities.Extensions;
+using TimeCafeWinUI3.UI.Utilities.Helpers;
 using Windows.System;
 
-namespace TimeCafeWinUI3.Views;
+namespace TimeCafeWinUI3.UI.Views;
 
 // TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
 public sealed partial class ShellPage : Page

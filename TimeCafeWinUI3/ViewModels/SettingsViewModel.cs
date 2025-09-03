@@ -2,9 +2,11 @@
 using Microsoft.UI.Xaml;
 using System.Reflection;
 using System.Windows.Input;
+using TimeCafeWinUI3.UI.Utilities.Extensions;
+using TimeCafeWinUI3.UI.Utilities.Helpers;
 using Windows.ApplicationModel;
 
-namespace TimeCafeWinUI3.ViewModels;
+namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class SettingsViewModel : ObservableRecipient
 {

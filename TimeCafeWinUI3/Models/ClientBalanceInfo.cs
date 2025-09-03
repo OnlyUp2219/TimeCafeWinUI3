@@ -1,4 +1,4 @@
-namespace TimeCafeWinUI3.Models;
+namespace TimeCafeWinUI3.UI.Models;
 
 public class ClientBalanceInfo
 {

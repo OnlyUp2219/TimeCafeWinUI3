@@ -1,9 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
-using Windows.System;
-using TimeCafeWinUI3.ViewModels;
-using TimeCafeWinUI3.Contracts.Services;
 
-namespace TimeCafeWinUI3.Views;
+namespace TimeCafeWinUI3.UI.Views;
 
 // TODO: Set the URL for your privacy policy by updating SettingsPage_PrivacyTermsLink.NavigateUri in Resources.resw.
 public sealed partial class SettingsPage : Page

@@ -3,7 +3,7 @@ using Microsoft.Xaml.Interactivity;
 using System.Collections.ObjectModel;
 using Windows.Media.Core;
 
-namespace TimeCafeWinUI3.Views;
+namespace TimeCafeWinUI3.UI.Views;
 
 public sealed partial class CreateClientPage : Page
 {

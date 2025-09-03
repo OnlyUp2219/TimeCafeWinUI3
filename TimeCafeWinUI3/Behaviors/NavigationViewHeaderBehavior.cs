@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Xaml.Interactivity;
 
-namespace TimeCafeWinUI3.Behaviors;
+namespace TimeCafeWinUI3.UI.Behaviors;
 
 public class NavigationViewHeaderBehavior : Behavior<NavigationView>
 {

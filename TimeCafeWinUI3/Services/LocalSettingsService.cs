@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
-using TimeCafeWinUI3.Core.Helpers;
+using TimeCafeWinUI3.UI.Utilities.Helpers;
 using Windows.Storage;
 
-namespace TimeCafeWinUI3.Services;
+namespace TimeCafeWinUI3.UI.Services;
 
 public class LocalSettingsService : ILocalSettingsService
 {
-    private const string _defaultApplicationDataFolder = "TimeCafeWinUI3/ApplicationData";
+    private const string _defaultApplicationDataFolder = "TimeCafeWinUI3.UI/ApplicationData";
     private const string _defaultLocalSettingsFile = "LocalSettings.json";
 
     private readonly IFileService _fileService;

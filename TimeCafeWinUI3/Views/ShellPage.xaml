@@ -1,10 +1,10 @@
 ﻿<Page
-    x:Class="TimeCafeWinUI3.Views.ShellPage"
+    x:Class="TimeCafeWinUI3.UI.Views.ShellPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:behaviors="using:TimeCafeWinUI3.Behaviors"
+    xmlns:behaviors="using:TimeCafeWinUI3.UI.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:TimeCafeWinUI3.Helpers"
+    xmlns:helpers="using:TimeCafeWinUI3.UI.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="OnLoaded">
@@ -78,40 +78,40 @@
                 https://docs.microsoft.com/windows/apps/design/style/segoe-fluent-icons-font#icon-list
                 -->
                 <NavigationViewItemHeader Content="Управление входом/выходом" />
-                <NavigationViewItem x:Uid="Entry" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.EntryViewModel">
+                <NavigationViewItem x:Uid="Entry" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.UI.ViewModels.EntryViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF3B1;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="VisitorManagement" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.VisitorManagementViewModel">
+                <NavigationViewItem x:Uid="VisitorManagement" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.UI.ViewModels.VisitorManagementViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEE57;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItemHeader Content="Управление клиентами" />
-                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.CreateClientViewModel">
+                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.UI.ViewModels.CreateClientViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8FA;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="UserGrid" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.UserGridViewModel">
+                <NavigationViewItem x:Uid="UserGrid" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.UI.ViewModels.UserGridViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE779;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItemHeader Content="Управление финансами" />
-                <NavigationViewItem x:Uid="FinanceManagement" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.FinanceManagementViewModel">
+                <NavigationViewItem x:Uid="FinanceManagement" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.UI.ViewModels.FinanceManagementViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8D5;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItemHeader Content="Управление тарифами" />
-                <NavigationViewItem x:Uid="TariffManage" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.TariffManageViewModel">
+                <NavigationViewItem x:Uid="TariffManage" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.UI.ViewModels.TariffManageViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8C7;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="TariffCreate" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.ViewModels.CreateTariffViewModel">
+                <NavigationViewItem x:Uid="TariffCreate" helpers:NavigationHelper.NavigateTo="TimeCafeWinUI3.UI.ViewModels.CreateTariffViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEC5C;" />
                     </NavigationViewItem.Icon>

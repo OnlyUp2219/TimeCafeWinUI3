@@ -1,9 +1,9 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using TimeCafeWinUI3.Core.Models;
+using TimeCafeWinUI3.UI.Utilities;
 
-namespace TimeCafeWinUI3.Views;
+namespace TimeCafeWinUI3.UI.Views;
 
 public sealed partial class TariffManagePage : Page
 {

@@ -1,4 +1,4 @@
-﻿namespace TimeCafeWinUI3.Behaviors;
+﻿namespace TimeCafeWinUI3.UI.Behaviors;
 
 public enum NavigationViewHeaderMode
 {

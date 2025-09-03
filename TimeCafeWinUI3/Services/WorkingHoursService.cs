@@ -1,4 +1,4 @@
-namespace TimeCafeWinUI3.Services;
+namespace TimeCafeWinUI3.UI.Services;
 
 public class WorkingHoursService : IWorkingHoursService
 {

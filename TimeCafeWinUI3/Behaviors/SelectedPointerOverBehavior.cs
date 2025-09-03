@@ -2,68 +2,67 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Xaml.Interactivity;
 
-namespace TimeCafeWinUI3.Behaviors
+namespace TimeCafeWinUI3.UI.Behaviors;
+
+public class SelectedPointerOverBehavior : Behavior<GridViewItem>
 {
-    public class SelectedPointerOverBehavior : Behavior<GridViewItem>
+    private bool _isPointerOver;
+    private long _isSelectedCallbackToken; // Для хранения идентификатора обратного вызова
+
+    protected override void OnAttached()
     {
-        private bool _isPointerOver;
-        private long _isSelectedCallbackToken; // Для хранения идентификатора обратного вызова
+        base.OnAttached();
+        AssociatedObject.PointerEntered += OnPointerEntered;
+        AssociatedObject.PointerExited += OnPointerExited;
+        // Регистрируем обратный вызов и сохраняем токен
+        _isSelectedCallbackToken = AssociatedObject.RegisterPropertyChangedCallback(GridViewItem.IsSelectedProperty, OnIsSelectedChanged);
+        UpdateVisualState();
+    }
 
-        protected override void OnAttached()
+    protected override void OnDetaching()
+    {
+        base.OnDetaching();
+        AssociatedObject.PointerEntered -= OnPointerEntered;
+        AssociatedObject.PointerExited -= OnPointerExited;
+        // Отменяем регистрацию с использованием токена
+        AssociatedObject.UnregisterPropertyChangedCallback(GridViewItem.IsSelectedProperty, _isSelectedCallbackToken);
+    }
+
+    private void OnPointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        _isPointerOver = true;
+        UpdateVisualState();
+    }
+
+    private void OnPointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        _isPointerOver = false;
+        UpdateVisualState();
+    }
+
+    private void OnIsSelectedChanged(DependencyObject sender, DependencyProperty dp)
+    {
+        UpdateVisualState();
+    }
+
+    private void UpdateVisualState()
+    {
+        //System.Diagnostics.Debug.WriteLine($"IsSelected: {AssociatedObject.IsSelected}, IsPointerOver: {_isPointerOver}");
+        if (AssociatedObject.IsSelected && _isPointerOver)
         {
-            base.OnAttached();
-            AssociatedObject.PointerEntered += OnPointerEntered;
-            AssociatedObject.PointerExited += OnPointerExited;
-            // Регистрируем обратный вызов и сохраняем токен
-            _isSelectedCallbackToken = AssociatedObject.RegisterPropertyChangedCallback(GridViewItem.IsSelectedProperty, OnIsSelectedChanged);
-            UpdateVisualState();
+            VisualStateManager.GoToState(AssociatedObject, "SelectedPointerOver", true);
         }
-
-        protected override void OnDetaching()
+        else if (AssociatedObject.IsSelected)
         {
-            base.OnDetaching();
-            AssociatedObject.PointerEntered -= OnPointerEntered;
-            AssociatedObject.PointerExited -= OnPointerExited;
-            // Отменяем регистрацию с использованием токена
-            AssociatedObject.UnregisterPropertyChangedCallback(GridViewItem.IsSelectedProperty, _isSelectedCallbackToken);
+            VisualStateManager.GoToState(AssociatedObject, "Selected", true);
         }
-
-        private void OnPointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        else if (_isPointerOver)
         {
-            _isPointerOver = true;
-            UpdateVisualState();
+            VisualStateManager.GoToState(AssociatedObject, "PointerOver", true);
         }
-
-        private void OnPointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        else
         {
-            _isPointerOver = false;
-            UpdateVisualState();
-        }
-
-        private void OnIsSelectedChanged(DependencyObject sender, DependencyProperty dp)
-        {
-            UpdateVisualState();
-        }
-
-        private void UpdateVisualState()
-        {
-            //System.Diagnostics.Debug.WriteLine($"IsSelected: {AssociatedObject.IsSelected}, IsPointerOver: {_isPointerOver}");
-            if (AssociatedObject.IsSelected && _isPointerOver)
-            {
-                VisualStateManager.GoToState(AssociatedObject, "SelectedPointerOver", true);
-            }
-            else if (AssociatedObject.IsSelected)
-            {
-                VisualStateManager.GoToState(AssociatedObject, "Selected", true);
-            }
-            else if (_isPointerOver)
-            {
-                VisualStateManager.GoToState(AssociatedObject, "PointerOver", true);
-            }
-            else
-            {
-                VisualStateManager.GoToState(AssociatedObject, "Normal", true);
-            }
+            VisualStateManager.GoToState(AssociatedObject, "Normal", true);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
+using TimeCafeWinUI3.UI.Utilities.Helpers;
 
-namespace TimeCafeWinUI3.Services;
+namespace TimeCafeWinUI3.UI.Services;
 
 public class ThemeSelectorService : IThemeSelectorService
 {

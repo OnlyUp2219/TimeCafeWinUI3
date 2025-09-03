@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TimeCafeWinUI3.Core.Enums;
 using TimeCafeWinUI3.Core.Models;
-using TimeCafeWinUI3.Core.Services;
 
 namespace TimeCafeWinUI3.Tests.MSTest.Services;
 
@@ -24,8 +23,8 @@ public class ClientAdditionalInfoServiceTests
 
         // Добавляем необходимые справочные данные
         _context.ClientStatuses.AddRange(
-            new ClientStatus { StatusId = (int)ClientStatusType.Draft, StatusName = "Черновик" },
-            new ClientStatus { StatusId = (int)ClientStatusType.Active, StatusName = "Активный" }
+            new ClientStatus { StatusId = (int)EClientStatusType.Draft, StatusName = "Черновик" },
+            new ClientStatus { StatusId = (int)EClientStatusType.Active, StatusName = "Активный" }
         );
         _context.Genders.AddRange(
             new Gender { GenderId = 1, GenderName = "Женский" },
@@ -39,7 +38,7 @@ public class ClientAdditionalInfoServiceTests
             LastName = "User",
             PhoneNumber = "+375 (29) 123 4567",
             Email = "test@example.com",
-            StatusId = (int)ClientStatusType.Draft,
+            StatusId = (int)EClientStatusType.Draft,
             CreatedAt = DateTime.Now
         };
         _context.Clients.Add(_testClient);
