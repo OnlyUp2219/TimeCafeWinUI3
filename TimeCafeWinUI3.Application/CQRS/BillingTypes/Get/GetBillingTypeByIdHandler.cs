@@ -1,6 +1,4 @@
-﻿
-
-namespace TimeCafeWinUI3.Application.CQRS.BillingTypes.GetBillingType;
+﻿namespace TimeCafeWinUI3.Application.CQRS.BillingTypes.Get;
 public record GetBillingTypeByIdQuery(int BillingTypeId) : IRequest<BillingType?>;
 
 public class GetBillingTypeByIdHandler : IRequestHandler<GetBillingTypeByIdQuery, BillingType?>
@@ -15,7 +13,6 @@ public class GetBillingTypeByIdHandler : IRequestHandler<GetBillingTypeByIdQuery
 
     public async Task<BillingType?> Handle(GetBillingTypeByIdQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetBillingTypeByIdAsync(request.BillingTypeId);
-        return entity;
+        return await _repository.GetBillingTypeByIdAsync(request.BillingTypeId);
     }
 }

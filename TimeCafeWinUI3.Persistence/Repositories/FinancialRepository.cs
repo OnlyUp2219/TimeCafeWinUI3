@@ -76,6 +76,46 @@ public class FinancialRepository : IFinancialRepository
         return balance < 0 ? Math.Abs(balance) : 0;
     }
 
+    public async Task<IEnumerable<ClientBalanceDto>> GetAllClientsBalancesAsync()
+    {
+        var clients = await _context.Clients
+            .Include(c => c.Status)
+            .Include(c => c.FinancialTransactions)
+            .ToListAsync();
+
+        var result = clients.Select(client =>
+        {
+            var balance = client.FinancialTransactions.Sum(t =>
+                t.TransactionTypeId == 1 ? t.Amount : -t.Amount);
+
+            var lastTransactionDate = client.FinancialTransactions
+                .OrderByDescending(t => t.TransactionDate)
+                .Select(t => t.TransactionDate)
+                .FirstOrDefault();
+
+            return new ClientBalanceDto(
+                client.ClientId,
+                $"{client.LastName} {client.FirstName} {client.MiddleName}".Trim(),
+                client.PhoneNumber,
+                balance,
+                balance < 0 ? Math.Abs(balance) : 0,
+                lastTransactionDate == default ? client.CreatedAt : lastTransactionDate,
+                client.Status?.StatusName == "Активный"
+            );
+        });
+
+        return result
+            .OrderByDescending(c => c.Debt)
+            .ThenBy(c => c.FullName)
+            .ToList();
+    }
+
+    public async Task<IEnumerable<ClientBalanceDto>> GetClientsWithDebtAsync()
+    {
+        var allClients = await GetAllClientsBalancesAsync();
+        return allClients.Where(c => c.Debt > 0);
+    }
+
     public async Task<bool> HasSufficientBalanceAsync(int clientId, decimal requiredAmount)
     {
         var balance = await GetClientBalanceAsync(clientId);

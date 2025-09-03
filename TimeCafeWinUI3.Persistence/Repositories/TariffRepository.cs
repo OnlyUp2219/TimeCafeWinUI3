@@ -12,7 +12,6 @@ public class TariffRepository : ITariffRepository
         _cache = cache;
         _logger = logger;
     }
-
     public async Task<IEnumerable<Tariff>> GetAllTariffsAsync()
     {
         var cached = await CacheHelper.GetAsync<IEnumerable<Tariff>>(
@@ -36,7 +35,6 @@ public class TariffRepository : ITariffRepository
 
         return entity;
     }
-
     public async Task<IEnumerable<Tariff>> GetTariffsPageAsync(int pageNumber, int pageSize)
     {
         string versionStr = await _cache.GetStringAsync(CacheKeys.TariffPagesVersion());
@@ -73,12 +71,10 @@ public class TariffRepository : ITariffRepository
 
         return (items);
     }
-
     public async Task<int> GetTotalPageAsync()
     {
         return await _context.Tariffs.CountAsync();
     }
-
     public async Task<Tariff> GetTariffByIdAsync(int tariffId)
     {
         var cached = await CacheHelper.GetAsync<Tariff>(
@@ -121,7 +117,6 @@ public class TariffRepository : ITariffRepository
 
         return tariff;
     }
-
     public async Task<Tariff> UpdateTariffAsync(Tariff tariff)
     {
         var existingTariff = await _context.Tariffs.FindAsync(tariff.TariffId);
@@ -143,7 +138,6 @@ public class TariffRepository : ITariffRepository
 
         return tariff;
     }
-
     public async Task<bool> DeleteTariffAsync(int tariffId)
     {
         var tariff = await _context.Tariffs.FindAsync(tariffId);

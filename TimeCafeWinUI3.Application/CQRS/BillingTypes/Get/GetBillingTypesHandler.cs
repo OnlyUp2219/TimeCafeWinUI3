@@ -1,4 +1,4 @@
-﻿namespace TimeCafeWinUI3.Application.CQRS.BillingTypes.GetBillingType;
+﻿namespace TimeCafeWinUI3.Application.CQRS.BillingTypes.Get;
 public record GetBillingTypesQuery : IRequest<IEnumerable<BillingType>>;
 
 public class GetBillingTypesHandler : IRequestHandler<GetBillingTypesQuery, IEnumerable<BillingType>>
@@ -13,7 +13,6 @@ public class GetBillingTypesHandler : IRequestHandler<GetBillingTypesQuery, IEnu
 
     public async Task<IEnumerable<BillingType>> Handle(GetBillingTypesQuery request, CancellationToken cancellationToken)
     {
-        var items = await _repository.GetBillingTypesAsync();
-        return items;
+        return await _repository.GetBillingTypesAsync();
     }
 }

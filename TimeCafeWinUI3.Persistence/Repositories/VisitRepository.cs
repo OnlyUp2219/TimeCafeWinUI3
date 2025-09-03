@@ -175,6 +175,7 @@ public class VisitRepository : IVisitRepository
         return visit;
     }
 
+
     public async Task<decimal> CalculateVisitCostAsync(Visit visit)
     {
         if (visit.Tariff == null)
@@ -203,6 +204,7 @@ public class VisitRepository : IVisitRepository
             default:
                 return 0;
         }
+
     }
 
     public TimeSpan GetVisitDuration(Visit visit)
@@ -225,8 +227,11 @@ public class VisitRepository : IVisitRepository
             default:
                 return 0;
         }
+
     }
 
+
+    #region Todo
     // TODO: Автоматический выход всех посетителей при закрытии заведения
     // Этот метод будет вызываться при закрытии приложения или изменении рабочих часов
     /*
@@ -251,4 +256,5 @@ public class VisitRepository : IVisitRepository
         await _context.SaveChangesAsync();
     }
     */
+    #endregion
 }
