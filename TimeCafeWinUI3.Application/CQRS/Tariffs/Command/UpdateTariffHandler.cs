@@ -1,4 +1,4 @@
-﻿namespace TimeCafeWinUI3.Application.CQRS.Tariffs.Update;
+﻿namespace TimeCafeWinUI3.Application.CQRS.Tariffs.Command;
 
 public record class UpdateTariffCommand(Tariff tariff) : IRequest<Tariff>;
 public class UpdateTariffHandler : IRequestHandler<UpdateTariffCommand, Tariff>

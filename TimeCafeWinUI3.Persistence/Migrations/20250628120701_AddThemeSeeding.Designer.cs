@@ -10,7 +10,7 @@ using TimeCafeWinUI3.Persistence;
 
 #nullable disable
 
-namespace TimeCafeWinUI3.Core.Migrations;
+namespace TimeCafeWinUI3.Persistence.Migrations;
 
 [DbContext(typeof(TimeCafeContext))]
 [Migration("20250628120701_AddThemeSeeding")]

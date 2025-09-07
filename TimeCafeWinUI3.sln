@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.UI", "TimeCafeWinUI3\TimeCafeWinUI3.UI.csproj", "{E325DA95-A09B-F081-8B8E-F95FF0E88621}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.UI", "TimeCafeWinUI3.UI\TimeCafeWinUI3.UI.csproj", "{E325DA95-A09B-F081-8B8E-F95FF0E88621}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Core", "TimeCafeWinUI3.Core\TimeCafeWinUI3.Core.csproj", "{C1F8F578-E45F-02DE-DBA0-43ABEE89E447}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Tests", "TimeCafeWinUI3.Tests.MSTest\TimeCafeWinUI3.Tests.csproj", "{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Infrastructure", "TimeCafeWinUI3.Infrastructure\TimeCafeWinUI3.Infrastructure.csproj", "{64E205F9-1446-4886-AFA4-085C8775161D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Persistence", "TimeCafeWinUI3.Persistence\TimeCafeWinUI3.Persistence.csproj", "{7342198D-4964-4207-A19E-7FEA3233306B}"
 EndProject
@@ -34,6 +32,8 @@ Global
 		{E325DA95-A09B-F081-8B8E-F95FF0E88621}.Debug|x64.Build.0 = Debug|x64
 		{E325DA95-A09B-F081-8B8E-F95FF0E88621}.Debug|x64.Deploy.0 = Debug|x64
 		{E325DA95-A09B-F081-8B8E-F95FF0E88621}.Debug|x86.ActiveCfg = Debug|x86
+		{E325DA95-A09B-F081-8B8E-F95FF0E88621}.Debug|x86.Build.0 = Debug|x86
+		{E325DA95-A09B-F081-8B8E-F95FF0E88621}.Debug|x86.Deploy.0 = Debug|x86
 		{E325DA95-A09B-F081-8B8E-F95FF0E88621}.Release|arm64.ActiveCfg = Release|arm64
 		{E325DA95-A09B-F081-8B8E-F95FF0E88621}.Release|arm64.Build.0 = Release|arm64
 		{E325DA95-A09B-F081-8B8E-F95FF0E88621}.Release|arm64.Deploy.0 = Release|arm64
@@ -66,18 +66,6 @@ Global
 		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|x64.Build.0 = Release|x64
 		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|x86.ActiveCfg = Release|x86
 		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|x86.Build.0 = Release|x86
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Debug|arm64.Build.0 = Debug|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Debug|x64.Build.0 = Debug|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Debug|x86.Build.0 = Debug|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Release|arm64.ActiveCfg = Release|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Release|arm64.Build.0 = Release|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Release|x64.ActiveCfg = Release|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Release|x64.Build.0 = Release|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Release|x86.ActiveCfg = Release|Any CPU
-		{64E205F9-1446-4886-AFA4-085C8775161D}.Release|x86.Build.0 = Release|Any CPU
 		{7342198D-4964-4207-A19E-7FEA3233306B}.Debug|arm64.ActiveCfg = Debug|Any CPU
 		{7342198D-4964-4207-A19E-7FEA3233306B}.Debug|arm64.Build.0 = Debug|Any CPU
 		{7342198D-4964-4207-A19E-7FEA3233306B}.Debug|x64.ActiveCfg = Debug|Any CPU

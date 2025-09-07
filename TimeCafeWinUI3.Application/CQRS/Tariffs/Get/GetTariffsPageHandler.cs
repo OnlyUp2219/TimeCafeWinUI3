@@ -1,5 +1,6 @@
 ﻿namespace TimeCafeWinUI3.Application.CQRS.Tariffs.Get;
-public record class GetTotalPageQuery() : IRequest<int>;
+
+public record class GetTariffsPageQuery(int pageNumber, int pageSize) : IRequest<IEnumerable<Tariff>>;
 public class GetTariffsPageHandler : IRequestHandler<GetTariffsPageQuery, IEnumerable<Tariff>>
 {
     private readonly ITariffRepository _repository;
