@@ -8,8 +8,7 @@ namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class TariffManageViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly ITariffCommands _tariffCommands;
-    private readonly ITariffQueries _tariffQueries;
+    private readonly IMediator _mediator;
     private static int _currentPage = 1;
     private const int PageSize = 16;
 
@@ -23,11 +22,9 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
 
     public ListViewBase ActiveView => AdaptiveGrid;
 
-    public TariffManageViewModel(ITariffCommands tariffCommands,
-        ITariffQueries tariffQueries)
+    public TariffManageViewModel(IMediator mediator)
     {
-        _tariffCommands = tariffCommands;
-        _tariffQueries = tariffQueries;
+        _mediator = mediator;
     }
 
     public async void OnNavigatedTo(object parameter)
@@ -48,8 +45,8 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
             IsLoading = true;
             Source.Clear();
 
-            var items = await _tariffQueries.GetTariffsPageAsync(_currentPage, PageSize);
-            var total = await _tariffQueries.GetTotalPageAsync();
+            var items = await _mediator.Send(new GetTariffsPageQuery(_currentPage, PageSize));
+            var total = await _mediator.Send(new GetTotalTariffsQuery());
             Debug.WriteLine($"Loaded {items.Count()} items, total: {total}");
 
             TotalItems = total;
@@ -89,7 +86,7 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
         try
         {
             IsLoading = true;
-            await _tariffCommands.DeleteTariffAsync(tariff.TariffId);
+            await _mediator.Send(new DeleteTariffCommand(tariff.TariffId));
             await LoadDataAsync();
         }
         catch (Exception ex)
@@ -112,8 +109,8 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
                 _currentPage = page;
                 Source.Clear();
 
-                var items = await _tariffQueries.GetTariffsPageAsync(_currentPage, PageSize);
-                var total = await _tariffQueries.GetTotalPageAsync();
+                var items = await _mediator.Send(new GetTariffsPageQuery(_currentPage, PageSize));
+                var total = await _mediator.Send(new GetTotalTariffsQuery());
                 TotalItems = total;
 
                 foreach (var tariff in items)

@@ -6,9 +6,7 @@ namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class VisitorManagementViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly ITariffQueries _tariffQueries;
-    private readonly IVisitQueries _visitQueries;
-    private readonly IVisitCommands _visitCommands;
+    private readonly IMediator _mediator;
     private readonly DispatcherTimer _updateTimer;
 
     [ObservableProperty] private ObservableCollection<Visit> visitors = new();
@@ -18,13 +16,9 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
     [ObservableProperty] private Tariff selectedTariffFilter;
     [ObservableProperty] private bool isLoading;
 
-    public VisitorManagementViewModel(ITariffQueries tariffQueries,
-        IVisitQueries visitQueries,
-        IVisitCommands visitCommands)
+    public VisitorManagementViewModel(IMediator mediator)
     {
-        _tariffQueries = tariffQueries;
-        _visitQueries = visitQueries;
-        _visitCommands = visitCommands;
+        _mediator = mediator;
         _updateTimer = new DispatcherTimer
         {
             Interval = TimeSpan.FromSeconds(1)
@@ -51,7 +45,7 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
 
             await LoadActiveVisits();
 
-            var tariffs = await _tariffQueries.GetAllTariffsAsync();
+            var tariffs = await _mediator.Send(new GetAllTariffsQuery());
             AvailableTariffs.Clear();
             AvailableTariffs.Add(new Tariff { TariffId = 0, TariffName = "Все тарифы" });
             foreach (var tariff in tariffs)
@@ -76,7 +70,7 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
     {
         try
         {
-            var activeVisits = await _visitQueries.GetActiveVisitsAsync();
+            var activeVisits = await _mediator.Send(new GetActiveVisitsQuery());
             Visitors.Clear();
             foreach (var visit in activeVisits)
             {
@@ -178,7 +172,7 @@ public partial class VisitorManagementViewModel : ObservableRecipient, INavigati
         {
             try
             {
-                await _visitCommands.ExitClientAsync(visit.VisitId);
+                await _mediator.Send(new ExitClientCommand(visit.VisitId));
                 await LoadActiveVisits();
                 ApplyFilters();
             }

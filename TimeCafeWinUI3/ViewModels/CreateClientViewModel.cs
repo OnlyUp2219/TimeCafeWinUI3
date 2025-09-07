@@ -4,6 +4,9 @@ using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using System.Text;
 using TimeCafeWinUI3.UI.Views.CreateClientPages;
+using MediatR;
+using TimeCafeWinUI3.Application.CQRS.Clients.Command;
+using TimeCafeWinUI3.Application.CQRS.Clients.Get;
 
 
 namespace TimeCafeWinUI3.UI.ViewModels;
@@ -71,20 +74,17 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty] private ObservableCollection<Gender> genders = new();
     [ObservableProperty] private ObservableCollection<ClientStatus> clientStatuses = new();
 
-    private readonly IClientCommands _clientCommands;
-    private readonly IClientQueries _clientQueries;
+    private readonly IMediator _mediator;
     private readonly IClientValidation _clientValidation;
     private readonly INavigationService _navigationService;
     private readonly BogusDataGenerator _fakeDataGenerator;
 
-    public CreateClientViewModel(IClientCommands clientCommands,
-        IClientQueries clientQueries,
+    public CreateClientViewModel(IMediator mediator,
         IClientValidation clientValidation,
         INavigationService navigationService,
         BogusDataGenerator fakeDataGenerator)
     {
-        _clientCommands = clientCommands;
-        _clientQueries = clientQueries;
+        _mediator = mediator;
         _clientValidation = clientValidation;
         _navigationService = navigationService;
         _fakeDataGenerator = fakeDataGenerator;
@@ -109,20 +109,20 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             Genders.Clear();
             ClientStatuses.Clear();
 
-            var genders = await _clientQueries.GetGendersAsync();
+            var genders = await _mediator.Send(new GetGendersQuery());
             foreach (var gender in genders)
             {
                 Genders.Add(gender);
             }
 
-            var statuses = await _clientQueries.GetClientStatusesAsync();
+            var statuses = await _mediator.Send(new GetClientStatusesQuery());
             foreach (var status in statuses)
             {
                 ClientStatuses.Add(status);
             }
 
-            var items = await _clientQueries.GetClientsPageAsync(_currentPage, PageSize);
-            var total = await _clientQueries.GetTotalPageAsync();
+            var items = await _mediator.Send(new GetClientsPageQuery(_currentPage, PageSize));
+            var total = await _mediator.Send(new GetTotalPagesQuery());
             TotalItems = total;
 
             foreach (var client in items)
@@ -241,7 +241,7 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
             try
             {
 
-                await _clientCommands.CreateClientAsync(client);
+                await _mediator.Send(new CreateClientCommand(client));
                 ClearData();
                 await LoadDataAsync();
                 ErrorMessage = string.Empty;
@@ -281,7 +281,8 @@ public partial class CreateClientViewModel : ObservableRecipient, INavigationAwa
                 _currentPage = page;
                 Source.Clear();
 
-                var items = await _clientQueries.GetClientsPageAsync(_currentPage, PageSize); var total = await _clientQueries.GetTotalPageAsync();
+                var items = await _mediator.Send(new GetClientsPageQuery(_currentPage, PageSize));
+                var total = await _mediator.Send(new GetTotalPagesQuery());
                 TotalItems = total;
 
                 foreach (var client in items)

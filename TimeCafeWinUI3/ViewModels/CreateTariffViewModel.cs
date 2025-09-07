@@ -10,10 +10,7 @@ namespace TimeCafeWinUI3.UI.ViewModels;
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public partial class CreateTariffViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly ITariffCommands _tariffCommands;
-    private readonly ITariffQueries _tariffQueries;
-    private readonly IThemeQueries _themeQueries;
-    private readonly IBillingTypeQueries _billingTypeService;
+    private readonly IMediator _mediator;
     private readonly IThemeColorService _themeColorService;
     private readonly BogusDataGenerator _fakeDataGenerator;
 
@@ -32,17 +29,11 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty] private ObservableCollection<Theme> themes = new();
     [ObservableProperty] private ObservableCollection<BillingType> billingTypes = new();
 
-    public CreateTariffViewModel(ITariffCommands tariffCommands,
-                                 ITariffQueries tariffQueries,
-                                 IThemeQueries themeQueries,
-                                 IBillingTypeQueries billingTypeService,
+    public CreateTariffViewModel(IMediator mediator,
                                  IThemeColorService themeColorService,
                                  BogusDataGenerator fakeDataGenerator)
     {
-        _tariffCommands = tariffCommands;
-        _tariffQueries = tariffQueries;
-        _themeQueries = themeQueries;
-        _billingTypeService = billingTypeService;
+        _mediator = mediator;
         _themeColorService = themeColorService;
         _fakeDataGenerator = fakeDataGenerator;
     }
@@ -64,13 +55,13 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
             Themes.Clear();
             BillingTypes.Clear();
 
-            var themes = await _themeQueries.GetThemesAsync();
+            var themes = await _mediator.Send(new GetThemesQuery());
             foreach (var theme in themes)
             {
                 Themes.Add(theme);
             }
 
-            var billingTypes = await _billingTypeService.GetBillingTypesAsync();
+            var billingTypes = await _mediator.Send(new GetBillingTypesQuery());
             foreach (var billingType in billingTypes)
             {
                 BillingTypes.Add(billingType);
@@ -137,7 +128,7 @@ public partial class CreateTariffViewModel : ObservableRecipient, INavigationAwa
                 LastModified = DateTime.Now
             };
 
-            await _tariffCommands.CreateTariffAsync(tariff);
+            await _mediator.Send(new CreateTariffCommand(tariff));
             ClearData();
             ErrorMessage = string.Empty;
         }

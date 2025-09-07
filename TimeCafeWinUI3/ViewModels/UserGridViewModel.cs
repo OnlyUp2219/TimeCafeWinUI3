@@ -1,12 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using MediatR;
+using TimeCafeWinUI3.Application.CQRS.Clients.Get;
 
 namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class UserGridViewModel : ObservableRecipient, INavigationAware
 {
     private readonly INavigationService _navigationService;
-    private readonly IClientQueries _clientQueries;
+    private readonly IMediator _mediator;
     private static int _currentPage = 1;
     private const int PageSize = 16;
 
@@ -32,10 +34,10 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
         }
     }
 
-    public UserGridViewModel(INavigationService navigationService, IClientQueries clientQueries)
+    public UserGridViewModel(INavigationService navigationService, IMediator mediator)
     {
         _navigationService = navigationService;
-        _clientQueries = clientQueries;
+        _mediator = mediator;
     }
 
     [RelayCommand]
@@ -69,8 +71,8 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
             IsLoading = true;
             Source.Clear();
 
-            var items = await _clientQueries.GetClientsPageAsync(CurrentPage, PageSize);
-            var total = await _clientQueries.GetTotalPageAsync();
+            var items = await _mediator.Send(new GetClientsPageQuery(CurrentPage, PageSize));
+            var total = await _mediator.Send(new GetTotalPagesQuery());
             TotalItems = total;
 
 
@@ -96,8 +98,8 @@ public partial class UserGridViewModel : ObservableRecipient, INavigationAware
                 CurrentPage = pageNumber;
                 Source.Clear();
 
-                var items = await _clientQueries.GetClientsPageAsync(CurrentPage, PageSize);
-                var total = await _clientQueries.GetTotalPageAsync();
+                var items = await _mediator.Send(new GetClientsPageQuery(CurrentPage, PageSize));
+                var total = await _mediator.Send(new GetTotalPagesQuery());
                 TotalItems = total;
 
                 foreach (var client in items)

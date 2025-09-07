@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Serilog;
 using StackExchange.Redis;
+using MediatR;
 
 
 namespace TimeCafeWinUI3.UI;
@@ -104,6 +105,8 @@ public partial class App : Application
 
             services.AddDbContext<TimeCafeContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
+            // Register MediatR
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(TimeCafeWinUI3.Application.CQRS.ClientAdditionalInfos.Command.UpdateAdditionalInfoHandler).Assembly));
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();

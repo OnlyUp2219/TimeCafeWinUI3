@@ -33,20 +33,20 @@ public partial class EditClientContentDialogViewModel : ObservableObject
     private string errorMessage;
 
     private Client _client;
+    private readonly IMediator _mediator;
     private readonly IClientValidation _clientValidation;
-    private readonly IClientQueries _clientQueries;
     private string _originalPhoneNumber;
 
-    public EditClientContentDialogViewModel(IClientQueries clientService, IClientValidation clientValidation)
+    public EditClientContentDialogViewModel(IMediator mediator, IClientValidation clientValidation)
     {
-        _clientQueries = clientService;
+        _mediator = mediator;
         _clientValidation = clientValidation;
         LoadGendersAsync();
     }
 
     private async void LoadGendersAsync()
     {
-        var genders = await _clientQueries.GetGendersAsync();
+        var genders = await _mediator.Send(new GetGendersQuery());
         Genders.Clear();
         foreach (var gender in genders)
         {

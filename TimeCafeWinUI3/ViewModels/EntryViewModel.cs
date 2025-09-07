@@ -11,13 +11,9 @@ namespace TimeCafeWinUI3.UI.ViewModels;
 
 public partial class EntryViewModel : ObservableRecipient, INavigationAware
 {
+    private readonly IMediator _mediator;
     private readonly IClientUtilities _clientUtilities;
     private readonly IClientValidation _clientValidation;
-    private readonly IClientQueries _clientQueries;
-    private readonly ITariffQueries _tariffQueries;
-    private readonly IVisitQueries _visitQueries;
-    private readonly IClientCommands _clientCommands;
-    private readonly IVisitCommands _visitCommands;
     private readonly IWorkingHoursService _workingHoursService;
     private readonly DispatcherTimer _countdownTimer;
     private readonly ILocalSettingsService _localSettingsService;
@@ -42,19 +38,15 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
     private bool _isRegistrationPath = false;
 
-    public EntryViewModel(IClientQueries clientQueries,
-        ITariffQueries tariffQueries,
-        IVisitQueries visitQueries,
-        IClientCommands clientCommands,
-        IVisitCommands visitCommands,
+    public EntryViewModel(IMediator mediator,
+        IClientUtilities clientUtilities,
+        IClientValidation clientValidation,
         IWorkingHoursService workingHoursService,
         ILocalSettingsService localSettingsService)
     {
-        _clientQueries = clientQueries;
-        _tariffQueries = tariffQueries;
-        _visitQueries = visitQueries;
-        _clientCommands = clientCommands;
-        _visitCommands = visitCommands;
+        _mediator = mediator;
+        _clientUtilities = clientUtilities;
+        _clientValidation = clientValidation;
         _workingHoursService = workingHoursService;
         _localSettingsService = localSettingsService;
 
@@ -79,14 +71,14 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
     {
         try
         {
-            var tariffs = await _tariffQueries.GetAllTariffsAsync();
+            var tariffs = await _mediator.Send(new GetAllTariffsQuery());
             Tariffs.Clear();
             foreach (var tariff in tariffs.Take(10))
             {
                 Tariffs.Add(tariff);
             }
 
-            var genders = await _clientQueries.GetGendersAsync();
+            var genders = await _mediator.Send(new GetGendersQuery());
             Genders.Clear();
             foreach (var gender in genders)
             {
@@ -233,7 +225,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
         {
             // TODO: Implement card validation logic
             // For now, simulate finding a client
-            var clients = await _clientQueries.GetAllClientsAsync();
+            var clients = await _mediator.Send(new GetAllClientsQuery());
             CurrentClient = clients.FirstOrDefault(c => c.AccessCardNumber == CardNumber);
 
             if (CurrentClient == null)
@@ -350,7 +342,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
             client.AccessCardNumber = await _clientUtilities.GenerateAccessCardNumberAsync();
         }
 
-        CurrentClient = await _clientCommands.CreateClientAsync(client);
+        CurrentClient = await _mediator.Send(new CreateClientCommand(client));
     }
 
     private async Task ProcessTariffSelection()
@@ -363,13 +355,13 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
         try
         {
-            if (!await _visitQueries.IsClientActiveAsync(CurrentClient.ClientId))
+            if (!await _mediator.Send(new IsClientActiveQuery(CurrentClient.ClientId)))
             {
                 await ShowErrorAsync("Клиент не имеет активного статуса");
                 return;
             }
 
-            if (await _visitQueries.IsClientAlreadyEnteredAsync(CurrentClient.ClientId))
+            if (await _mediator.Send(new IsClientAlreadyEnteredQuery(CurrentClient.ClientId)))
             {
                 await ShowErrorAsync("Ошибка. Вход уже осуществлен");
                 return;
@@ -383,7 +375,7 @@ public partial class EntryViewModel : ObservableRecipient, INavigationAware
 
             var minMinutes = await _localSettingsService.ReadSettingAsync<int>("MinimumEntryMinutes");
             if (minMinutes <= 0) minMinutes = 20;
-            await _visitCommands.EnterClientAsync(CurrentClient.ClientId, SelectedTariff.TariffId, minMinutes);
+            await _mediator.Send(new EnterClientCommand(CurrentClient.ClientId, SelectedTariff.TariffId, minMinutes));
 
             CurrentState = EntryState.Success;
             ErrorMessage = string.Empty;

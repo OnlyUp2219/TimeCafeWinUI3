@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using TimeCafeWinUI3.Common.Utilities;
 
 namespace TimeCafeWinUI3.Common.Helpers;
 
