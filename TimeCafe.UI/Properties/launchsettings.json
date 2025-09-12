@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "TimeCafe.UI (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "TimeCafe.UI (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
