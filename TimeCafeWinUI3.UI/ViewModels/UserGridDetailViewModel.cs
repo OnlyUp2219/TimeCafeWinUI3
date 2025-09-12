@@ -33,7 +33,8 @@ public partial class UserGridDetailViewModel : ObservableRecipient, INavigationA
         }
         else if (parameter is string phoneNumber)
         {
-            Item = await _mediator.Send(new GetClientByPhoneQuery(phoneNumber));
+            var clients = await _mediator.Send(new GetAllClientsQuery());
+            Item = clients.FirstOrDefault(c => c.PhoneNumber == phoneNumber);
             if (Item != null)
             {
                 var additionalInfos = await _mediator.Send(new GetClientAdditionalInfosQuery(Item.ClientId));

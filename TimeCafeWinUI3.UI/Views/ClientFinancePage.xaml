@@ -7,7 +7,6 @@
     xmlns:behaviors="using:TimeCafeWinUI3.UI.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:TimeCafeWinUI3.UI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:TimeCafeWinUI3.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

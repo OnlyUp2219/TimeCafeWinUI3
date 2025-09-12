@@ -43,7 +43,7 @@ public partial class TariffManageViewModel : ObservableRecipient, INavigationAwa
             Source.Clear();
 
             var items = await _mediator.Send(new GetTariffsPageQuery(_currentPage, PageSize));
-            var total = await _mediator.Send(new GetTotalTariffQuery());
+            var total = await _mediator.Send(new GetTotalPageTariffQuery());
             Debug.WriteLine($"Loaded {items.Count()} items, total: {total}");
 
             TotalItems = total;

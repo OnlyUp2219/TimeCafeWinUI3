@@ -60,7 +60,8 @@ public partial class ClientFinanceViewModel : ObservableRecipient, INavigationAw
             CurrentBalance = await _mediator.Send(new GetClientBalanceQuery(_clientId));
             CurrentDebt = CurrentBalance < 0 ? Math.Abs(CurrentBalance) : 0;
 
-            var transactionsList = await _mediator.Send(new GetClientTransactionsQuery(_clientId, 50));
+            var transactionsList = await _mediator.Send(new GetClientFinancialTransactionsQuery(_clientId, 50));
+
             Transactions.Clear();
             foreach (var transaction in transactionsList)
             {

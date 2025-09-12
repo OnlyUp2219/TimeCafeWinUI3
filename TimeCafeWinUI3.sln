@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.UI", "TimeCa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Core", "TimeCafeWinUI3.Core\TimeCafeWinUI3.Core.csproj", "{C1F8F578-E45F-02DE-DBA0-43ABEE89E447}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Tests", "TimeCafeWinUI3.Tests.MSTest\TimeCafeWinUI3.Tests.csproj", "{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Persistence", "TimeCafeWinUI3.Persistence\TimeCafeWinUI3.Persistence.csproj", "{7342198D-4964-4207-A19E-7FEA3233306B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeCafeWinUI3.Application", "TimeCafeWinUI3.Application\TimeCafeWinUI3.Application.csproj", "{28926F84-952B-46D2-9014-4A6C271A306C}"
@@ -55,17 +53,6 @@ Global
 		{C1F8F578-E45F-02DE-DBA0-43ABEE89E447}.Release|x64.Build.0 = Release|x64
 		{C1F8F578-E45F-02DE-DBA0-43ABEE89E447}.Release|x86.ActiveCfg = Release|x86
 		{C1F8F578-E45F-02DE-DBA0-43ABEE89E447}.Release|x86.Build.0 = Release|x86
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Debug|arm64.ActiveCfg = Debug|arm64
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Debug|arm64.Build.0 = Debug|arm64
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Debug|x64.ActiveCfg = Debug|x64
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Debug|x64.Build.0 = Debug|x64
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Debug|x86.ActiveCfg = Debug|x86
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|arm64.ActiveCfg = Release|arm64
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|arm64.Build.0 = Release|arm64
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|x64.ActiveCfg = Release|x64
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|x64.Build.0 = Release|x64
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|x86.ActiveCfg = Release|x86
-		{0A8AB677-DCEC-368C-A919-FE0B4B84DD9D}.Release|x86.Build.0 = Release|x86
 		{7342198D-4964-4207-A19E-7FEA3233306B}.Debug|arm64.ActiveCfg = Debug|Any CPU
 		{7342198D-4964-4207-A19E-7FEA3233306B}.Debug|arm64.Build.0 = Debug|Any CPU
 		{7342198D-4964-4207-A19E-7FEA3233306B}.Debug|x64.ActiveCfg = Debug|Any CPU

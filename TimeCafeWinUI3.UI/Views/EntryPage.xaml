@@ -7,12 +7,11 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:customControls="using:TimeCafeWinUI3.UI.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:TimeCafeWinUI3.UI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:TimeCafeWinUI3.UI.Views"
     xmlns:localModels="using:TimeCafeWinUI3.UI.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:TimeCafeWinUI3.UI.Core.Models"
+    xmlns:models="using:TimeCafeWinUI3.Core.Models"
     xmlns:pagination="using:TimeCafeWinUI3.UI.Controls"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     xmlns:ui="using:CommunityToolkit.WinUI"
@@ -100,7 +99,7 @@
                             Style="{StaticResource TitleTextBlockStyle}"
                             Text="Выберите действие" />
 
-                        <controls:AdaptiveGridView >
+                        <controls:AdaptiveGridView>
                             <Button
                                 Width="250"
                                 Height="150"
@@ -189,7 +188,6 @@
                             <DatePicker
                                 HorizontalAlignment="Stretch"
                                 Date="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateOnlyConverter}}"
-                             
                                 Header="Выберите дату рождения:" />
                             <TextBox
                                 ui:TextBoxExtensions.Mask="+\375 (99) 999 9999"

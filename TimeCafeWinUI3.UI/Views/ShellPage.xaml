@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:TimeCafeWinUI3.UI.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:TimeCafeWinUI3.UI.Helpers"
+    xmlns:helpers="using:TimeCafeWinUI3.UI.Utilities.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="OnLoaded">
@@ -27,9 +27,9 @@
             Opacity="0.25">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Offset="0" Color="#000000" />
-                    <GradientStop Offset="0.5" Color="#0d1521" />
-                    <GradientStop Offset="1" Color="#070e18" />
+                    <GradientStop Offset="0" Color="#1a170f" />
+                    <GradientStop Offset="0.5" Color="#3a3427" />
+                    <GradientStop Offset="1" Color="#443c2b" />
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -38,7 +38,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Fill="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-            Opacity="0.65" />
+            Opacity="0.3" />
 
         <Grid
             x:Name="AppTitleBar"

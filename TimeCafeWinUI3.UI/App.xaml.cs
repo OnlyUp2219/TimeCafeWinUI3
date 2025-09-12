@@ -6,6 +6,8 @@ using Microsoft.UI.Windowing;
 using Serilog;
 using StackExchange.Redis;
 using System.Reflection;
+using TimeCafeWinUI3.Application;
+using TimeCafeWinUI3.Core.Contracts.Services.File;
 
 
 namespace TimeCafeWinUI3.UI;
@@ -63,6 +65,7 @@ public partial class App : Microsoft.UI.Xaml.Application
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<IFileService, FileService>();
 
             // Core Services
             services.AddTransient<IClientUtilities, ClientUtilities>();
@@ -70,6 +73,10 @@ public partial class App : Microsoft.UI.Xaml.Application
             services.AddTransient<IThemeColorService, ThemeColorService>();
             services.AddTransient<IWorkingHoursService, WorkingHoursService>();
             services.AddTransient<BogusDataGeneratorServices>();
+
+            // Persistence & CQRS
+            services.AddPersistence();
+            services.AddCqrs();
 
             //Register Redis distributed cache
             services.AddStackExchangeRedisCache(options =>
@@ -90,9 +97,13 @@ public partial class App : Microsoft.UI.Xaml.Application
 
             services.AddDbContext<TimeCafeContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
 
-            // Register MediatR
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
+            //// Register MediatR
+            //var assembly = typeof(GetGendersQuery).Assembly;
+            //Console.WriteLine(assembly.GetName().Name);
+            //services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+            //    Assembly.GetExecutingAssembly(),  // UI
+            //   assembly
+            //));
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();
@@ -207,6 +218,7 @@ public partial class App : Microsoft.UI.Xaml.Application
         //App.GetService<IAppNotificationService>().Show(string.Format(ResourceExtensions.GetLocalized("AppNotificationSamplePayload"), AppContext.BaseDirectory));
         App.MainWindow ??= new MainWindow();
         await App.GetService<IActivationService>().ActivateAsync(args);
+
     }
 }
 public static class CrossManager

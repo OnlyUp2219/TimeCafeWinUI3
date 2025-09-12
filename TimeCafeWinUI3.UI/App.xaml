@@ -18,9 +18,10 @@
                 <ResourceDictionary Source="/Styles/AdaptiveGridView_ItemContainerStyle.xaml" />
                 <ResourceDictionary Source="Styles/ThemeColor.xaml" />
                 <ResourceDictionary Source="Styles/ThemeColor.xaml" />
+                <ResourceDictionary Source="/Converters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <helpers:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+            <!--<helpers:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
             <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <helpers:BooleanNegationConverter x:Key="BooleanNegationConverter" />
             <helpers:BooleanToTextConverter x:Key="BooleanToTextConverter" />
@@ -28,7 +29,6 @@
             <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <helpers:StatusColorConverter x:Key="StatusColorConverter" />
             <helpers:StatusToVisibilityConverter x:Key="StatusToVisibilityConverter" />
-            <!--<helpers:StatusTextConverter x:Key="StatusTextConverter" />-->
             <helpers:FullNameConverters x:Key="FullNameConverters" />
             <helpers:DateOnlyConverter x:Key="DateOnlyConverter" />
             <helpers:FullNameInitialsConverters x:Key="FullNameInitialsConverters" />
@@ -39,7 +39,7 @@
             <helpers:ThemeToBrushConverter x:Key="ThemeToBrushConverter" />
             <helpers:ThemeToStyleConverter x:Key="ThemeToStyleConverter" />
             <helpers:PriceConverter x:Key="PriceConverter" />
-            <helpers:DecimalToDoubleConverter x:Key="DecimalToDoubleConverter" />
+            <helpers:DecimalToDoubleConverter x:Key="DecimalToDoubleConverter" />-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

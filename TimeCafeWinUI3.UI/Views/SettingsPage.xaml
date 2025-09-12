@@ -5,14 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:TimeCafeWinUI3.UI.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:services="using:TimeCafeWinUI3.UI.Services"
-    xmlns:xaml="using:Microsoft.UI.Xaml"
+    xmlns:xaml="using:Microsoft.UI.Xaml" 
     mc:Ignorable="d">
-    <Page.Resources>
-        <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
-    </Page.Resources>
     <Grid>
         <ScrollViewer>
             <StackPanel x:Name="ContentArea" Margin="12">
